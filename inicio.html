@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Unidad de Vigilancia RSMDC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    /* ===== BODY ===== */
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        color: white;
+    }
+
+    header {
+        background-color: #0066cc;
+        padding: 20px;
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    nav {
+        background-color: #004080;
+        padding: 10px;
+        text-align: center;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    nav a:hover {
+        color: #ffcc00;
+    }
+
+    .hero {
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .hero p {
+        font-size: 16px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 25px;
+        background-color: #ffcc00;
+        color: black;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background-color: #ffaa00;
+    }
+
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 30px 10px;
+    }
+
+    .card {
+        background-color: white;
+        color: black;
+        width: 260px;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+        text-align: center;
+        flex: 1 1 260px;
+        max-width: 90%;
+    }
+
+    .card h3 {
+        color: #0066cc;
+        font-size: 20px;
+    }
+
+    footer {
+        background-color: #002b4d;
+        text-align: center;
+        padding: 15px;
+        margin-top: 30px;
+        font-size: 14px;
+    }
+
+    /* ===== MODAL SALA SITUACIONAL ===== */
+    .modal {
+        display: flex;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.85);
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, #004080, #0066cc);
+        padding: 30px 20px;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        box-shadow: 0px 5px 25px rgba(0,0,0,0.6);
+        animation: aparecer 0.5s ease-in-out;
+        position: relative;
+    }
+
+    .modal-content h2 {
+        margin-bottom: 15px;
+        font-size: 24px;
+    }
+
+    .btn-modal {
+        margin-top: 20px;
+        padding: 12px 20px;
+        background-color: #ffcc00;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 80%;
+        max-width: 250px;
+    }
+
+    .btn-modal:hover {
+        background-color: #ffaa00;
+    }
+
+    .close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    @keyframes aparecer {
+        from {transform: scale(0.7); opacity: 0;}
+        to {transform: scale(1); opacity: 1;}
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px){
+        .hero h1 {
+            font-size: 26px;
+        }
+
+        .hero p {
+            font-size: 15px;
+        }
+
+        nav a {
+            margin: 0 8px;
+            font-size: 14px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+        }
+
+        .card p {
+            font-size: 14px;
+        }
+    }
+
+    @media(max-width:480px){
+        .hero h1 {
+            font-size: 22px;
+        }
+
+        .hero p {
+            font-size: 14px;
+        }
+
+        .btn, .btn-modal {
+            padding: 10px 18px;
+            font-size: 14px;
+        }
+
+        nav a {
+            display: block;
+            margin: 8px 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- ===== MODAL SALA SITUACIONAL ===== -->
+<div id="modalSala" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2>📊 SALA SITUACIONAL</h2>
+        <p>
+            Bienvenido al panel estratégico de monitoreo institucional.
+            Aquí se centraliza la información clave para la toma de decisiones.
+        </p>
+        <button onclick="irASala()" class="btn-modal">Ingresar</button>
+    </div>
+</div>
+
+<header>
+    Unidad de Vigilancia RSMDC
+</header>
+
+<nav>
+    <a href="#">Inicio</a>
+    <a href="#">Reportes</a>
+    <a href="#">Estadísticas</a>
+    <a href="#">Contacto</a>
+</nav>
+
+<section class="hero">
+    <h1>Bienvenidos</h1>
+    <p>
+        Plataforma oficial de la Unidad de Vigilancia RSMDC.
+        Sistema de monitoreo, análisis y gestión de información institucional.
+    </p>
+    <a href="#" class="btn">Acceder al Sistema</a>
+</section>
+
+<section class="cards">
+    <div class="card">
+        <h3>Monitoreo</h3>
+        <p>Seguimiento constante de indicadores y reportes en tiempo real.</p>
+    </div>
+
+    <div class="card">
+        <h3>Reportes</h3>
+        <p>Generación y consulta de informes digitales institucionales.</p>
+    </div>
+
+    <div class="card">
+        <h3>Gestión de Datos</h3>
+        <p>Administración segura y organizada de información estratégica.</p>
+    </div>
+</section>
+
+<footer>
+    © 2026 Unidad de Vigilancia RSMDC | Todos los derechos reservados
+</footer>
+
+<script>
+function cerrarModal(){
+    document.getElementById("modalSala").style.display = "none";
+}
+
+function irASala(){
+    window.location.href = "sala-situacional.html";
+}
+</script>
+
+</body>
+</html>

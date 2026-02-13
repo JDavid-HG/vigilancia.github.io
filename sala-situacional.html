@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Sala Situacional — Dengue RSMDC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    color: #222;
+}
+
+header {
+    background-color: #004080;
+    color: white;
+    padding: 20px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#semanaActual {
+    text-align:center;
+    margin:15px 0;
+    font-size:18px;
+    color:#004080;
+    font-weight:bold;
+}
+
+.dashboard {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.dashboard h2 {
+    color: #0066cc;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    color: #004080;
+    flex: 1 1 250px;
+    max-width: 300px;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+.card p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    flex: 1 1 300px;
+    max-width: 500px;
+}
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 25px;
+    background-color: #0066cc;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-volver:hover {
+    background-color: #004080;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+    .dashboard h2 { font-size: 22px; }
+    .card h3 { font-size: 18px; }
+    .card p { font-size: 14px; }
+}
+
+@media(max-width:480px){
+    .dashboard { padding: 10px; }
+    .card { max-width: 90%; }
+    .chart-container { max-width: 90%; }
+    .btn-volver { width: 80%; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    SALA SITUACIONAL — DENGUE 2026 SEM 5
+</header>
+
+<div id="semanaActual">Semana Epidemiológica: --</div>
+
+<div class="dashboard">
+    <h2>📊 Estadísticas de Dengue</h2>
+
+    <!-- TARJETAS DE RESUMEN -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Casos Dengue</h3>
+            <p>39</p>
+        </div>
+        <div class="card">
+            <h3>Dengue Grave</h3>
+            <p>1</p>
+        </div>
+        <div class="card">
+            <h3>Total Establecimientos</h3>
+            <p>16</p>
+        </div>
+    </div>
+
+    <!-- GRÁFICAS -->
+    <div class="charts">
+        <!-- Gráfico de barras por establecimiento -->
+        <div class="chart-container">
+            <canvas id="graficoBarras"></canvas>
+        </div>
+        <!-- Gráfico circular: dengue grave vs sin grave -->
+        <div class="chart-container">
+            <canvas id="graficoCircular"></canvas>
+        </div>
+    </div>
+
+    <a href="inicio.html" class="btn-volver">⬅️ Volver al Inicio</a>
+</div>
+
+<script>
+// ===== SEMANA EPIDEMIOLÓGICA ACTUAL =====
+function getSemanaEpidemiologica() {
+    const now = new Date();
+    const inicioAnio = new Date(now.getFullYear(), 0, 1);
+    const diasTranscurridos = Math.floor((now - inicioAnio) / (1000 * 60 * 60 * 24));
+    const semanaEpi = Math.ceil((diasTranscurridos + inicioAnio.getDay() + 1) / 7);
+    return semanaEpi;
+}
+
+document.getElementById('semanaActual').textContent =
+    "Semana Epidemiológica: " + getSemanaEpidemiologica() + " — " + new Date().getFullYear();
+
+// ===== DATOS DE DENGUE =====
+const establecimientos = [
+    "POLICLINICA", "SAN MIGUEL", "ALEMANIA", "CHILE", "CLIPER HATO",
+    "PERIFERICA 2", "ZAMBRANO", "ALONSO SUAZO", "EDEN", "HOSPITAL ESCUELA",
+    "ESPECIALIDADES IHSS", "SANIDAD POLICIAL", "CRUCITAS", "PENITENCIARIA N",
+    "BOSQUE", "MANCHEN", "TORAX", "HOSPITAL MILITAR"
+];
+
+const casosDengue = [
+    1,3,1,1,4,
+    2,1,1,2,4,
+    12,2,2,2,1,1,1,3
+];
+
+const casosGraves = [
+    0,0,0,0,0,
+    0,0,0,0,0,
+    1,0,0,0,0,0,0,0
+];
+
+// ===== GRAFICO DE BARRAS =====
+const ctxBarras = document.getElementById('graficoBarras').getContext('2d');
+new Chart(ctxBarras, {
+    type: 'bar',
+    data: {
+        labels: establecimientos,
+        datasets: [{
+            label: 'Casos Dengue',
+            data: casosDengue,
+            backgroundColor: '#0066cc'
+        },{
+            label: 'Casos Graves',
+            data: casosGraves,
+            backgroundColor: '#ff3300'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+
+// ===== GRAFICO CIRCULAR =====
+const totalGrave = casosGraves.reduce((a,b)=>a+b,0);
+const totalNoGrave = 39 - totalGrave;
+
+const ctxCircular = document.getElementById('graficoCircular').getContext('2d');
+new Chart(ctxCircular, {
+    type: 'doughnut',
+    data: {
+        labels: ['Dengue Grave','Dengue sin signos de alarma'],
+        datasets: [{
+            data: [totalGrave, totalNoGrave],
+            backgroundColor: ['#ff3300','#0066cc']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+</script>
+
+</body>
+</html>
