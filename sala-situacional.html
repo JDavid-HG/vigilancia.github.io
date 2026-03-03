@@ -2,242 +2,236 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Sala Situacional — Dengue RSMDC</title>
+<title>Sala Situacional — Presentación de Video</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f2f2f2;
-    color: #222;
-}
+    /* VARIABLES DE COLOR - Estilo Moderno y Profesional */
+    :root {
+        --bg-color: #0a0e17; /* Fondo oscuro muy suave */
+        --primary-color: #007bff; /* Azul vibrante */
+        --primary-glow: rgba(0, 123, 255, 0.5);
+        --header-bg: rgba(16, 23, 37, 0.95); /* Encabezado semi-transparente */
+        --card-bg: rgba(255, 255, 255, 0.03); /* Tarjetas oscuras y sutiles */
+        --text-main: #e0e6ed;
+        --text-muted: #8898aa;
+        --border-color: rgba(255, 255, 255, 0.08);
+    }
 
-header {
-    background-color: #004080;
-    color: white;
-    padding: 20px;
-    font-size: 28px;
-    text-align: center;
-    font-weight: bold;
-}
+    /* ESTILOS BASE Y FONDO ANIMADO SUTIL */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        background-image: 
+            radial-gradient(at 10% 10%, rgba(0, 123, 255, 0.15) 0px, transparent 50%),
+            radial-gradient(at 90% 90%, rgba(0, 229, 255, 0.1) 0px, transparent 50%);
+        color: var(--text-main);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
 
-#semanaActual {
-    text-align:center;
-    margin:15px 0;
-    font-size:18px;
-    color:#004080;
-    font-weight:bold;
-}
+    /* ENCABEZADO "FLOTANTE" MODERNO */
+    header {
+        background-color: var(--header-bg);
+        backdrop-filter: blur(10px); /* Efecto esmerilado */
+        padding: 20px 30px;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
 
-.dashboard {
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
-}
+    header h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #ffffff 0%, #a0cfff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-.dashboard h2 {
-    color: #0066cc;
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-}
+    /* INFORMACIÓN DE LA SEMANA */
+    #semanaInfo {
+        text-align: center;
+        padding: 15px 0;
+        font-size: 15px;
+        color: var(--text-muted);
+        background-color: rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid var(--border-color);
+    }
 
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 30px;
-}
+    #semanaInfo span {
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-left: 5px;
+    }
 
-.card {
-    background: white;
-    color: #004080;
-    flex: 1 1 250px;
-    max-width: 300px;
-    margin: 10px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    text-align: center;
-}
+    /* CONTENEDOR PRINCIPAL */
+    .main-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
-.card h3 {
-    margin: 0 0 10px 0;
-    font-size: 20px;
-}
+    /* TÍTULO DE LA SECCIÓN */
+    .section-title {
+        font-size: 18px;
+        color: var(--text-main);
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-.card p {
-    font-size: 16px;
-    margin: 0;
-}
+    .section-title::before,
+    .section-title::after {
+        content: '';
+        height: 1px;
+        width: 50px;
+        background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    }
 
-.charts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
+    /* CONTENEDOR DEL VIDEO CON EFECTO RESPLANDOR (GLOW) */
+    .video-showcase {
+        width: 100%;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 10px; /* Espacio para el borde interno */
+        box-sizing: border-box;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        /* Efecto de resplandor inicial */
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 100px -20px var(--primary-glow);
+    }
 
-.chart-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    flex: 1 1 300px;
-    max-width: 500px;
-}
+    .video-showcase:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 120px -10px var(--primary-glow);
+    }
 
-.btn-volver {
-    display: inline-block;
-    margin-top: 25px;
-    padding: 12px 25px;
-    background-color: #0066cc;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-}
+    /* El elemento de video en sí */
+    .video-showcase video {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px; /* Un poco menos que el contenedor */
+        outline: none;
+        aspect-ratio: 16 / 9; /* Mantiene la forma antes de cargar */
+        background-color: #000;
+    }
 
-.btn-volver:hover {
-    background-color: #004080;
-}
+    /* BOTÓN VOLVER ESTILO "CYBER" */
+    .btn-container {
+        margin-top: 50px;
+        text-align: center;
+    }
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:768px){
-    .dashboard h2 { font-size: 22px; }
-    .card h3 { font-size: 18px; }
-    .card p { font-size: 14px; }
-}
+    .btn-volver {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 30px;
+        background: transparent;
+        color: var(--primary-color);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 2px solid var(--primary-color);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
 
-@media(max-width:480px){
-    .dashboard { padding: 10px; }
-    .card { max-width: 90%; }
-    .chart-container { max-width: 90%; }
-    .btn-volver { width: 80%; text-align: center; }
-}
+    .btn-volver:hover {
+        color: #fff;
+        background-color: var(--primary-color);
+        box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        header h1 { font-size: 20px; }
+        .main-container { padding: 20px 10px; }
+        .section-title { font-size: 16px; }
+    }
 </style>
 </head>
 <body>
 
 <header>
-    SALA SITUACIONAL — DENGUE 2026 SEM 5
+    <h1>Sala Situacional</h1>
 </header>
 
-<div id="semanaActual">Semana Epidemiológica: --</div>
+<div id="semanaInfo">
+    UVS-RSMDC | <span id="fechaActual"></span> | <span id="semanaEpi"></span>
+</div>
 
-<div class="dashboard">
-    <h2>📊 Estadísticas de Dengue</h2>
-
-    <!-- TARJETAS DE RESUMEN -->
-    <div class="cards">
-        <div class="card">
-            <h3>Total Casos Dengue</h3>
-            <p>39</p>
-        </div>
-        <div class="card">
-            <h3>Dengue Grave</h3>
-            <p>1</p>
-        </div>
-        <div class="card">
-            <h3>Total Establecimientos</h3>
-            <p>16</p>
-        </div>
+<div class="main-container">
+    
+    <div class="section-title">
+        <span>📽️ Presentación Multimedia</span>
     </div>
 
-    <!-- GRÁFICAS -->
-    <div class="charts">
-        <!-- Gráfico de barras por establecimiento -->
-        <div class="chart-container">
-            <canvas id="graficoBarras"></canvas>
-        </div>
-        <!-- Gráfico circular: dengue grave vs sin grave -->
-        <div class="chart-container">
-            <canvas id="graficoCircular"></canvas>
-        </div>
+    <div class="video-showcase">
+        <video controls autoplay muted loop playsinline poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+            <source src="semana7.mp4.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+        </video>
     </div>
 
-    <a href="inicio.html" class="btn-volver">⬅️ Volver al Inicio</a>
+    <div class="btn-container">
+        <a href="inicio.html" class="btn-volver">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Volver al Panel Principal
+        </a>
+    </div>
 </div>
 
 <script>
-// ===== SEMANA EPIDEMIOLÓGICA ACTUAL =====
-function getSemanaEpidemiologica() {
-    const now = new Date();
-    const inicioAnio = new Date(now.getFullYear(), 0, 1);
-    const diasTranscurridos = Math.floor((now - inicioAnio) / (1000 * 60 * 60 * 24));
-    const semanaEpi = Math.ceil((diasTranscurridos + inicioAnio.getDay() + 1) / 7);
-    return semanaEpi;
-}
+    // ===== SCRIPT PARA FECHA Y SEMANA EPIDEMIOLÓGICA (ISO 8601) =====
+    function updateHeaderInfo() {
+        const now = new Date();
+        
+        // 1. Fecha formateada (ej: 24 May 2024)
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        document.getElementById('fechaActual').textContent = now.toLocaleDateString('es-HN', options);
 
-document.getElementById('semanaActual').textContent =
-    "Semana Epidemiológica: " + getSemanaEpidemiologica() + " — " + new Date().getFullYear();
-
-// ===== DATOS DE DENGUE =====
-const establecimientos = [
-    "POLICLINICA", "SAN MIGUEL", "ALEMANIA", "CHILE", "CLIPER HATO",
-    "PERIFERICA 2", "ZAMBRANO", "ALONSO SUAZO", "EDEN", "HOSPITAL ESCUELA",
-    "ESPECIALIDADES IHSS", "SANIDAD POLICIAL", "CRUCITAS", "PENITENCIARIA N",
-    "BOSQUE", "MANCHEN", "TORAX", "HOSPITAL MILITAR"
-];
-
-const casosDengue = [
-    1,3,1,1,4,
-    2,1,1,2,4,
-    12,2,2,2,1,1,1,3
-];
-
-const casosGraves = [
-    0,0,0,0,0,
-    0,0,0,0,0,
-    1,0,0,0,0,0,0,0
-];
-
-// ===== GRAFICO DE BARRAS =====
-const ctxBarras = document.getElementById('graficoBarras').getContext('2d');
-new Chart(ctxBarras, {
-    type: 'bar',
-    data: {
-        labels: establecimientos,
-        datasets: [{
-            label: 'Casos Dengue',
-            data: casosDengue,
-            backgroundColor: '#0066cc'
-        },{
-            label: 'Casos Graves',
-            data: casosGraves,
-            backgroundColor: '#ff3300'
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: { legend: { position: 'top' } },
-        scales: { y: { beginAtZero: true } }
+        // 2. Cálculo preciso de Semana Epidemiológica (ISO 8601)
+        const target = new Date(now.valueOf());
+        const dayNr = (now.getDay() + 6) % 7; // Lunes es día 0
+        target.setDate(target.getDate() - dayNr + 3); // Jueves de la semana actual
+        const firstThursday = target.valueOf();
+        target.setMonth(0, 1);
+        if (target.getDay() !== 4) {
+            target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+        }
+        const semana = 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 días en ms
+        
+        document.getElementById('semanaEpi').textContent = "Semana Epi: " + semana + " — " + now.getFullYear();
     }
-});
 
-// ===== GRAFICO CIRCULAR =====
-const totalGrave = casosGraves.reduce((a,b)=>a+b,0);
-const totalNoGrave = 39 - totalGrave;
-
-const ctxCircular = document.getElementById('graficoCircular').getContext('2d');
-new Chart(ctxCircular, {
-    type: 'doughnut',
-    data: {
-        labels: ['Dengue Grave','Dengue sin signos de alarma'],
-        datasets: [{
-            data: [totalGrave, totalNoGrave],
-            backgroundColor: ['#ff3300','#0066cc']
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: { legend: { position: 'bottom' } }
-    }
-});
+    updateHeaderInfo();
 </script>
 
 </body>
