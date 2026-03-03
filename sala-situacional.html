@@ -2,19 +2,20 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>UVS - Command Center v2.0</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UVS - Reporte Epidemiológico</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500;800&family=Inter:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
 
     :root {
         --primary: #00f2ff;
-        --primary-dim: rgba(0, 242, 255, 0.1);
-        --bg-deep: #020406;
-        --panel-bg: rgba(10, 15, 25, 0.8);
+        --bg-deep: #0a0e14;
+        --card-bg: rgba(255, 255, 255, 0.03);
         --border: rgba(0, 242, 255, 0.2);
     }
+
+    * { box-sizing: border-box; }
 
     body {
         margin: 0;
@@ -22,143 +23,97 @@
         color: #fff;
         font-family: 'Inter', sans-serif;
         display: flex;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    /* BARRA LATERAL PROFESIONAL */
-    aside {
-        width: 70px;
-        background: rgba(0,0,0,0.5);
-        border-right: 1px solid var(--border);
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-        gap: 25px;
+        min-height: 100vh;
     }
 
-    .nav-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--primary);
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .nav-icon:hover { background: var(--primary); color: #000; }
-
-    /* CONTENIDO PRINCIPAL */
-    main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
-
-    /* HEADER TÁCTICO */
+    /* HEADER RESPONSIVO */
     header {
-        height: 60px;
+        padding: 15px 20px;
+        background: rgba(0, 0, 0, 0.8);
         border-bottom: 1px solid var(--border);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 30px;
-        background: var(--panel-bg);
         backdrop-filter: blur(10px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
 
-    .logo-area {
-        display: flex;
-        align-items: center;
-        gap: 15px;
+    .logo-text {
         font-family: 'JetBrains Mono', monospace;
-    }
-
-    .badge {
-        background: var(--primary-dim);
+        font-weight: 700;
+        font-size: 0.9rem;
         color: var(--primary);
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 0.7rem;
-        border: 1px solid var(--primary);
     }
 
-    /* DASHBOARD LAYOUT */
-    .dashboard {
-        display: grid;
-        grid-template-columns: 1fr 300px;
+    /* CONTENEDOR PRINCIPAL ADAPTATIVO */
+    .main-layout {
+        display: flex;
+        flex-direction: column;
         gap: 20px;
-        padding: 20px;
-        height: calc(100vh - 60px);
+        padding: 15px;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
     }
 
-    .video-section {
-        position: relative;
+    /* SECCIÓN DEL VIDEO */
+    .video-container {
+        width: 100%;
         background: #000;
         border-radius: 12px;
         overflow: hidden;
         border: 1px solid var(--border);
-        box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    }
-
-    /* EFECTO CRT/SCANLINE */
-    .video-section::after {
-        content: " ";
-        position: absolute;
-        top: 0; left: 0; bottom: 0; right: 0;
-        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-        background-size: 100% 3px, 3px 100%;
-        pointer-events: none;
-        z-index: 2;
+        position: relative;
+        /* Proporción 16:9 para móviles */
+        aspect-ratio: 16 / 9;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     video {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: contain; /* Asegura que no se corte el contenido en móviles */
     }
 
-    /* PANEL DERECHO DE DATOS */
-    .data-panel {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    /* TARJETAS DE DATOS */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px;
     }
 
-    .data-card {
-        background: var(--panel-bg);
+    .card {
+        background: var(--card-bg);
         border: 1px solid var(--border);
         padding: 15px;
         border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
     }
 
-    .data-card h3 {
-        margin: 0 0 10px 0;
-        font-size: 0.75rem;
-        color: var(--primary);
+    .card-label {
+        font-size: 0.7rem;
+        color: #8898aa;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
-    .tech-text {
+    .card-value {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.85rem;
-        color: #a0aec0;
+        font-size: 1rem;
+        color: #fff;
     }
 
-    .live-indicator {
+    .live-tag {
+        color: #4ade80;
         display: flex;
         align-items: center;
-        gap: 8px;
-        color: #4ade80;
-        font-size: 0.8rem;
+        gap: 6px;
+        font-weight: bold;
     }
 
     .dot {
@@ -166,99 +121,109 @@
         height: 8px;
         background: #4ade80;
         border-radius: 50%;
-        box-shadow: 0 0 10px #4ade80;
-        animation: pulse 1s infinite;
+        animation: pulse 1.5s infinite;
     }
 
-    @keyframes pulse { 50% { opacity: 0.4; } }
+    @keyframes pulse { 50% { opacity: 0.3; } }
 
-    .btn-exit {
-        margin-top: auto;
-        padding: 12px;
+    /* BOTÓN ADAPTADO A PULGAR MÓVIL */
+    .btn-action {
+        display: block;
+        width: 100%;
+        padding: 18px;
         background: transparent;
-        border: 1px solid #ff4b4b;
-        color: #ff4b4b;
+        border: 1px solid var(--primary);
+        color: var(--primary);
         text-align: center;
         text-decoration: none;
-        border-radius: 8px;
-        font-size: 0.8rem;
+        border-radius: 12px;
+        font-weight: 600;
+        margin-top: 10px;
         transition: 0.3s;
     }
 
-    .btn-exit:hover { background: #ff4b4b; color: #fff; }
+    .btn-action:active { /* Feedback táctil para móviles */
+        background: var(--primary);
+        color: #000;
+    }
 
+    /* AJUSTES PARA PC (PANTALLAS GRANDES) */
+    @media (min-width: 992px) {
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            padding: 30px;
+            align-items: start;
+        }
+        .btn-action { width: auto; }
+    }
 </style>
 </head>
 <body>
 
-    <aside>
-        <div class="nav-icon">📊</div>
-        <div class="nav-icon">🌍</div>
-        <div class="nav-icon">⚙️</div>
-    </aside>
+    <header>
+        <div class="logo-text">SALA SITUACIONAL</div>
+        <div id="clock" style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">00:00:00</div>
+    </header>
 
-    <main>
-        <header>
-            <div class="logo-area">
-                <span style="font-weight: 800; color: #fff;">SALA SITUACIONAL</span>
-                <span class="badge">V 2.0.7</span>
-            </div>
-            <div class="tech-text" id="clock">00:00:00</div>
-        </header>
-
-        <div class="dashboard">
-            <div class="video-section">
-                <video id="mainVideo" autoplay muted loop playsinline>
-                    <source src="semana7.mp4.mp4" type="video/mp4">
-                </video>
-            </div>
-
-            <div class="data-panel">
-                <div class="data-card">
-                    <h3>Estado del Reporte</h3>
-                    <div class="live-indicator">
-                        <div class="dot"></div> TRANSMITIENDO SEMANA 7
-                    </div>
-                    <div class="tech-text" style="margin-top: 10px;">
-                        Jurisdicción: RSMDC<br>
-                        Región: Honduras
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <h3>Cronometría</h3>
-                    <div class="tech-text">
-                        <span id="currentDate"></span><br>
-                        UTC: -06:00
-                    </div>
-                </div>
-
-                <div class="data-card" style="flex: 1;">
-                    <h3>Notas Técnicas</h3>
-                    <p class="tech-text" style="font-size: 0.75rem;">
-                        Vigilancia epidemiológica activa. Los datos mostrados en el video se actualizan según corte de semana epidemiológica institucional.
-                    </p>
-                </div>
-
-                <a href="inicio.html" class="btn-exit">CERRAR TERMINAL</a>
-            </div>
+    <div class="main-layout">
+        
+        <div class="video-container">
+            <video id="v" autoplay muted loop playsinline controls>
+                <source src="semana7.mp4.mp4" type="video/mp4">
+                Tu navegador no soporta video.
+            </video>
         </div>
-    </main>
+
+        <div class="info-side">
+            <div class="info-grid">
+                <div class="card">
+                    <div class="card-label">Estado de Transmisión</div>
+                    <div class="card-value live-tag">
+                        <div class="dot"></div> SEMANA EPI 7
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Identificador de Unidad</div>
+                    <div class="card-value">UVS-RSMDC | HN</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Fecha del Sistema</div>
+                    <div id="date" class="card-value">--/--/----</div>
+                </div>
+            </div>
+
+            <a href="inicio.html" class="btn-action">VOLVER AL MENÚ</a>
+        </div>
+
+    </div>
 
     <script>
-        function updateTechUI() {
+        function updateDisplay() {
             const now = new Date();
             
             // Reloj
-            document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB');
+            document.getElementById('clock').textContent = now.toLocaleTimeString('es-HN', { hour12: false });
 
             // Fecha
-            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('es-HN', options);
+            const d = String(now.getDate()).padStart(2, '0');
+            const m = String(now.getMonth() + 1).padStart(2, '0');
+            const y = now.getFullYear();
+            document.getElementById('date').textContent = `${d}/${m}/${y}`;
         }
 
-        setInterval(updateTechUI, 1000);
-        updateTechUI();
+        // Forzar reproducción en algunos móviles que entran en modo ahorro
+        window.addEventListener('load', () => {
+            const video = document.getElementById('v');
+            video.play().catch(() => {
+                console.log("El usuario debe interactuar para reproducir");
+            });
+        });
+
+        setInterval(updateDisplay, 1000);
+        updateDisplay();
     </script>
 </body>
 </html>
