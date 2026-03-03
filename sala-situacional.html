@@ -113,12 +113,10 @@
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
         border-radius: 20px;
-        padding: 10px; /* Espacio para el borde interno */
+        padding: 10px; 
         box-sizing: border-box;
         position: relative;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        
-        /* Efecto de resplandor inicial */
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 100px -20px var(--primary-glow);
     }
 
@@ -127,18 +125,17 @@
         box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 120px -10px var(--primary-glow);
     }
 
-    /* El elemento de video en sí */
     .video-showcase video {
         width: 100%;
         height: auto;
         display: block;
-        border-radius: 12px; /* Un poco menos que el contenedor */
+        border-radius: 12px;
         outline: none;
-        aspect-ratio: 16 / 9; /* Mantiene la forma antes de cargar */
+        aspect-ratio: 16 / 9;
         background-color: #000;
     }
 
-    /* BOTÓN VOLVER ESTILO "CYBER" */
+    /* BOTÓN VOLVER */
     .btn-container {
         margin-top: 50px;
         text-align: center;
@@ -159,8 +156,6 @@
         letter-spacing: 1px;
         border: 2px solid var(--primary-color);
         transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
     }
 
     .btn-volver:hover {
@@ -169,7 +164,6 @@
         box-shadow: 0 0 20px var(--primary-glow);
     }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
         header h1 { font-size: 20px; }
         .main-container { padding: 20px 10px; }
@@ -194,7 +188,7 @@
     </div>
 
     <div class="video-showcase">
-        <video controls autoplay muted loop playsinline poster="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+        <video controls autoplay muted loop playsinline>
             <source src="semana7.mp4.mp4" type="video/mp4">
             Tu navegador no soporta la reproducción de video.
         </video>
@@ -209,7 +203,6 @@
 </div>
 
 <script>
-    // ===== SCRIPT PARA FECHA Y SEMANA EPIDEMIOLÓGICA (ISO 8601) =====
     function updateHeaderInfo() {
         const now = new Date();
         
@@ -217,18 +210,9 @@
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
         document.getElementById('fechaActual').textContent = now.toLocaleDateString('es-HN', options);
 
-        // 2. Cálculo preciso de Semana Epidemiológica (ISO 8601)
-        const target = new Date(now.valueOf());
-        const dayNr = (now.getDay() + 6) % 7; // Lunes es día 0
-        target.setDate(target.getDate() - dayNr + 3); // Jueves de la semana actual
-        const firstThursday = target.valueOf();
-        target.setMonth(0, 1);
-        if (target.getDay() !== 4) {
-            target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
-        }
-        const semana = 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 días en ms
-        
-        document.getElementById('semanaEpi').textContent = "Semana Epi: " + semana + " — " + now.getFullYear();
+        // 2. Forzar Semana Epidemiológica 7
+        const semanaManual = 7;
+        document.getElementById('semanaEpi').textContent = "Semana Epi: " + semanaManual + " — " + now.getFullYear();
     }
 
     updateHeaderInfo();
