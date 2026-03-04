@@ -1,282 +1,258 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Unidad de Vigilancia RSMDC</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-    /* ===== BODY ===== */
-    body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-        color: white;
-    }
-
-    header {
-        background-color: #0066cc;
-        padding: 20px;
-        text-align: center;
-        font-size: 28px;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    nav {
-        background-color: #004080;
-        padding: 10px;
-        text-align: center;
-    }
-
-    nav a {
-        color: white;
-        text-decoration: none;
-        margin: 0 10px;
-        font-weight: bold;
-        display: inline-block;
-    }
-
-    nav a:hover {
-        color: #ffcc00;
-    }
-
-    .hero {
-        padding: 50px 20px;
-        text-align: center;
-    }
-
-    .hero h1 {
-        font-size: 32px;
-        margin-bottom: 10px;
-    }
-
-    .hero p {
-        font-size: 16px;
-        max-width: 600px;
-        margin: auto;
-    }
-
-    .btn {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 12px 25px;
-        background-color: #ffcc00;
-        color: black;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .btn:hover {
-        background-color: #ffaa00;
-    }
-
-    .cards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 30px 10px;
-    }
-
-    .card {
-        background-color: white;
-        color: black;
-        width: 260px;
-        margin: 10px;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
-        text-align: center;
-        flex: 1 1 260px;
-        max-width: 90%;
-    }
-
-    .card h3 {
-        color: #0066cc;
-        font-size: 20px;
-    }
-
-    footer {
-        background-color: #002b4d;
-        text-align: center;
-        padding: 15px;
-        margin-top: 30px;
-        font-size: 14px;
-    }
-
-    /* ===== MODAL SALA SITUACIONAL ===== */
-    .modal {
-        display: flex;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.85);
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-    }
-
-    .modal-content {
-        background: linear-gradient(135deg, #004080, #0066cc);
-        padding: 30px 20px;
-        width: 90%;
-        max-width: 400px;
-        border-radius: 10px;
-        text-align: center;
-        color: white;
-        box-shadow: 0px 5px 25px rgba(0,0,0,0.6);
-        animation: aparecer 0.5s ease-in-out;
-        position: relative;
-    }
-
-    .modal-content h2 {
-        margin-bottom: 15px;
-        font-size: 24px;
-    }
-
-    .btn-modal {
-        margin-top: 20px;
-        padding: 12px 20px;
-        background-color: #ffcc00;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 80%;
-        max-width: 250px;
-    }
-
-    .btn-modal:hover {
-        background-color: #ffaa00;
-    }
-
-    .close {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        font-size: 28px;
-        cursor: pointer;
-    }
-
-    @keyframes aparecer {
-        from {transform: scale(0.7); opacity: 0;}
-        to {transform: scale(1); opacity: 1;}
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media(max-width:768px){
-        .hero h1 {
-            font-size: 26px;
+    <meta charset="UTF-8">
+    <title>Unidad de Vigilancia RSMDC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* ===== ESTILOS GENERALES ===== */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+            overflow-x: hidden;
         }
 
-        .hero p {
-            font-size: 15px;
+        header {
+            background-color: #0066cc;
+            padding: 20px;
+            text-align: center;
+            font-size: clamp(20px, 5vw, 28px);
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            background-color: #004080;
+            padding: 12px;
+            text-align: center;
         }
 
         nav a {
-            margin: 0 8px;
-            font-size: 14px;
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
-        .card h3 {
+        nav a:hover { color: #ffcc00; }
+
+        .hero { padding: 50px 20px; text-align: center; }
+        .hero h1 { font-size: clamp(24px, 6vw, 32px); margin-bottom: 10px; }
+        .hero p { max-width: 700px; margin: 0 auto; opacity: 0.9; }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #ffcc00;
+            color: black;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background-color: #ffaa00; transform: translateY(-2px); }
+
+        /* ===== TARJETAS ===== */
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            color: black;
+            width: 280px;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0px 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .card h3 { color: #0066cc; margin-top: 0; }
+
+        /* ===== TABLA DE REPORTES ===== */
+        .report-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+        }
+
+        .table-responsive { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            color: black;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background: #004080; color: white; text-transform: uppercase; font-size: 14px; }
+        
+        .status-ok { color: #28a745; font-weight: bold; }
+        .status-current { color: #0066cc; font-weight: bold; animation: pulse 2s infinite; }
+        
+        @keyframes pulse { 
+            0% { opacity: 1; } 
+            50% { opacity: 0.4; } 
+            100% { opacity: 1; } 
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            display: flex; 
+            position: fixed;
+            z-index: 9999;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #004080, #0066cc);
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0,242,255,0.4);
+            border: 1px solid rgba(0,242,255,0.2);
+        }
+
+        .btn-modal {
+            background-color: #ffcc00;
+            border: none;
+            padding: 15px 30px;
             font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: 0.3s;
         }
+        .btn-modal:hover { background-color: #ffaa00; }
 
-        .card p {
-            font-size: 14px;
-        }
-    }
-
-    @media(max-width:480px){
-        .hero h1 {
-            font-size: 22px;
-        }
-
-        .hero p {
-            font-size: 14px;
-        }
-
-        .btn, .btn-modal {
-            padding: 10px 18px;
-            font-size: 14px;
-        }
-
-        nav a {
-            display: block;
-            margin: 8px 0;
-        }
-    }
-</style>
+        footer { background: #002b4d; text-align: center; padding: 25px; margin-top: 40px; font-size: 14px; opacity: 0.8; }
+    </style>
 </head>
-
 <body>
 
-<!-- ===== MODAL SALA SITUACIONAL ===== -->
 <div id="modalSala" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="cerrarModal()">&times;</span>
-        <h2>📊 SALA SITUACIONAL</h2>
-        <p>
-            Bienvenido al panel estratégico de monitoreo institucional.
-            Aquí se centraliza la información clave para la toma de decisiones.
+        <h2 style="color: #ffcc00; font-size: 2rem; margin-bottom: 10px;">📊 SALA SITUACIONAL</h2>
+        <p style="font-size: 1.1rem; line-height: 1.5;">
+            Sistema de Monitoreo en Tiempo Real.<br>
+            <strong>Región Metropolitana de Distrito Central</strong>
         </p>
-        <button onclick="irASala()" class="btn-modal">Ingresar</button>
+        <button onclick="irASala()" class="btn-modal">INGRESAR AL PANEL</button>
+        <p onclick="cerrarModal()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 0.9rem; color: #cbd5e0;">
+            Continuar al menú principal
+        </p>
     </div>
 </div>
 
-<header>
-    Unidad de Vigilancia RSMDC
-</header>
+<header>Unidad de Vigilancia RSMDC</header>
 
 <nav>
     <a href="#">Inicio</a>
-    <a href="#">Reportes</a>
+    <a href="#reportes">Reportes</a>
     <a href="#">Estadísticas</a>
     <a href="#">Contacto</a>
 </nav>
 
 <section class="hero">
-    <h1>Bienvenidos</h1>
+    <h1>Vigilancia Epidemiológica</h1>
     <p>
-        Plataforma oficial de la Unidad de Vigilancia RSMDC.
-        Sistema de monitoreo, análisis y gestión de información institucional.
+        Plataforma oficial para el monitoreo, análisis y gestión de información institucional 
+        de la Región Metropolitana de Salud del Distrito Central.
     </p>
-    <a href="#" class="btn">Acceder al Sistema</a>
+    <a href="#reportes" class="btn">Consultar Boletines</a>
 </section>
 
 <section class="cards">
     <div class="card">
-        <h3>Monitoreo</h3>
-        <p>Seguimiento constante de indicadores y reportes en tiempo real.</p>
+        <h3>Vigilancia</h3>
+        <p>Análisis de eventos de notificación obligatoria y brotes.</p>
     </div>
-
     <div class="card">
         <h3>Reportes</h3>
-        <p>Generación y consulta de informes digitales institucionales.</p>
+        <p>Consolidado semanal de datos regionales y locales.</p>
     </div>
-
     <div class="card">
-        <h3>Gestión de Datos</h3>
-        <p>Administración segura y organizada de información estratégica.</p>
+        <h3>Acción</h3>
+        <p>Intervención oportuna basada en evidencia epidemiológica.</p>
     </div>
 </section>
 
+<div class="report-container" id="reportes">
+    <h2 style="text-align: center; color: #ffcc00; margin-bottom: 25px;">📈 Boletín Semanal 2026</h2>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Semana</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaCuerpo">
+                </tbody>
+        </table>
+    </div>
+</div>
+
 <footer>
-    © 2026 Unidad de Vigilancia RSMDC | Todos los derechos reservados
+    © 2026 Unidad de Vigilancia RSMDC | Honduras - Región Metropolitana
 </footer>
 
 <script>
-function cerrarModal(){
-    document.getElementById("modalSala").style.display = "none";
-}
+    // Generar las semanas de la 1 a la 8 dinámicamente
+    const tabla = document.getElementById('tablaCuerpo');
+    for(let i = 8; i >= 1; i--) {
+        const fila = document.createElement('tr');
+        const semanaTxt = i < 10 ? `0${i}` : i;
+        
+        // La semana 8 es la actual (en curso)
+        const estado = (i === 8) 
+            ? '<span class="status-current">En Curso</span>' 
+            : '<span class="status-ok">Completado</span>';
+            
+        fila.innerHTML = `
+            <td>Semana Epidemiológica ${semanaTxt}</td>
+            <td>${estado}</td>
+            <td><a href="docs/boletin_s${i}.pdf" style="color: #0066cc; font-weight: bold; text-decoration: none;">📄 Descargar PDF</a></td>
+        `;
+        tabla.appendChild(fila);
+    }
 
-function irASala(){
-    window.location.href = "sala-situacional.html";
-}
+    // Lógica del Modal
+    function cerrarModal() {
+        document.getElementById("modalSala").style.display = "none";
+    }
+
+    function irASala() {
+        // Redirige al archivo de la Sala Situacional
+        window.location.href = "sala-situacional.html";
+    }
+
+    // Asegura que el modal se muestre siempre al cargar la página
+    window.onload = function() {
+        document.getElementById("modalSala").style.display = "flex";
+    };
 </script>
 
 </body>
