@@ -21,6 +21,7 @@
             background: var(--bg-gradient);
             color: white;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* ===== HEADER Y NAV MEJORADO ===== */
@@ -103,7 +104,7 @@
 
         .card h3 { color: var(--primary); margin-top: 0; }
 
-        /* ===== TABLA RESPONSIVA (EL GRAN CAMBIO) ===== */
+        /* ===== TABLA RESPONSIVA (DISEÑO MÓVIL) ===== */
         .report-container {
             max-width: 900px;
             margin: 40px auto;
@@ -115,18 +116,19 @@
             border-radius: 15px;
             overflow: hidden;
             color: black;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         table { width: 100%; border-collapse: collapse; }
         th { background: var(--primary-dark); color: white; padding: 15px; font-size: 0.8rem; text-transform: uppercase; }
         td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
 
-        /* Estilo móvil para la tabla */
+        /* Estilo móvil para la tabla: Convierte filas en tarjetas */
         @media (max-width: 600px) {
             table, thead, tbody, th, td, tr { display: block; }
             thead tr { position: absolute; top: -9999px; left: -9999px; }
-            tr { border: 1px solid #ccc; margin-bottom: 10px; border-radius: 10px; padding: 10px; }
-            td { border: none; position: relative; padding-left: 50%; text-align: right; }
+            tr { border: 1px solid #ccc; margin-bottom: 10px; border-radius: 10px; padding: 10px; background: #fff; }
+            td { border: none; position: relative; padding-left: 50%; text-align: right; font-size: 0.95rem; }
             td:before {
                 position: absolute; top: 15px; left: 15px; width: 45%; 
                 padding-right: 10px; white-space: nowrap; font-weight: bold;
@@ -136,7 +138,7 @@
 
         /* ===== MODAL OPTIMIZADO ===== */
         .modal {
-            display: none; position: fixed; z-index: 1001;
+            display: none; position: fixed; z-index: 2000;
             left: 0; top: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.85);
             backdrop-filter: blur(5px);
@@ -157,7 +159,9 @@
             border: none; padding: 15px; width: 100%;
             font-size: 1.1rem; font-weight: bold; border-radius: 12px;
             cursor: pointer; margin-top: 15px;
+            transition: 0.3s;
         }
+        .btn-modal:hover { background-color: var(--primary-dark); }
 
         .status-current { color: var(--primary); font-weight: bold; animation: pulse 2s infinite; }
         .status-ok { color: #28a745; font-weight: bold; }
@@ -172,10 +176,10 @@
     <div class="modal-content">
         <div style="font-size: 3rem;">📊</div>
         <h2 style="color: var(--primary); margin: 10px 0;">SALA SITUACIONAL</h2>
-        <p>Monitoreo en tiempo real de la Región Metropolitana.</p>
+        <p>Sistema de Monitoreo en Tiempo Real - RSMDC</p>
         <button onclick="irASala()" class="btn-modal">INGRESAR AL PANEL</button>
         <p onclick="cerrarModal()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 0.8rem; color: #666;">
-            Ver menú principal
+            Continuar al menú principal
         </p>
     </div>
 </div>
@@ -185,7 +189,7 @@
 <nav>
     <a href="#">Inicio</a>
     <a href="#reportes">Reportes</a>
-    <a href="sala-situacional.html">Sala-Situacional</a>
+    <a href="sala-situacional.html">Sala Situacional</a>
     <a href="#">Contacto</a>
 </nav>
 
@@ -236,9 +240,13 @@
 
 <script>
     const tabla = document.getElementById('tablaCuerpo');
+    
+    // Generar semanas dinámicamente
     for(let i = 8; i >= 1; i--) {
         const fila = document.createElement('tr');
         const semanaTxt = i < 10 ? `0${i}` : i;
+        
+        // Semana 8 marcada como actual
         const estado = (i === 8) 
             ? '<span class="status-current">En Curso</span>' 
             : '<span class="status-ok">Completado</span>';
@@ -246,7 +254,13 @@
         fila.innerHTML = `
             <td data-label="Semana">Semana Epi. ${semanaTxt}</td>
             <td data-label="Estado">${estado}</td>
-            <td data-label="Acción"><a href="docs/boletin_s${i}.pdf" style="color: #0066cc; font-weight: bold; text-decoration: none;">📄 Descargar</a></td>
+            <td data-label="Acción">
+                <a href="boletin_s${i}.pdf" 
+                   download 
+                   style="color: #0066cc; font-weight: bold; text-decoration: none;">
+                   📄 Descargar
+                </a>
+            </td>
         `;
         tabla.appendChild(fila);
     }
