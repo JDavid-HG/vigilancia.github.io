@@ -1,169 +1,189 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>UVS - Reporte Epidemiológico</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>UVS - Dashboard Epidemiológico</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
 
-    :root {
-        --primary: #00f2ff;
-        --bg-deep: #0a0e14;
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --border: rgba(0, 242, 255, 0.2);
-    }
+        :root {
+            /* Colores Base - Cambia --primary para cambiar el mood */
+            --primary: #00f2ff; 
+            --bg-deep: #0a0e14;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 242, 255, 0.2);
+            --accent-red: #ff4a4a;
+        }
 
-    * { box-sizing: border-box; }
+        /* Modos de Alerta (Opcional: añadir clase al body) */
+        body.alert-high { --primary: #ff4a4a; --border: rgba(255, 74, 74, 0.3); }
+        body.alert-warning { --primary: #facc15; --border: rgba(250, 204, 21, 0.3); }
 
-    body {
-        margin: 0;
-        background-color: var(--bg-deep);
-        color: #fff;
-        font-family: 'Inter', sans-serif;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
 
-    /* HEADER RESPONSIVO */
-    header {
-        padding: 15px 20px;
-        background: rgba(0, 0, 0, 0.8);
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
+        body {
+            margin: 0;
+            background-color: var(--bg-deep);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    .logo-text {
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: 700;
-        font-size: 0.9rem;
-        color: var(--primary);
-    }
+        header {
+            padding: 15px 25px;
+            background: rgba(10, 14, 20, 0.9);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    /* CONTENEDOR PRINCIPAL ADAPTATIVO */
-    .main-layout {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        padding: 15px;
-        max-width: 1200px;
-        margin: 0 auto;
-        width: 100%;
-    }
+        .logo-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--border);
+        }
 
-    /* SECCIÓN DEL VIDEO */
-    .video-container {
-        width: 100%;
-        background: #000;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        position: relative;
-        /* Proporción 16:9 para móviles */
-        aspect-ratio: 16 / 9;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    video {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Asegura que no se corte el contenido en móviles */
-    }
-
-    /* TARJETAS DE DATOS */
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 15px;
-    }
-
-    .card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        padding: 15px;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .card-label {
-        font-size: 0.7rem;
-        color: #8898aa;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .card-value {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1rem;
-        color: #fff;
-    }
-
-    .live-tag {
-        color: #4ade80;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-weight: bold;
-    }
-
-    .dot {
-        width: 8px;
-        height: 8px;
-        background: #4ade80;
-        border-radius: 50%;
-        animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse { 50% { opacity: 0.3; } }
-
-    /* BOTÓN ADAPTADO A PULGAR MÓVIL */
-    .btn-action {
-        display: block;
-        width: 100%;
-        padding: 18px;
-        background: transparent;
-        border: 1px solid var(--primary);
-        color: var(--primary);
-        text-align: center;
-        text-decoration: none;
-        border-radius: 12px;
-        font-weight: 600;
-        margin-top: 10px;
-        transition: 0.3s;
-    }
-
-    .btn-action:active { /* Feedback táctil para móviles */
-        background: var(--primary);
-        color: #000;
-    }
-
-    /* AJUSTES PARA PC (PANTALLAS GRANDES) */
-    @media (min-width: 992px) {
         .main-layout {
             display: grid;
-            grid-template-columns: 1fr 350px;
-            padding: 30px;
-            align-items: start;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        .btn-action { width: auto; }
-    }
-</style>
+
+        /* Contenedor de Video con Efecto de Escaneo */
+        .video-container {
+            width: 100%;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+            aspect-ratio: 16 / 9;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        .video-container::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--primary);
+            opacity: 0.3;
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        video { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Gráfico de Tendencia Simple */
+        .trend-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 40px;
+            margin-top: 10px;
+        }
+        .bar { 
+            flex: 1; 
+            background: var(--border); 
+            border-radius: 2px;
+        }
+        .bar.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+
+        /* Tarjetas */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .card-label {
+            font-size: 0.65rem;
+            color: #8898aa;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .live-tag {
+            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+        }
+
+        .btn-action {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: var(--primary);
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 800;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-action:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        @media (min-width: 992px) {
+            .main-layout { grid-template-columns: 1fr 380px; padding: 40px; }
+            .info-side { display: flex; flex-direction: column; gap: 20px; }
+        }
+    </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-text">SALA SITUACIONAL</div>
-        <div id="clock" style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">00:00:00</div>
+        <div class="logo-text">UVS SITUATIONAL ROOM</div>
+        <div id="clock" style="font-family: 'JetBrains Mono'; color: #8898aa;">00:00:00</div>
     </header>
 
     <div class="main-layout">
@@ -171,7 +191,6 @@
         <div class="video-container">
             <video id="v" autoplay muted loop playsinline controls>
                 <source src="semana8.mp4" type="video/mp4">
-                Tu navegador no soporta video.
             </video>
         </div>
 
@@ -182,51 +201,52 @@
                     <div class="card-value live-tag">
                         <div class="dot"></div> SEMANA EPI 8
                     </div>
+                    <div class="trend-chart">
+                        <div class="bar" style="height: 30%"></div>
+                        <div class="bar" style="height: 45%"></div>
+                        <div class="bar" style="height: 60%"></div>
+                        <div class="bar active" style="height: 85%"></div>
+                        <div class="bar" style="height: 10%"></div>
+                    </div>
                 </div>
 
                 <div class="card">
-                    <div class="card-label">UNIDAD DE VIGILANCIA</div>
-                    <div class="card-value">LIC.ANA JENSY VALLE | HN</div>
+                    <div class="card-label">Oficial a Cargo</div>
+                    <div class="card-value">LIC. ANA JENSY VALLE</div>
+                    <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">Región Sanitaria | HN</div>
                 </div>
 
                 <div class="card">
-                    <div class="card-label">Fecha del Sistema</div>
+                    <div class="card-label">Timestamp Sistema</div>
                     <div id="date" class="card-value">--/--/----</div>
                 </div>
             </div>
 
-            <a href="inicio.html" class="btn-action">VOLVER AL MENÚ</a>
+            <a href="inicio.html" class="btn-action">Cerrar Sesión / Volver</a>
         </div>
-
     </div>
 
     <script>
         function updateDisplay() {
             const now = new Date();
+            const locale = 'es-HN';
             
-            // Reloj
-            document.getElementById('clock').textContent = now.toLocaleTimeString('es-HN', { hour12: false });
+            // Reloj preciso
+            document.getElementById('clock').textContent = now.toLocaleTimeString(locale, { hour12: false });
 
-            // Fecha
-            const d = String(now.getDate()).padStart(2, '0');
-            const m = String(now.getMonth() + 1).padStart(2, '0');
-            const y = now.getFullYear();
-            document.getElementById('date').textContent = `${d}/${m}/${y}`;
+            // Fecha formateada pro
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            document.getElementById('date').textContent = now.toLocaleDateString(locale, options).replace(/\//g, ' . ');
         }
 
-        // Forzar reproducción en algunos móviles que entran en modo ahorro
-        window.addEventListener('load', () => {
-            const video = document.getElementById('v');
-            video.play().catch(() => {
-                console.log("El usuario debe interactuar para reproducir");
-            });
-        });
+        // Manejo inteligente del video
+        const video = document.getElementById('v');
+        window.addEventListener('click', () => {
+            if (video.paused) video.play();
+        }, { once: true });
 
         setInterval(updateDisplay, 1000);
         updateDisplay();
     </script>
 </body>
 </html>
-
-
-
