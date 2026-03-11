@@ -2,311 +2,321 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Unidad de Vigilancia RSMDC</title>
+    <title>Unidad de Vigilancia RSMDC | 2026</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* ===== VARIABLES Y RESET ===== */
+        /* ===== VARIABLES Y CONFIGURACIÓN ===== */
         :root {
             --primary: #0066cc;
             --primary-dark: #004080;
             --accent: #ffcc00;
             --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --glass: rgba(255, 255, 255, 0.1);
             --text-dark: #333;
+            --danger: #d32f2f;
+            --success: #2e7d32;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-gradient);
+            background-attachment: fixed;
             color: white;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== COMPONENTES VISUALES ===== */
         header {
             background-color: var(--primary);
-            padding: 1.2rem;
+            padding: 1.5rem;
             text-align: center;
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            font-weight: 800;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        /* ===== NAV CON BOTONES ANIMADOS ===== */
+        header h1 {
+            margin: 0;
+            font-size: clamp(1.1rem, 5vw, 1.8rem);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         nav {
             background-color: var(--primary-dark);
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            padding: 15px;
-            gap: 15px;
-            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.2);
+            padding: 12px;
+            gap: 10px;
+            border-bottom: 3px solid var(--accent);
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            padding: 10px 22px;
+            padding: 8px 18px;
             font-weight: 600;
-            font-size: 0.95rem;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            border-radius: 8px;
+            background: var(--glass);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        /* Efecto al pasar el mouse (Hover) */
+        /* Botones específicos en Nav */
+        nav a.btn-nav-sala { border: 1px solid #00f2ff; color: #00f2ff; }
+        nav a.btn-nav-arbo { border: 1px solid var(--accent); color: var(--accent); }
+
         nav a:hover {
-            background: var(--primary);
-            color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 
-                        0 0 10px rgba(0, 102, 204, 0.5);
-            border-color: var(--accent);
-        }
-
-        /* Efecto al hacer clic */
-        nav a:active {
-            transform: translateY(-2px);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ===== HERO SECTION ===== */
-        .hero { 
-            padding: 60px 20px; 
-            text-align: center;
-            background: rgba(0,0,0,0.1);
-        }
-        .hero h1 { font-size: clamp(1.8rem, 8vw, 2.5rem); margin-bottom: 1rem; color: var(--accent); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .hero p { max-width: 600px; margin: 0 auto; font-size: 1.1rem; opacity: 0.9; }
-
-        .btn-main {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 14px 35px;
-            background-color: var(--accent);
+            background: var(--accent);
             color: #000;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
-            transition: 0.3s ease;
-            animation: pulse-light 3s infinite;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .btn-main:hover { transform: scale(1.05); background-color: #fff; }
-
-        @keyframes pulse-light {
-            0% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 204, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 204, 0, 0); }
-        }
-
-        /* ===== GRID DE TARJETAS ===== */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        /* ===== SECCIONES ===== */
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
         }
 
-        .card {
+        .hero { 
+            padding: 40px 20px; 
+            text-align: center;
+        }
+
+        .hero h2 { 
+            font-size: clamp(1.8rem, 6vw, 2.8rem); 
+            color: var(--accent); 
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Tarjetas de Navegación Principal */
+        .main-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .card-access {
             background: var(--card-bg);
             color: var(--text-dark);
-            padding: 25px;
-            border-radius: 15px;
+            padding: 35px;
+            border-radius: 25px;
             text-align: center;
-            transition: 0.3s;
-            border-bottom: 5px solid var(--primary);
+            text-decoration: none;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-bottom: 8px solid var(--primary);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        .card-access:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
 
-        /* ===== TABLA RESPONSIVA ===== */
-        .report-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 15px;
+        /* Estilos por categoría */
+        .card-sala { border-bottom-color: #00f2ff; }
+        .card-arbo { border-bottom-color: var(--danger); }
+        .card-boletin { border-bottom-color: var(--primary); }
+
+        .card-access i { font-size: 3.5rem; display: block; margin-bottom: 15px; }
+        .card-access h3 { margin: 10px 0; font-size: 1.5rem; }
+        .card-access p { margin: 0; color: #666; font-size: 0.95rem; }
+
+        /* ===== TABLA DE REPORTES ===== */
+        .report-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .table-responsive {
             background: white;
             border-radius: 15px;
             overflow: hidden;
-            color: black;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            color: #222;
         }
 
         table { width: 100%; border-collapse: collapse; }
-        th { background: var(--primary-dark); color: white; padding: 15px; font-size: 0.8rem; text-transform: uppercase; }
-        td { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background: #1a1a1a; color: white; padding: 18px; font-size: 0.85rem; text-transform: uppercase; }
+        td { padding: 18px; text-align: center; border-bottom: 1px solid #eee; }
 
-        .download-btn {
-            color: var(--primary);
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
         }
 
+        .status-current { background: #e3f2fd; color: #0066cc; animation: pulse 2s infinite; }
+        .status-ok { background: #e8f5e9; color: #2e7d32; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        .download-btn { color: var(--primary); font-weight: bold; text-decoration: none; }
         .download-btn:hover { color: #ff5500; text-decoration: underline; }
-
-        /* Estilo móvil tabla */
-        @media (max-width: 600px) {
-            table, thead, tbody, th, td, tr { display: block; }
-            thead tr { position: absolute; top: -9999px; left: -9999px; }
-            tr { border: 1px solid #ccc; margin-bottom: 10px; border-radius: 10px; padding: 10px; background: #fff; }
-            td { border: none; position: relative; padding-left: 50%; text-align: right; }
-            td:before {
-                position: absolute; top: 15px; left: 15px; width: 45%; 
-                font-weight: bold; content: attr(data-label); text-align: left; color: var(--primary);
-            }
-        }
 
         /* ===== MODAL ===== */
         .modal {
-            display: none; position: fixed; z-index: 2000;
+            display: none; position: fixed; z-index: 9999;
             left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
             align-items: center; justify-content: center;
         }
 
         .modal-content {
-            background: white; color: var(--text-dark);
-            padding: 30px; width: 85%; max-width: 400px;
-            border-radius: 25px; text-align: center;
-            animation: bounceIn 0.6s ease;
-        }
-
-        @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); }
+            background: white; color: #333; padding: 40px;
+            width: 90%; max-width: 450px; border-radius: 30px;
+            text-align: center;
         }
 
         .btn-modal {
-            background-color: var(--primary); color: white;
-            border: none; padding: 15px; width: 100%;
-            font-size: 1.1rem; font-weight: bold; border-radius: 12px;
-            cursor: pointer; margin-top: 15px;
+            background: var(--primary); color: white; border: none;
+            padding: 16px; font-size: 1.1rem; font-weight: bold;
+            border-radius: 15px; cursor: pointer; width: 100%; margin-top: 20px;
         }
 
-        .status-current { color: var(--primary); font-weight: bold; animation: pulse 2s infinite; }
-        .status-ok { color: #28a745; font-weight: bold; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        footer { background: #0b1418; text-align: center; padding: 40px; margin-top: 60px; }
 
-        footer { background: #001a33; text-align: center; padding: 30px 15px; margin-top: 40px; font-size: 0.8rem; }
+        @media (max-width: 600px) {
+            thead { display: none; }
+            td { display: block; text-align: right; padding-left: 50%; position: relative; border-bottom: 1px solid #eee; }
+            td::before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: var(--primary); }
+        }
     </style>
 </head>
 <body>
 
 <div id="modalSala" class="modal">
     <div class="modal-content">
-        <div style="font-size: 3.5rem;">📊</div>
-        <h2 style="color: var(--primary); margin: 10px 0;">SALA SITUACIONAL</h2>
-        <p>Monitoreo Estratégico RSMDC</p>
-        <button onclick="irASala()" class="btn-modal">INGRESAR AHORA</button>
-        <p onclick="cerrarModal()" style="margin-top: 15px; cursor: pointer; text-decoration: underline; font-size: 0.8rem; color: #666;">
-            Ver boletines informativos
+        <div style="font-size: 4.5rem;">📡</div>
+        <h2 style="color: var(--primary); margin: 15px 0;">SALA SITUACIONAL</h2>
+        <p>Monitoreo Estratégico de Eventos de Salud Pública en Tiempo Real.</p>
+        <button onclick="irASala()" class="btn-modal">INGRESAR AL SISTEMA</button>
+        <p onclick="cerrarModal()" style="margin-top: 20px; cursor: pointer; color: #888; text-decoration: underline;">
+            Ver boletines semanales
         </p>
     </div>
 </div>
 
-<header>Unidad de Vigilancia RSMDC</header>
+<header>
+    <h1>Unidad de Vigilancia RSMDC</h1>
+</header>
 
 <nav>
     <a href="#">Inicio</a>
-    <a href="#reportes">Reportes</a>
-    <a href="sala-situacional.html">Sala Situacional</a>
-    <a href="#">Contacto</a>
+    <a href="sala-situacional.html" class="btn-nav-sala">📊 Sala Situacional</a>
+    <a href="arbovirosis.html" class="btn-nav-arbo">🦟 Arbovirosis</a>
+    <a href="#reportes">Boletines</a>
 </nav>
 
-<section class="hero">
-    <h1>Vigilancia Epidemiológica</h1>
-    <p> Plataforma oficial para el monitoreo, análisis y gestión de información institucional 
-        de la Región Metropolitana de Salud del Distrito Central.</p>
-    <a href="#reportes" class="btn-main">CONSULTAR BOLETINES</a>
-</section>
+<div class="container">
+    <section class="hero">
+        <h2>Plataforma de Inteligencia Sanitaria</h2>
+        <p style="font-size: 1.1rem; opacity: 0.9;">Región Metropolitana de Salud del Distrito Central | Honduras 2026</p>
+    </section>
 
-<section class="cards">
-    <div class="card">
-        <h3>Vigilancia</h3>
-        <p>Detección temprana de brotes y riesgos sanitarios.</p>
-    </div>
-    <div class="card">
-        <h3>Análisis</h3>
-        <p>Interpretación de datos para la salud pública.</p>
-    </div>
-    <div class="card">
-        <h3>Respuesta</h3>
-        <p>Coordinación de acciones preventivas inmediatas.</p>
-    </div>
-</section>
+    <section class="main-access">
+        <a href="sala-situacional.html" class="card-access card-sala">
+            <i>📡</i>
+            <h3>Sala Situacional</h3>
+            <p>Visualización de indicadores, mapas de calor y tendencias en tiempo real.</p>
+        </a>
 
-<div class="report-container" id="reportes">
-    <h2 style="text-align: center; color: var(--accent); margin-bottom: 25px;">📈 Boletín Semanal 2026</h2>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th>Semana</th>
-                    <th>Estado</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody id="tablaCuerpo"></tbody>
-        </table>
+        <a href="arbovirosis.html" class="card-access card-arbo">
+            <i>🦟</i>
+            <h3>Arbovirosis</h3>
+            <p>Seguimiento detallado de Dengue, Zika y Chikungunya por sectores.</p>
+        </a>
+
+        <a href="#reportes" class="card-access card-boletin">
+            <i>📅</i>
+            <h3>Boletines Semanales</h3>
+            <p>Archivo histórico y consolidado de reportes epidemiológicos.</p>
+        </a>
+    </section>
+
+    <div id="reportes" class="report-section">
+        <h2 style="text-align: center; color: var(--accent); margin-top: 0;">📈 Repositorio de Boletines 2026</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Semana</th>
+                        <th>Estado del Informe</th>
+                        <th>Descarga</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCuerpo"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <footer>
-    <strong>Unidad de Vigilancia RSMDC</strong><br>
-    Honduras - Región Metropolitana de Salud © 2026
+    <p><strong>Región Metropolitana de Salud - Distrito Central</strong></p>
+    <p>© 2026 Unidad de Vigilancia Epidemiológica</p>
 </footer>
 
 <script>
+    const totalSemanas = 10;
     const tabla = document.getElementById('tablaCuerpo');
-    
-    for(let i = 8; i >= 1; i--) {
-        const fila = document.createElement('tr');
-        const semanaTxt = i < 10 ? `0${i}` : i;
-        
-        const estado = (i === 9) 
-            ? '<span class="status-current">En Curso</span>' 
-            : '<span class="status-ok">Completado</span>';
-            
-        fila.innerHTML = `
-            <td data-label="Semana">Semana Epi. ${semanaTxt}</td>
-            <td data-label="Estado">${estado}</td>
-            <td data-label="Acción">
-                <a href="boletin_s${i}.pdf" 
-                   target="_blank" 
-                   class="download-btn">
-                   📄 Abrir PDF
-                </a>
-            </td>
-        `;
-        tabla.appendChild(fila);
+
+    function generarTabla() {
+        for (let i = totalSemanas; i >= 1; i--) {
+            const tr = document.createElement('tr');
+            const esActual = (i === totalSemanas);
+            const badgeClass = esActual ? 'status-current' : 'status-ok';
+            const badgeText = esActual ? 'En Curso' : 'Finalizado';
+            const semanaFormat = i < 10 ? `0${i}` : i;
+
+            tr.innerHTML = `
+                <td data-label="Semana"><strong>Semana Epi. ${semanaFormat}</strong></td>
+                <td data-label="Estado">
+                    <span class="status-badge ${badgeClass}">${badgeText}</span>
+                </td>
+                <td data-label="Descarga">
+                    <a href="boletines/boletin_s${i}.pdf" class="download-btn" target="_blank">📄 Abrir Reporte</a>
+                </td>
+            `;
+            tabla.appendChild(tr);
+        }
     }
 
-    function cerrarModal() { document.getElementById("modalSala").style.display = "none"; }
-    function irASala() { window.location.href = "sala-situacional.html"; }
+    function cerrarModal() {
+        const modal = document.getElementById("modalSala");
+        modal.style.display = "none";
+    }
+
+    function irASala() {
+        window.location.href = "sala-situacional.html";
+    }
 
     window.onload = function() {
-        document.getElementById("modalSala").style.display = "flex";
+        generarTabla();
+        setTimeout(() => {
+            document.getElementById("modalSala").style.display = "flex";
+        }, 500);
+    };
+
+    window.onkeydown = function(event) {
+        if (event.key === "Escape") cerrarModal();
     };
 </script>
 
 </body>
 </html>
-
