@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoreo de Arbovirosis | RSMDC 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #d32f2f; /* Rojo para alerta de arbovirosis */
+            --primary-dark: #b71c1c;
+            --accent: #ffcc00;
+            --bg-gradient: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            --glass: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-gradient);
+            color: white;
+            line-height: 1.6;
+        }
+
+        /* Nav Simple */
+        nav {
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero Alert */
+        .hero-arbo {
+            background: linear-gradient(rgba(211, 47, 47, 0.2), rgba(0,0,0,0.5));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .hero-arbo h1 { margin: 0; font-size: 2.5rem; color: var(--accent); }
+
+        /* Dashboard Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid var(--accent);
+        }
+
+        .stat-card h3 { margin: 0; font-size: 0.9rem; opacity: 0.8; }
+        .stat-card .number { font-size: 2rem; font-weight: 800; display: block; color: var(--accent); }
+
+        /* Gráfico */
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Prevención Section */
+        .prevencion {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .prev-item {
+            background: var(--card-bg);
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .prev-icon { font-size: 2.5rem; }
+
+        footer { text-align: center; padding: 40px; opacity: 0.7; font-size: 0.8rem; }
+
+        @media (max-width: 768px) {
+            .hero-arbo h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="inicio.html">⬅ Volver al Inicio</a>
+    <a href="#graficos">Tendencias</a>
+    <a href="#prevencion">Prevención</a>
+</nav>
+
+<div class="container">
+    <section class="hero-arbo">
+        <h1>Situación de Arbovirosis</h1>
+        <p>Vigilancia epidemiológica de Dengue, Zika y Chikungunya - Distrito Central</p>
+    </section>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Casos Acumulados 2026</h3>
+            <span class="number">1,245</span>
+        </div>
+        <div class="stat-card" style="border-left-color: #ff4444;">
+            <h3>Dengue Grave</h3>
+            <span class="number">12</span>
+        </div>
+        <div class="stat-card">
+            <h3>Índice Larvario</h3>
+            <span class="number">18.5%</span>
+        </div>
+        <div class="stat-card" style="border-left-color: #44ff44;">
+            <h3>Viviendas Intervenidas</h3>
+            <span class="number">4,500</span>
+        </div>
+    </div>
+
+    <div id="graficos" class="chart-container">
+        <h2 style="color: #333; margin-top: 0; text-align: center;">Curva Epidemiológica Semanal</h2>
+        <canvas id="arboChart"></canvas>
+    </div>
+
+    
+
+    <h2 id="prevencion" style="text-align: center; color: var(--accent);">Acciones de Prevención y Control</h2>
+    <div class="prevencion">
+        <div class="prev-item">
+            <span class="prev-icon">🧴</span>
+            <div>
+                <strong>Uso de Repelente</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Aplicar cada 4 horas en zonas de riesgo.</p>
+            </div>
+        </div>
+        <div class="prev-item">
+            <span class="prev-icon">🏠</span>
+            <div>
+                <strong>Lavado de Pilas</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Aplicar la "Untadita" cada 7 días sin falta.</p>
+            </div>
+        </div>
+        <div class="prev-item">
+            <span class="prev-icon">🚜</span>
+            <div>
+                <strong>Nebulización</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Operativos de fumigación en colonias críticas.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    Unidad de Vigilancia de la Salud - RSMDC 2026<br>
+    Secretaría de Salud, Honduras.
+</footer>
+
+<script>
+    // Configuración del Gráfico de Arbovirosis
+    const ctx = document.getElementById('arboChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['SE-01', 'SE-02', 'SE-03', 'SE-04', 'SE-05', 'SE-06', 'SE-07', 'SE-08', 'SE-09', 'SE-10'],
+            datasets: [{
+                label: 'Casos de Dengue 2026',
+                data: [120, 150, 140, 190, 210, 250, 300, 280, 320, 350],
+                borderColor: '#d32f2f',
+                backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
