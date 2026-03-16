@@ -2,31 +2,32 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Repositorio de Recursos | RSMDC 2026</title>
+    <title>Recursos y Herramientas | RSMDC 2026</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            --primary-dark: #004d40; /* Verde Institucional */
+            --primary-dark: #004d40;
             --primary-light: #00796b;
-            --accent: #ffc107;      /* Amarillo Oro */
-            --bg-page: #f4f7f6;
-            --pdf-color: #e53935;   /* Rojo para PDF */
-            --excel-color: #2e7d32; /* Verde para Excel */
-            --text: #333;
+            --accent: #ffc107;
+            --bg-page: #f0f2f5;
+            --pdf-color: #d32f2f;
+            --excel-color: #1b5e20;
+            --text: #2c3e50;
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             background-color: var(--bg-page);
             color: var(--text);
             line-height: 1.6;
         }
 
-        /* Navegación Superior */
+        /* Navegación */
         nav {
             background: var(--primary-dark);
-            padding: 15px 5%;
+            padding: 0 5%;
+            height: 70px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -34,249 +35,273 @@
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        nav .logo { color: var(--accent); font-weight: bold; font-size: 1.2rem; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; }
+        nav .logo { color: var(--accent); font-weight: 800; font-size: 1.4rem; letter-spacing: 1px; }
+        nav .links a { color: white; text-decoration: none; margin-left: 25px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
         nav a:hover { color: var(--accent); }
 
-        /* Encabezado */
+        /* Header */
         header {
             background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
             color: white;
-            padding: 60px 20px;
+            padding: 50px 20px;
             text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
         }
 
-        header h1 { margin: 0; font-size: 2.5rem; }
-        header p { opacity: 0.9; margin-top: 10px; }
+        header h1 { margin: 0; font-size: 2.2rem; font-weight: 700; }
+        header p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
-        /* Botón de Google Drive 2025 */
-        .drive-section {
+        /* Barra de Accesos Rápidos (Drive/Normalización) */
+        .quick-access {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: -40px;
+            margin-bottom: 40px;
+        }
+
+        .access-card {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            margin-bottom: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border: 1px dashed var(--primary-light);
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            transition: 0.3s;
+            border-bottom: 3px solid transparent;
         }
 
-        .btn-drive {
-            display: inline-flex;
+        .access-card:hover {
+            transform: translateY(-5px);
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        .access-card span { font-size: 1.8rem; margin-bottom: 10px; }
+        .access-card small { font-weight: 400; color: #666; font-size: 0.75rem; margin-top: 4px; }
+
+        /* Estilo de Secciones */
+        .section-label {
+            display: flex;
             align-items: center;
             gap: 12px;
-            background-color: var(--accent);
-            color: var(--primary-dark);
-            text-decoration: none;
-            padding: 18px 35px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: transform 0.2s, background-color 0.2s;
+            margin: 40px 0 20px;
         }
 
-        .btn-drive:hover {
-            background-color: #ffb300;
-            transform: translateY(-3px);
-        }
+        .section-label hr { flex-grow: 1; border: none; border-top: 2px solid #ddd; }
+        .section-label h2 { color: var(--primary-dark); font-size: 1.2rem; margin: 0; white-space: nowrap; letter-spacing: 1px; }
 
-        /* Secciones de Archivos */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 10px;
-        }
-
-        .section-header h2 { color: var(--primary-dark); margin: 0; text-transform: uppercase; font-size: 1.4rem; }
-
-        /* Grid de Archivos */
+        /* Grid de Recursos */
         .resource-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 20px;
-            margin-bottom: 50px;
         }
 
-        /* Tarjeta de Archivo */
         .file-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border-left: 5px solid transparent;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
+
+        .file-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 6px;
+        }
+
+        .card-pdf::before { background: var(--pdf-color); }
+        .card-excel::before { background: var(--excel-color); }
 
         .file-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
         }
 
-        .card-pdf { border-left-color: var(--pdf-color); }
-        .card-excel { border-left-color: var(--excel-color); }
+        .file-content { display: flex; align-items: center; gap: 20px; }
+        
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
 
-        .file-icon { font-size: 2.2rem; min-width: 45px; }
-        .icon-pdf { color: var(--pdf-color); }
-        .icon-excel { color: var(--excel-color); }
+        .bg-pdf { background: #ffebee; color: var(--pdf-color); }
+        .bg-excel { background: #e8f5e9; color: var(--excel-color); }
 
-        .file-info { flex-grow: 1; }
-        .file-info h3 { margin: 0; font-size: 1.05rem; color: var(--primary-dark); }
-        .file-info p { margin: 5px 0 0; font-size: 0.85rem; color: #666; line-height: 1.3; }
+        .file-details h3 { margin: 0; font-size: 1.1rem; color: #1a202c; }
+        .file-details p { margin: 4px 0 0; font-size: 0.85rem; color: #718096; }
 
-        .download-btn {
-            text-decoration: none;
-            color: white;
-            background: var(--primary-light);
-            width: 40px;
-            height: 40px;
+        .download-action {
+            background: #f8f9fa;
+            color: var(--primary-dark);
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s;
+            text-decoration: none;
+            transition: 0.3s;
+            border: 1px solid #edf2f7;
         }
 
-        .download-btn:hover {
-            background: var(--accent);
-            color: var(--primary-dark);
+        .download-action:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: rotate(360deg);
         }
 
         footer {
             background: var(--primary-dark);
             color: white;
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
-            font-size: 0.9rem;
+            padding: 60px 20px;
+            margin-top: 80px;
+        }
+
+        footer strong { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .quick-access { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo">RSMDC RECURSOS</div>
+    <div class="logo">RSMDC</div>
     <div class="links">
-        <a href="inicio.html">Inicio</a>
-        <a href="sala-situacional.html">Sala de Situación</a>
+        <a href="inicio.html">🏠 Inicio</a>
+        <a href="sala-situacional.html">📊 Sala Situacional</a>
     </div>
 </nav>
 
 <header>
-    <h1>Gestión de Manuales y Herramientas</h1>
-    <p>Unidad de Vigilancia de la Salud - Región Metropolitana DC</p>
+    <h1>Biblioteca Virtual de Vigilancia</h1>
+    <p>Región Sanitaria Metropolitana del Distrito Central</p>
 </header>
 
 <div class="container">
 
-    <div class="drive-section">
-        <h2 style="color: var(--primary-dark); margin-top: 0;">Archivo Histórico</h2>
-        <p>Consulte la documentación completa del año anterior en la pagina de salud en la seccion de Dirección General de Normalización
-:</p>
-        <a href="https://drive.google.com/drive/folders/19J_JO8-XKfcy_FuuTXfP6rnL7VcG5FbK" 
-           target="_blank" 
-           class="btn-drive">
-            <span>📁</span> Documentos 2025
+    <div class="quick-access">
+        <a href="https://drive.google.com/drive/folders/19J_JO8-XKfcy_FuuTXfP6rnL7VcG5FbK" target="_blank" class="access-card">
+            <span>📂</span> Documentos 2025 <small>Histórico Google Drive</small>
         </a>
-
- <a href="https://sshome.salud.gob.hn/index.php/normalizacion#lineamientos" 
-           target="_blank" 
-           class="btn-drive">
-            <span>📁</span> Lineamientos
+        <a href="https://sshome.salud.gob.hn/index.php/normalizacion#lineamientos" target="_blank" class="access-card">
+            <span>📜</span> Lineamientos <small>Normalización SESAL</small>
         </a>
-
-         <a href="https://drive.google.com/drive/u/1/folders/1tpE0i31_TeaZtcF8R1VbPOZ4z0F8ykOI" 
-           target="_blank" 
-           class="btn-drive">
-            <span>📁</span> Protocolos
+        <a href="https://drive.google.com/drive/u/1/folders/1tpE0i31_TeaZtcF8R1VbPOZ4z0F8ykOI" target="_blank" class="access-card">
+            <span>🛡️</span> Protocolos <small>Vigilancia Nacional</small>
         </a>
-
-           <a href="https://sshome.salud.gob.hn/index.php/normalizacion#manual" 
-           target="_blank" 
-           class="btn-drive">
-            <span>📁</span> Manual
+        <a href="https://sshome.salud.gob.hn/index.php/normalizacion#manual" target="_blank" class="access-card">
+            <span>📕</span> Manuales <small>Repositorio Central</small>
         </a>
-
     </div>
 
-    <div class="section-header">
-        <span style="font-size: 1.5rem;">📕</span>
-        <h2>Manuales y Guías Técnicas (PDF)</h2>
+    <div class="section-label">
+        <h2>Manuales y Guías Técnicas</h2>
+        <hr>
     </div>
 
     <div class="resource-grid">
         <div class="file-card card-pdf">
-            <div class="file-icon icon-pdf">📄</div>
-            <div class="file-info">
-                <h3>Norma Nacional Arbovirosis</h3>
-                <p>Protocolos de manejo clínico y vigilancia 2026.</p>
+            <div class="file-content">
+                <div class="file-icon bg-pdf">PDF</div>
+                <div class="file-details">
+                    <h3>Norma Nacional Arbovirosis</h3>
+                    <p>Manejo clínico y vigilancia 2026.</p>
+                </div>
             </div>
-            <a href="MANUAL_ARBOVIROSIS_2026.pdf" download class="download-btn" title="Descargar PDF">📥</a>
+            <a href="MANUAL_ARBOVIROSIS_2026.pdf" download class="download-action">📥</a>
         </div>
 
         <div class="file-card card-pdf">
-            <div class="file-icon icon-pdf">📄</div>
-            <div class="file-info">
-                <h3>Guía Control Vectorial</h3>
-                <p>Manual técnico para aplicaciones de BTI y nebulización.</p>
+            <div class="file-content">
+                <div class="file-icon bg-pdf">PDF</div>
+                <div class="file-details">
+                    <h3>Guía Control Vectorial</h3>
+                    <p>Uso de BTI y nebulización técnica.</p>
+                </div>
             </div>
-            <a href="GUIA_CONTROL_VECTORIAL.pdf" download class="download-btn" title="Descargar PDF">📥</a>
+            <a href="GUIA_CONTROL_VECTORIAL.pdf" download class="download-action">📥</a>
         </div>
 
         <div class="file-card card-pdf">
-            <div class="file-icon icon-pdf">📄</div>
-            <div class="file-info">
-                <h3>Protocolo Vigilancia</h3>
-                <p>Lineamientos para la captación de casos febriles.</p>
+            <div class="file-content">
+                <div class="file-icon bg-pdf">PDF</div>
+                <div class="file-details">
+                    <h3>Protocolo Vigilancia</h3>
+                    <p>Captación y flujo de casos febriles.</p>
+                </div>
             </div>
-            <a href="PROTOCOLO_VIGILANCIA.pdf" download class="download-btn" title="Descargar PDF">📥</a>
+            <a href="PROTOCOLO_VIGILANCIA.pdf" download class="download-action">📥</a>
         </div>
     </div>
 
-    <div class="section-header">
-        <span style="font-size: 1.5rem;">📊</span>
-        <h2>Plantillas y Consolidados (Excel)</h2>
+    <div class="section-label">
+        <h2>Herramientas y Plantillas de Trabajo</h2>
+        <hr>
     </div>
 
     <div class="resource-grid">
         <div class="file-card card-excel">
-            <div class="file-icon icon-excel">📈</div>
-            <div class="file-info">
-                <h3>Plantilla alerta diaria</h3>
-                <p>alerta diaria </p>
+            <div class="file-content">
+                <div class="file-icon bg-excel">XLS</div>
+                <div class="file-details">
+                    <h3>Plantilla Alerta Diaria</h3>
+                    <p>Seguimiento de respuesta inmediata.</p>
+                </div>
             </div>
-            <a href="ALERTA RESPUESTA.xlsx" download class="download-btn" title="Descargar Excel">📥</a>
+            <a href="ALERTA RESPUESTA.xlsx" download class="download-action">📥</a>
         </div>
 
         <div class="file-card card-excel">
-            <div class="file-icon icon-excel">📈</div>
-            <div class="file-info">
-                <h3>Control de Insumos</h3>
-                <p>Inventario de insecticidas y equipo técnico.</p>
+            <div class="file-content">
+                <div class="file-icon bg-excel">XLS</div>
+                <div class="file-details">
+                    <h3>Control de Insumos</h3>
+                    <p>Inventario de insecticidas y equipos.</p>
+                </div>
             </div>
-            <a href="CONTROL_INSUMOS.xlsx" download class="download-btn" title="Descargar Excel">📥</a>
+            <a href="CONTROL_INSUMOS.xlsx" download class="download-action">📥</a>
         </div>
 
         <div class="file-card card-excel">
-            <div class="file-icon icon-excel">📈</div>
-            <div class="file-info">
-                <h3>Programación Sectorial</h3>
-                <p>Cronograma de intervenciones por colonias.</p>
+            <div class="file-content">
+                <div class="file-icon bg-excel">XLS</div>
+                <div class="file-details">
+                    <h3>Programación Sectorial</h3>
+                    <p>Cronograma de intervenciones locales.</p>
+                </div>
             </div>
-            <a href="PROGRAMACION_CAMPANA.xlsx" download class="download-btn" title="Descargar Excel">📥</a>
+            <a href="PROGRAMACION_CAMPANA.xlsx" download class="download-btn" class="download-action" style="text-decoration: none; color: inherit; background: #f8f9fa; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #edf2f7;">📥</a>
         </div>
     </div>
 
@@ -284,8 +309,8 @@
 
 <footer>
     <strong>Secretaría de Salud | Gobierno de la República de Honduras</strong><br>
-    Unidad de Vigilancia de la Salud - Región Sanitaria Metropolitana del Distrito Central<br>
-    Distrito Central, Tegucigalpa, M.D.C. | © 2026
+    Unidad de Vigilancia de la Salud - RSMDC<br>
+    Tegucigalpa, M.D.C. | © 2026
 </footer>
 
 </body>
