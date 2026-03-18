@@ -71,7 +71,6 @@
             text-transform: uppercase;
         }
 
-        /* Botones específicos en Nav */
         nav a.btn-nav-sala { border: 1px solid #00f2ff; color: #00f2ff; }
         nav a.btn-nav-arbo { border: 1px solid var(--accent); color: var(--accent); }
 
@@ -126,12 +125,11 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* Estilos por categoría */
         .card-sala { border-bottom-color: #00f2ff; }
         .card-arbo { border-bottom-color: var(--danger); }
         .card-boletin { border-bottom-color: var(--primary); }
 
-        .card-access i { font-size: 3.5rem; display: block; margin-bottom: 15px; }
+        .card-access i { font-size: 3.5rem; display: block; margin-bottom: 15px; font-style: normal; }
         .card-access h3 { margin: 10px 0; font-size: 1.5rem; }
         .card-access p { margin: 0; color: #666; font-size: 0.95rem; }
 
@@ -208,7 +206,7 @@
         <p>Monitoreo Estratégico de Eventos de Salud Pública en Tiempo Real.</p>
         <button onclick="irASala()" class="btn-modal">INGRESAR AL SISTEMA</button>
         <p onclick="cerrarModal()" style="margin-top: 20px; cursor: pointer; color: #888; text-decoration: underline;">
-            Ver boletines semanales
+            INICIO
         </p>
     </div>
 </div>
@@ -273,7 +271,8 @@
 </footer>
 
 <script>
-    const totalSemanas = 10;
+    // Configuración: Define hasta qué semana quieres que se muestre la tabla
+    const totalSemanas = 10; 
     const tabla = document.getElementById('tablaCuerpo');
 
     function generarTabla() {
@@ -284,13 +283,14 @@
             const badgeText = esActual ? 'En Curso' : 'Finalizado';
             const semanaFormat = i < 10 ? `0${i}` : i;
 
+            // EL ENLACE BUSCA EL ARCHIVO EN LA MISMA CARPETA RAIZ
             tr.innerHTML = `
                 <td data-label="Semana"><strong>Semana Epi. ${semanaFormat}</strong></td>
                 <td data-label="Estado">
                     <span class="status-badge ${badgeClass}">${badgeText}</span>
                 </td>
                 <td data-label="Descarga">
-                    <a href="boletines/boletin_s${i}.pdf" class="download-btn" target="_blank">📄 Abrir Reporte</a>
+                    <a href="boletin_${i}.pdf" class="download-btn" target="_blank">📄 Abrir Reporte</a>
                 </td>
             `;
             tabla.appendChild(tr);
@@ -298,8 +298,7 @@
     }
 
     function cerrarModal() {
-        const modal = document.getElementById("modalSala");
-        modal.style.display = "none";
+        document.getElementById("modalSala").style.display = "none";
     }
 
     function irASala() {
