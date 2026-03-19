@@ -9,7 +9,7 @@
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
 
         :root {
-            --primary: #ff4a4a; /* Rojo por Alerta de Diarreas */
+            --primary: #ff4a4a; 
             --bg-deep: #0a0e14;
             --card-bg: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 74, 74, 0.3);
@@ -87,7 +87,6 @@
             margin: 0 auto;
         }
 
-        /* --- CONTENEDOR DE VIDEO OPTIMIZADO --- */
         .video-container {
             width: 100%;
             background: #000;
@@ -96,7 +95,7 @@
             border: 1px solid var(--border);
             position: relative;
             aspect-ratio: 16 / 9;
-            max-height: 65vh; /* Evita que el video ocupe toda la pantalla en vertical */
+            max-height: 65vh;
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
             display: flex;
             justify-content: center;
@@ -106,7 +105,7 @@
         video { 
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Asegura que se vea todo el contenido del boletín */
+            object-fit: contain;
             background-color: #000;
         }
 
@@ -125,7 +124,6 @@
             100% { top: 100%; }
         }
 
-        /* --- GRILLA DE INFORMACIÓN --- */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -195,7 +193,6 @@
 
         .btn-action:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
-        /* --- RESPONSIVIDAD PARA ESCRITORIO --- */
         @media (min-width: 992px) {
             .main-layout { 
                 grid-template-columns: 1fr 400px; 
@@ -240,32 +237,33 @@
                     <div class="card-value live-tag">
                         <div class="dot"></div> SE-10 (MARZO 2026)
                     </div>
-                    <div style="font-size: 0.65rem; color: #8898aa; margin-top:5px">Vigilancia: 42 Eventos ENO</div>
+                    <div style="font-size: 0.65rem; color: #8898aa; margin-top:5px">Vigilancia: 42 Eventos ENO [cite: 63]</div>
                 </div>
 
                 <div class="card" style="border-left: 4px solid var(--accent-red);">
                     <div class="card-label">Alerta Epidemiológica</div>
                     <div class="card-value" style="color: var(--accent-red);">DIARREAS: 1,535 CASOS</div>
-                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:4px">ZONA DE EPIDEMIA | Acum: 11,579</div>
+                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:4px">ZONA DE EPIDEMIA | Acum: 11,579 [cite: 117]</div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Arbovirosis (Dengue)</div>
-                    <div class="card-value">37 CASOS (SEM)</div>
-                    <div style="font-size: 0.7rem; color: var(--accent-green); margin-top:4px">ZONA DE ÉXITO | Acumulado: 443</div>
+                    <div class="card-value">37 CASOS (SEM) [cite: 110]</div>
+                    <div style="font-size: 0.7rem; color: var(--accent-green); margin-top:4px">ZONA DE ÉXITO | Acumulado: 443 [cite: 110]</div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Infecciones Respiratorias</div>
-                    <div class="card-value">NEUMONÍAS: 83</div>
-                    <div style="font-size: 0.7rem; color: var(--accent-yellow); margin-top:4px">ZONA DE SEGURIDAD | Acum: 632</div>
+                    <div class="card-value">NEUMONÍAS: 83 [cite: 126]</div>
+                    <div style="font-size: 0.7rem; color: var(--accent-yellow); margin-top:4px">ZONA DE SEGURIDAD | Acum: 632 [cite: 33]</div>
                 </div>
 
                 <div class="card" style="background: rgba(0, 242, 255, 0.05);">
                     <div class="card-label">Responsable Técnico</div>
-                    <div class="card-value" style="font-size: 0.9rem;">LIC. ANA VALLE</div>
+                    <div class="card-value" style="font-size: 0.9rem;">LIC. ANA VALLE </div>
                     <div class="card-label" style="margin-top:10px">Jefatura UVS</div>
                     <div class="card-value" style="font-size: 0.9rem;">MSc. JACKELINE BURGOS</div>
+                     <div class="card-label" style="margin-top:10px">Desarrolador: David Godoy</div>
                 </div>
             </div>
 
@@ -274,13 +272,11 @@
     </div>
 
     <script>
-        // Actualizar Reloj
         function updateDisplay() {
             const now = new Date();
             document.getElementById('clock').textContent = now.toLocaleTimeString('es-HN', { hour12: false });
         }
 
-        // Manejo de reproducción automática (Browsers Policies)
         const video = document.getElementById('v');
         window.addEventListener('click', () => {
             if (video.paused) video.play();
