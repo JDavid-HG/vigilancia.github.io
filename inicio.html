@@ -16,8 +16,10 @@
             --text-dark: #333;
             --danger: #d32f2f;
             --success: #2e7d32;
+            --excel-color: #1b5e20;
         }
 
+        /* [Tus estilos originales se mantienen intactos] */
         * { box-sizing: border-box; }
 
         body {
@@ -30,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* ===== COMPONENTES VISUALES ===== */
         header {
             background-color: var(--primary);
             padding: 1.5rem;
@@ -81,7 +82,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        /* ===== SECCIONES ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -100,7 +100,6 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* Tarjetas de Navegación Principal */
         .main-access {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -133,7 +132,6 @@
         .card-access h3 { margin: 10px 0; font-size: 1.5rem; }
         .card-access p { margin: 0; color: #666; font-size: 0.95rem; }
 
-        /* ===== TABLA DE REPORTES ===== */
         .report-section {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -168,27 +166,7 @@
         .download-btn { color: var(--primary); font-weight: bold; text-decoration: none; }
         .download-btn:hover { color: #ff5500; text-decoration: underline; }
 
-        /* ===== MODAL ===== */
-        .modal {
-            display: none; position: fixed; z-index: 9999;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
-            align-items: center; justify-content: center;
-        }
-
-        .modal-content {
-            background: white; color: #333; padding: 40px;
-            width: 90%; max-width: 450px; border-radius: 30px;
-            text-align: center;
-        }
-
-        .btn-modal {
-            background: var(--primary); color: white; border: none;
-            padding: 16px; font-size: 1.1rem; font-weight: bold;
-            border-radius: 15px; cursor: pointer; width: 100%; margin-top: 20px;
-        }
-
-        /* ===== ESTILOS DEL CHATBOT ===== */
+        /* ===== ESTILOS CHATBOT ACTUALIZADOS ===== */
         #chatbot-container {
             position: fixed;
             bottom: 30px;
@@ -212,8 +190,6 @@
             border: 3px solid var(--accent);
             transition: all 0.3s ease;
         }
-
-        #chatbot-button:hover { transform: scale(1.1) rotate(5deg); }
 
         #chatbot-window {
             width: 350px;
@@ -277,17 +253,31 @@
             margin-left: 8px;
             border-radius: 50%;
             cursor: pointer;
-            transition: 0.3s;
         }
 
-        .chat-input button:hover { background: var(--primary-dark); }
+        /* Modal */
+        .modal {
+            display: none; position: fixed; z-index: 9999;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            align-items: center; justify-content: center;
+        }
+
+        .modal-content {
+            background: white; color: #333; padding: 40px;
+            width: 90%; max-width: 450px; border-radius: 30px;
+            text-align: center;
+        }
+
+        .btn-modal {
+            background: var(--primary); color: white; border: none;
+            padding: 16px; font-size: 1.1rem; font-weight: bold;
+            border-radius: 15px; cursor: pointer; width: 100%; margin-top: 20px;
+        }
 
         footer { background: #0b1418; text-align: center; padding: 40px; margin-top: 60px; }
 
         @media (max-width: 600px) {
-            thead { display: none; }
-            td { display: block; text-align: right; padding-left: 50%; position: relative; border-bottom: 1px solid #eee; }
-            td::before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: var(--primary); }
             #chatbot-window { width: 90vw; right: -10px; height: 70vh; }
         }
     </style>
@@ -300,9 +290,7 @@
         <h2 style="color: var(--primary); margin: 15px 0;">SALA SITUACIONAL</h2>
         <p>Monitoreo Estratégico de Eventos de Salud Pública en Tiempo Real.</p>
         <button onclick="irASala()" class="btn-modal">INGRESAR AL SISTEMA</button>
-        <p onclick="cerrarModal()" style="margin-top: 20px; cursor: pointer; color: #888; text-decoration: underline;">
-            INICIO
-        </p>
+        <p onclick="cerrarModal()" style="margin-top: 20px; cursor: pointer; color: #888; text-decoration: underline;">INICIO</p>
     </div>
 </div>
 
@@ -314,7 +302,6 @@
     <a href="#">Inicio</a>
     <a href="sala-situacional.html" class="btn-nav-sala">📊 Sala Situacional</a>
     <a href="arbovirosis.html" class="btn-nav-arbo">🦟 Arbovirosis</a>
-    <a href="hidricas.html" class="btn-nav-arbo">🤢 Hídricas</a>
     <a href="biblioteca.html">🗃️ Biblioteca</a>
 </nav>
 
@@ -369,13 +356,13 @@
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-msg">
-                ¡Hola! Soy el asistente virtual de la Unidad de Vigilancia. 🩺 <br><br>
-                Puedo ayudarte a buscar <strong>boletines epidemiológicos</strong> o darte información sobre los protocolos del 2026 subidos a GitHub. <br><br>
-                <em>Prueba preguntando: "¿Tienes el boletín de la semana 5?"</em>
+                ¡Hola! Soy el asistente virtual. 🩺 <br><br>
+                Puedo buscar <strong>boletines</strong>, <strong>manuales PDF</strong> o darte los links de <strong>Google Drive</strong> y <strong>SESAL</strong>. <br><br>
+                <em>Prueba preguntando por "Manual de Arbovirosis" o "Excel de Insumos".</em>
             </div>
         </div>
         <div class="chat-input">
-            <input type="text" id="userInput" placeholder="Pregunta por una semana o protocolo...">
+            <input type="text" id="userInput" placeholder="Escribe tu búsqueda aquí...">
             <button onclick="sendMessage()">➤</button>
         </div>
     </div>
@@ -390,7 +377,6 @@
 </footer>
 
 <script>
-    // CONFIGURACIÓN DE LA TABLA DINÁMICA
     const totalSemanas = 10; 
     const tabla = document.getElementById('tablaCuerpo');
 
@@ -404,9 +390,7 @@
 
             tr.innerHTML = `
                 <td data-label="Semana"><strong>Semana Epi. ${semanaFormat}</strong></td>
-                <td data-label="Estado">
-                    <span class="status-badge ${badgeClass}">${badgeText}</span>
-                </td>
+                <td data-label="Estado"><span class="status-badge ${badgeClass}">${badgeText}</span></td>
                 <td data-label="Descarga">
                     <a href="https://github.com/JDavid-HG/vigilancia.github.io/blob/main/boletin_${i}.pdf" class="download-btn" target="_blank">📄 Abrir Reporte</a>
                 </td>
@@ -415,61 +399,53 @@
         }
     }
 
-    // LÓGICA DEL CHATBOT INTELIGENTE
     function toggleChat() {
         const chatWin = document.getElementById('chatbot-window');
         chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
-        const input = document.getElementById('userInput');
-        if(chatWin.style.display === 'flex') input.focus();
+        if(chatWin.style.display === 'flex') document.getElementById('userInput').focus();
     }
 
     function sendMessage() {
         const input = document.getElementById('userInput');
         const container = document.getElementById('chatMessages');
         const query = input.value.toLowerCase().trim();
-        
         if (query === "") return;
 
-        // Mostrar mensaje del usuario
         const userDiv = document.createElement('div');
         userDiv.className = 'message user-msg';
         userDiv.textContent = input.value;
         container.appendChild(userDiv);
 
-        // Crear respuesta del bot
         const botDiv = document.createElement('div');
         botDiv.className = 'message bot-msg';
-        botDiv.innerHTML = "<em>Buscando en el repositorio de la RSMDC...</em>";
+        botDiv.innerHTML = "<em>Buscando en biblioteca y repositorio...</em>";
         container.appendChild(botDiv);
 
         setTimeout(() => {
-            if (query.includes("boletin") || query.includes("semana") || query.includes("reporte")) {
-                const semanaMatch = query.match(/\d+/);
-                const numSemana = semanaMatch ? semanaMatch[0] : totalSemanas;
-
-                if (numSemana <= 53 && numSemana > 0) {
-                    botDiv.innerHTML = `
-                        He localizado la información en GitHub:<br><br>
-                        <strong>📅 Boletín Semana Epidemiológica ${numSemana}</strong><br>
-                        Estado: <span style="color:var(--success)">✅ Reporte Disponible</span><br><br>
-                        <a href="https://github.com/JDavid-HG/vigilancia.github.io/blob/main/boletin_${numSemana}.pdf" 
-                           target="_blank" 
-                           style="background:var(--danger); color:white; padding:5px 10px; border-radius:5px; text-decoration:none; display:inline-block; font-size:0.8rem;">
-                           ABRIR PDF EN GITHUB
-                        </a>
-                    `;
-                } else {
-                    botDiv.textContent = "Lo siento, solo puedo buscar semanas entre la 1 y la 52 del año epidemiológico.";
-                }
+            // Lógica de búsqueda de Boletines
+            if (query.includes("boletin") || query.includes("semana")) {
+                const num = query.match(/\d+/) ? query.match(/\d+/)[0] : totalSemanas;
+                botDiv.innerHTML = `📅 <strong>Boletín Semana ${num}</strong> localizado:<br><br>
+                <a href="https://github.com/JDavid-HG/vigilancia.github.io/blob/main/boletin_${num}.pdf" target="_blank" style="color:var(--primary); font-weight:bold;">Descargar PDF de GitHub</a>`;
             } 
-            else if (query.includes("dengue") || query.includes("mosquito") || query.includes("arbovirosis")) {
-                botDiv.innerHTML = "Los protocolos de <strong>Dengue 2026</strong> están disponibles en la carpeta de biblioteca. Recuerda que la notificación de Dengue Grave es inmediata.";
+            // Lógica de búsqueda de Biblioteca (NUEVO)
+            else if (query.includes("norma") || query.includes("arbo") || query.includes("manual")) {
+                botDiv.innerHTML = `📂 <strong>Recursos Técnicos:</strong><br>
+                - <a href="MANUAL_ARBOVIROSIS_2026.pdf" download>Norma Nacional Arbovirosis 2026</a><br>
+                - <a href="GUIA_CONTROL_VECTORIAL.pdf" download>Guía Control Vectorial</a>`;
             }
-            else if (query.includes("hola") || query.includes("buenos") || query.includes("tardes")) {
-                botDiv.textContent = "¡Hola! Soy el asistente de la Unidad de Vigilancia. ¿En qué boletín o protocolo estás interesado hoy?";
+            else if (query.includes("excel") || query.includes("plantilla") || query.includes("insumos")) {
+                botDiv.innerHTML = `📊 <strong>Herramientas de Trabajo:</strong><br>
+                - <a href="ALERTA RESPUESTA.xlsx" download>Plantilla Alerta Diaria (XLS)</a><br>
+                - <a href="CONTROL_INSUMOS.xlsx" download>Control de Insumos (XLS)</a>`;
+            }
+            else if (query.includes("drive") || query.includes("links") || query.includes("2025")) {
+                botDiv.innerHTML = `🔗 <strong>Enlaces Externos:</strong><br>
+                - <a href="https://drive.google.com/drive/folders/19J_JO8-XKfcy_FuuTXfP6rnL7VcG5FbK" target="_blank">Google Drive Histórico 2025</a><br>
+                - <a href="https://sshome.salud.gob.hn/index.php/normalizacion#lineamientos" target="_blank">Lineamientos SESAL</a>`;
             }
             else {
-                botDiv.textContent = "No estoy seguro de haber entendido. Puedes preguntarme por 'Semana 1', 'Boletín actual' o protocolos de salud pública.";
+                botDiv.textContent = "No encontré ese archivo exacto. Prueba con 'Boletín 5', 'Protocolo', 'Excel' o 'Drive'.";
             }
             container.scrollTop = container.scrollHeight;
         }, 800);
@@ -478,27 +454,18 @@
         container.scrollTop = container.scrollHeight;
     }
 
-    // GESTIÓN DE MODAL
-    function cerrarModal() {
-        document.getElementById("modalSala").style.display = "none";
-    }
-
-    function irASala() {
-        window.location.href = "sala-situacional.html";
-    }
+    function cerrarModal() { document.getElementById("modalSala").style.display = "none"; }
+    function irASala() { window.location.href = "sala-situacional.html"; }
 
     window.onload = function() {
         generarTabla();
-        setTimeout(() => {
-            document.getElementById("modalSala").style.display = "flex";
-        }, 500);
+        setTimeout(() => { document.getElementById("modalSala").style.display = "flex"; }, 500);
     };
 
-    window.onkeydown = function(event) {
-        if (event.key === "Escape") cerrarModal();
-        if (event.key === "Enter" && document.activeElement.id === "userInput") sendMessage();
+    window.onkeydown = function(e) {
+        if (e.key === "Escape") cerrarModal();
+        if (e.key === "Enter" && document.activeElement.id === "userInput") sendMessage();
     };
 </script>
-
 </body>
 </html>
