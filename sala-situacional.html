@@ -9,19 +9,14 @@
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
 
         :root {
-            --primary: #00f2ff; 
+            --primary: #ff4a4a; /* Rojo por Alerta de Diarreas */
             --bg-deep: #0a0e14;
             --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(0, 242, 255, 0.2);
+            --border: rgba(255, 74, 74, 0.3);
+            --accent-blue: #00f2ff;
             --accent-red: #ff4a4a;
             --accent-yellow: #facc15;
             --accent-green: #00ff88;
-        }
-
-        /* Estado de Alerta por Brote de Diarreas (Se mantiene Alerta Roja) */
-        body.alert-high { 
-            --primary: #ff4a4a; 
-            --border: rgba(255, 74, 74, 0.3); 
         }
 
         * { box-sizing: border-box; transition: all 0.3s ease; }
@@ -51,14 +46,14 @@
         .logo-text {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--primary);
-            text-shadow: 0 0 10px var(--border);
+            text-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
         }
 
         .header-stats {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             align-items: center;
             font-family: 'JetBrains Mono', monospace;
         }
@@ -77,22 +72,22 @@
         }
 
         .stat-value {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
         }
 
-        #visit-count { color: var(--primary); }
         #clock { color: #fff; }
 
         .main-layout {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
-            padding: 20px;
+            padding: 15px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
+        /* --- CONTENEDOR DE VIDEO OPTIMIZADO --- */
         .video-container {
             width: 100%;
             background: #000;
@@ -101,10 +96,18 @@
             border: 1px solid var(--border);
             position: relative;
             aspect-ratio: 16 / 9;
+            max-height: 65vh; /* Evita que el video ocupe toda la pantalla en vertical */
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        video { 
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Asegura que se vea todo el contenido del boletín */
+            background-color: #000;
         }
 
         .video-container::after {
@@ -112,10 +115,9 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 2px;
             background: var(--primary);
-            opacity: 0.4;
+            opacity: 0.3;
             animation: scan 4s linear infinite;
             pointer-events: none;
-            z-index: 10;
         }
 
         @keyframes scan {
@@ -123,46 +125,29 @@
             100% { top: 100%; }
         }
 
-        video { 
-            height: 100%; 
-            width: auto; 
-            object-fit: contain;
-        }
-
-        .trend-chart {
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 40px;
-            margin-top: 10px;
-        }
-        .bar { 
-            flex: 1; 
-            background: var(--border); 
-            border-radius: 2px;
-        }
-        .bar.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
-
+        /* --- GRILLA DE INFORMACIÓN --- */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 20px;
+            padding: 18px;
             border-radius: 12px;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .card-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #8898aa;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 8px;
+            letter-spacing: 1.2px;
+            margin-bottom: 6px;
         }
 
         .card-value {
@@ -172,16 +157,16 @@
         }
 
         .live-tag {
-            color: var(--primary);
+            color: var(--accent-blue);
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
 
         .dot {
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
@@ -195,34 +180,41 @@
         .btn-action {
             display: block;
             width: 100%;
-            padding: 20px;
-            background: var(--primary);
-            color: #000;
+            padding: 18px;
+            background: var(--accent-red);
+            color: #fff;
             text-align: center;
             text-decoration: none;
             border-radius: 12px;
             font-weight: 800;
-            margin-top: 20px;
+            margin-top: 10px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-size: 0.9rem;
         }
 
         .btn-action:hover { filter: brightness(1.2); transform: translateY(-2px); }
 
+        /* --- RESPONSIVIDAD PARA ESCRITORIO --- */
         @media (min-width: 992px) {
-            .main-layout { grid-template-columns: 1fr 380px; padding: 40px; }
-            .info-side { display: flex; flex-direction: column; gap: 20px; }
+            .main-layout { 
+                grid-template-columns: 1fr 400px; 
+                padding: 30px; 
+                gap: 30px;
+            }
+            .info-side { display: flex; flex-direction: column; gap: 15px; }
+            .logo-text { font-size: 1.1rem; }
         }
     </style>
 </head>
-<body class="alert-high"> 
+<body> 
     <header>
         <div class="logo-text">UVS SITUATIONAL ROOM | DISTRITO CENTRAL</div>
         
         <div class="header-stats">
             <div class="stat-group">
-                <span class="stat-label">Accesos Globales</span>
-                <span class="stat-value" id="visit-count">000000</span>
+                <span class="stat-label">Notificación</span>
+                <span class="stat-value" style="color: var(--accent-green);">99% OPORTUNA</span>
             </div>
             <div class="stat-group">
                 <span class="stat-label">Hora Local</span>
@@ -234,50 +226,46 @@
     <div class="main-layout">
         
         <div class="video-container">
-            <video id="v" autoplay muted loop playsinline controls>
+            <video id="v" autoplay muted loop playsinline controls preload="auto">
                 <source src="boletin_s10.mp4" type="video/mp4">
+                Tu navegador no soporta video.
             </video>
         </div>
 
         <div class="info-side">
             <div class="info-grid">
                 
-                <div class="card">
-                    <div class="card-label">Estado Epidemiológico</div>
+                <div class="card" style="border-color: var(--accent-blue);">
+                    <div class="card-label">Semana Epidemiológica</div>
                     <div class="card-value live-tag">
                         <div class="dot"></div> SE-10 (MARZO 2026)
                     </div>
-                    <div class="trend-chart">
-                        <div class="bar" style="height: 55%"></div>
-                        <div class="bar" style="height: 70%"></div>
-                        <div class="bar" style="height: 95%"></div>
-                        <div class="bar active" style="height: 92%"></div>
-                        <div class="bar" style="height: 10%"></div>
-                    </div>
+                    <div style="font-size: 0.65rem; color: #8898aa; margin-top:5px">Vigilancia: 42 Eventos ENO</div>
                 </div>
 
-                <div class="card">
-                    <div class="card-label">Brote Detectado</div>
+                <div class="card" style="border-left: 4px solid var(--accent-red);">
+                    <div class="card-label">Alerta Epidemiológica</div>
                     <div class="card-value" style="color: var(--accent-red);">DIARREAS: 1,535 CASOS</div>
-                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:5px">Zona de Epidemia | Acum: 11,579</div>
+                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:4px">ZONA DE EPIDEMIA | Acum: 11,579</div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Arbovirosis (Dengue)</div>
                     <div class="card-value">37 CASOS (SEM)</div>
-                    <div style="font-size: 0.7rem; color: var(--accent-green); margin-top:5px">Acumulado: 443 | Zona de Éxito</div>
+                    <div style="font-size: 0.7rem; color: var(--accent-green); margin-top:4px">ZONA DE ÉXITO | Acumulado: 443</div>
                 </div>
 
                 <div class="card">
-                    <div class="card-label">Oficial Responsable</div>
-                    <div class="card-value">LIC. ANA VALLE</div>
-                    <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">Técnico UVS-RSMDC</div>
+                    <div class="card-label">Infecciones Respiratorias</div>
+                    <div class="card-value">NEUMONÍAS: 83</div>
+                    <div style="font-size: 0.7rem; color: var(--accent-yellow); margin-top:4px">ZONA DE SEGURIDAD | Acum: 632</div>
                 </div>
 
-                <div class="card">
-                    <div class="card-label">JEFATURA UVS </div>
-                    <div class="card-value"> MASTER JACKELINE BURGOS</div>
-                    <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">DESARROLLADOR:DAVID GODOY</div>
+                <div class="card" style="background: rgba(0, 242, 255, 0.05);">
+                    <div class="card-label">Responsable Técnico</div>
+                    <div class="card-value" style="font-size: 0.9rem;">LIC. ANA VALLE</div>
+                    <div class="card-label" style="margin-top:10px">Jefatura UVS</div>
+                    <div class="card-value" style="font-size: 0.9rem;">MSc. JACKELINE BURGOS</div>
                 </div>
             </div>
 
@@ -286,27 +274,13 @@
     </div>
 
     <script>
+        // Actualizar Reloj
         function updateDisplay() {
             const now = new Date();
-            const locale = 'es-HN';
-            document.getElementById('clock').textContent = now.toLocaleTimeString(locale, { hour12: false });
+            document.getElementById('clock').textContent = now.toLocaleTimeString('es-HN', { hour12: false });
         }
 
-        async function initGlobalCounter() {
-            const counterDisplay = document.getElementById('visit-count');
-            try {
-                // Se recomienda actualizar el namespace de la API para la nueva semana si es necesario
-                const response = await fetch('https://api.countapi.xyz/hit/uvs_hn_dc_se10/visits');
-                const data = await response.json();
-                if(data.value) {
-                    counterDisplay.textContent = data.value.toString().padStart(6, '0');
-                }
-            } catch (error) {
-                console.log("Error de conexión API");
-                counterDisplay.textContent = "000842"; // Valor simulado de ejemplo
-            }
-        }
-
+        // Manejo de reproducción automática (Browsers Policies)
         const video = document.getElementById('v');
         window.addEventListener('click', () => {
             if (video.paused) video.play();
@@ -314,7 +288,6 @@
 
         setInterval(updateDisplay, 1000);
         updateDisplay();
-        initGlobalCounter();
     </script>
 </body>
 </html>
