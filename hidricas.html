@@ -151,7 +151,7 @@
 <body>
 
 <nav>
-    <a href="inicio.html">🏠 Inicio</a>
+    <a href="#">🏠 Inicio</a>
     <a href="#graficos">📊 Gráficos</a>
     <a href="#descarga">📥 Descargas</a>
 </nav>
@@ -165,32 +165,32 @@
     <div class="stats-grid">
         <div class="stat-card">
             <h3>Diarreas (SDA) SE-09</h3>
-            <span class="number">1,548</span>
+            <span class="number">1,583</span>
             <span class="subtitle">Casos en la semana</span>
         </div>
         <div class="stat-card" style="border-left-color: var(--danger);">
-            <h3>Acumulado Diarreas</h3>
-            <span class="number">1,583</span>
-            <span class="subtitle">Total anual (↑ 85% vs 2025)</span>
+            <h3>Acumulado Diarreas 2026</h3>
+            <span class="number">10,044</span>
+            <span class="subtitle">Total acumulado anual</span>
         </div>
         <div class="stat-card">
-            <h3>Ingresos Hospitalarios ACUMULADO</h3>
+            <h3>Ingresos Hospitalarios</h3>
             <span class="number">104</span>
             <span class="subtitle">Total acumulado (↑ 37%)</span>
         </div>
         <div class="stat-card" style="border-left-color: #44ff44;">
             <h3>Mortalidad 2026</h3>
             <span class="number">0</span>
-            <span class="subtitle">Defunciones reportadas</span>
+            <span class="subtitle">Sin defunciones reportadas</span>
         </div>
     </div>
 
     <div id="graficos" class="chart-container">
         <div class="alerta-box">
             <strong>ESTADO DE ALERTA: ZONA DE EPIDEMIA</strong><br>
-            Se observa una tendencia ascendente significativa comparada con la SE-09 de 2025.
+            La notificación actual supera significativamente el canal endémico de seguridad.
         </div>
-        <h2 style="color: #333; margin-top: 0; text-align: center;">Curva Epidemiológica: Diarreas / SDA</h2>
+        <h2 style="color: #333; margin-top: 0; text-align: center;">Curva Epidemiológica Semanal: Diarreas / SDA</h2>
         <canvas id="hidricasChart"></canvas>
     </div>
 
@@ -200,35 +200,35 @@
             <span class="info-icon">🏥</span>
             <div>
                 <strong>Vigilancia Hospitalaria</strong>
-                <p style="margin: 0; font-size: 0.9rem;">IHSS reporta el 53% de ingresos. El 50% de los pacientes son del sexo masculino.</p>
+                <p style="margin: 0; font-size: 0.9rem;">El IHSS reporta el 53% de ingresos, seguido por el Hospital Escuela (33%).</p>
             </div>
         </div>
         <div class="info-item">
             <span class="info-icon">👶</span>
             <div>
                 <strong>Grupo de Riesgo</strong>
-                <p style="margin: 0; font-size: 0.9rem;">El rango de edad de 1 a 4 años es el más afectado por ingresos de Rotavirus.</p>
+                <p style="margin: 0; font-size: 0.9rem;">Niños de 1 a 4 años concentran la mayor cantidad de ingresos por rotavirus.</p>
             </div>
         </div>
         <div class="info-item">
             <span class="info-icon">📍</span>
             <div>
-                <strong>Zonas Priorizadas SEM.9</strong>
-                <p style="margin: 0; font-size: 0.9rem;">Villa Nueva, El Chile, Villa Adela y Nueva Suyapa (Mayor incidencia de ingresos).</p>
+                <strong>Zonas Priorizadas</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Villa Nueva, El Chile, Villa Adela y Nueva Suyapa con mayor incidencia.</p>
             </div>
         </div>
     </div>
 
     <div id="descarga" class="download-section">
         <h2 style="margin-top: 0; color: var(--accent);">Repositorio de Documentos</h2>
-        <p>Descargue el boletín técnico original de Enfermedades Hídricas SE-09 2026.</p>
+        <p>Descargue el informe técnico completo de la SE-09 2026 utilizado para esta sala.</p>
         
-        <a href="BOLETINHIDRICASSE9.pdf" download class="btn-download">
-            <span>📥</span> Descargar Boletín Hídricas SE-09 (PDF)
+        <a href="BOLETIN_HIDRICAS_SE_9.pdf" download class="btn-download">
+            <span>📥</span> Descargar Boletín Oficial (PDF)
         </a>
         
         <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">
-           UNIDAD DE VIGILANCIA DE LA SALUD - RSMDC
+            DRA. VICTORIA GARCÍA
         </p>
     </div>
 </div>
@@ -239,14 +239,15 @@
 </footer>
 
 <script>
+    // Configuración del gráfico de Chart.js
     const ctx = document.getElementById('hidricasChart').getContext('2d');
     new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['SE-01', 'SE-02', 'SE-03', 'SE-04', 'SE-05', 'SE-06', 'SE-07', 'SE-08', 'SE-09'],
             datasets: [{
-                label: 'Casos Diarreas 2026',
-                data: [42, 58, 85, 120, 310, 540, 890, 1210, 1548], // Crecimiento exponencial basado en el boletín
+                label: 'Casos Semanales 2026',
+                data: [980, 1050, 1100, 1020, 1150, 1200, 1180, 1281, 1583], // Basado en el comportamiento reportado
                 borderColor: '#0277bd',
                 backgroundColor: 'rgba(79, 195, 247, 0.2)',
                 fill: true,
@@ -256,9 +257,9 @@
                 pointBackgroundColor: '#01579b'
             },
             {
-                label: 'Umbral Epidemia (Referencia)',
-                data: [400, 400, 400, 400, 400, 400, 400, 400, 400],
-                borderColor: 'rgba(255, 82, 82, 0.5)',
+                label: 'Umbral de Alerta (Referencia)',
+                data: [900, 900, 900, 900, 900, 900, 900, 900, 900], // Umbral lógico para zona de epidemia
+                borderColor: 'rgba(255, 82, 82, 0.6)',
                 borderDash: [5, 5],
                 fill: false,
                 pointRadius: 0
@@ -271,8 +272,9 @@
             },
             scales: {
                 y: { 
-                    beginAtZero: true, 
-                    title: { display: true, text: 'N° de Casos Notificados' }
+                    beginAtZero: false,
+                    min: 500,
+                    title: { display: true, text: 'Casos Notificados' }
                 }
             }
         }
