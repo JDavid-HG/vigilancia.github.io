@@ -188,12 +188,107 @@
             border-radius: 15px; cursor: pointer; width: 100%; margin-top: 20px;
         }
 
+        /* ===== ESTILOS DEL CHATBOT ===== */
+        #chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        #chatbot-button {
+            width: 65px;
+            height: 65px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        #chatbot-button:hover { transform: scale(1.1) rotate(5deg); }
+
+        #chatbot-window {
+            width: 350px;
+            height: 480px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .chat-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            color: #444;
+            font-size: 0.9rem;
+            background: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message { margin-bottom: 15px; padding: 12px; border-radius: 15px; max-width: 85%; line-height: 1.4; }
+        .bot-msg { background: #ffffff; align-self: flex-start; border: 1px solid #ddd; border-left: 5px solid var(--primary); color: #333; }
+        .user-msg { background: var(--primary); align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
+
+        .chat-input {
+            display: flex;
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 20px;
+            outline: none;
+            padding-left: 15px;
+        }
+
+        .chat-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            margin-left: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .chat-input button:hover { background: var(--primary-dark); }
+
         footer { background: #0b1418; text-align: center; padding: 40px; margin-top: 60px; }
 
         @media (max-width: 600px) {
             thead { display: none; }
             td { display: block; text-align: right; padding-left: 50%; position: relative; border-bottom: 1px solid #eee; }
             td::before { content: attr(data-label); position: absolute; left: 15px; font-weight: bold; color: var(--primary); }
+            #chatbot-window { width: 90vw; right: -10px; height: 70vh; }
         }
     </style>
 </head>
@@ -266,13 +361,36 @@
     </div>
 </div>
 
+<div id="chatbot-container">
+    <div id="chatbot-window">
+        <div class="chat-header">
+            <span>Asistente de Vigilancia RSMDC</span>
+            <span onclick="toggleChat()" style="cursor:pointer; font-size: 1.2rem;">×</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-msg">
+                ¡Hola! Soy el asistente virtual de la Unidad de Vigilancia. 🩺 <br><br>
+                Puedo ayudarte a buscar <strong>boletines epidemiológicos</strong> o darte información sobre los protocolos del 2026 subidos a GitHub. <br><br>
+                <em>Prueba preguntando: "¿Tienes el boletín de la semana 5?"</em>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Pregunta por una semana o protocolo...">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+    <div id="chatbot-button" onclick="toggleChat()">
+        <span style="font-size: 2rem;">💬</span>
+    </div>
+</div>
+
 <footer>
     <p><strong>Región Metropolitana de Salud - Distrito Central</strong></p>
     <p>© 2026 Unidad de Vigilancia Epidemiológica</p>
 </footer>
 
 <script>
-    // Configuración: Define hasta qué semana quieres que se muestre la tabla
+    // CONFIGURACIÓN DE LA TABLA DINÁMICA
     const totalSemanas = 10; 
     const tabla = document.getElementById('tablaCuerpo');
 
@@ -284,20 +402,83 @@
             const badgeText = esActual ? 'En Curso' : 'Finalizado';
             const semanaFormat = i < 10 ? `0${i}` : i;
 
-            // EL ENLACE BUSCA EL ARCHIVO EN LA MISMA CARPETA RAIZ
             tr.innerHTML = `
                 <td data-label="Semana"><strong>Semana Epi. ${semanaFormat}</strong></td>
                 <td data-label="Estado">
                     <span class="status-badge ${badgeClass}">${badgeText}</span>
                 </td>
                 <td data-label="Descarga">
-                    <a href="boletin_${i}.pdf" class="download-btn" target="_blank">📄 Abrir Reporte</a>
+                    <a href="https://github.com/JDavid-HG/vigilancia.github.io/blob/main/boletin_${i}.pdf" class="download-btn" target="_blank">📄 Abrir Reporte</a>
                 </td>
             `;
             tabla.appendChild(tr);
         }
     }
 
+    // LÓGICA DEL CHATBOT INTELIGENTE
+    function toggleChat() {
+        const chatWin = document.getElementById('chatbot-window');
+        chatWin.style.display = (chatWin.style.display === 'flex') ? 'none' : 'flex';
+        const input = document.getElementById('userInput');
+        if(chatWin.style.display === 'flex') input.focus();
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('userInput');
+        const container = document.getElementById('chatMessages');
+        const query = input.value.toLowerCase().trim();
+        
+        if (query === "") return;
+
+        // Mostrar mensaje del usuario
+        const userDiv = document.createElement('div');
+        userDiv.className = 'message user-msg';
+        userDiv.textContent = input.value;
+        container.appendChild(userDiv);
+
+        // Crear respuesta del bot
+        const botDiv = document.createElement('div');
+        botDiv.className = 'message bot-msg';
+        botDiv.innerHTML = "<em>Buscando en el repositorio de la RSMDC...</em>";
+        container.appendChild(botDiv);
+
+        setTimeout(() => {
+            if (query.includes("boletin") || query.includes("semana") || query.includes("reporte")) {
+                const semanaMatch = query.match(/\d+/);
+                const numSemana = semanaMatch ? semanaMatch[0] : totalSemanas;
+
+                if (numSemana <= 53 && numSemana > 0) {
+                    botDiv.innerHTML = `
+                        He localizado la información en GitHub:<br><br>
+                        <strong>📅 Boletín Semana Epidemiológica ${numSemana}</strong><br>
+                        Estado: <span style="color:var(--success)">✅ Reporte Disponible</span><br><br>
+                        <a href="https://github.com/JDavid-HG/vigilancia.github.io/blob/main/boletin_${numSemana}.pdf" 
+                           target="_blank" 
+                           style="background:var(--danger); color:white; padding:5px 10px; border-radius:5px; text-decoration:none; display:inline-block; font-size:0.8rem;">
+                           ABRIR PDF EN GITHUB
+                        </a>
+                    `;
+                } else {
+                    botDiv.textContent = "Lo siento, solo puedo buscar semanas entre la 1 y la 52 del año epidemiológico.";
+                }
+            } 
+            else if (query.includes("dengue") || query.includes("mosquito") || query.includes("arbovirosis")) {
+                botDiv.innerHTML = "Los protocolos de <strong>Dengue 2026</strong> están disponibles en la carpeta de biblioteca. Recuerda que la notificación de Dengue Grave es inmediata.";
+            }
+            else if (query.includes("hola") || query.includes("buenos") || query.includes("tardes")) {
+                botDiv.textContent = "¡Hola! Soy el asistente de la Unidad de Vigilancia. ¿En qué boletín o protocolo estás interesado hoy?";
+            }
+            else {
+                botDiv.textContent = "No estoy seguro de haber entendido. Puedes preguntarme por 'Semana 1', 'Boletín actual' o protocolos de salud pública.";
+            }
+            container.scrollTop = container.scrollHeight;
+        }, 800);
+
+        input.value = "";
+        container.scrollTop = container.scrollHeight;
+    }
+
+    // GESTIÓN DE MODAL
     function cerrarModal() {
         document.getElementById("modalSala").style.display = "none";
     }
@@ -315,6 +496,7 @@
 
     window.onkeydown = function(event) {
         if (event.key === "Escape") cerrarModal();
+        if (event.key === "Enter" && document.activeElement.id === "userInput") sendMessage();
     };
 </script>
 
