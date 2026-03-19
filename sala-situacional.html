@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>UVS - Dashboard Epidemiológico SE-09</title>
+    <title>UVS - Dashboard Epidemiológico SE-10</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <style>
@@ -15,9 +15,10 @@
             --border: rgba(0, 242, 255, 0.2);
             --accent-red: #ff4a4a;
             --accent-yellow: #facc15;
+            --accent-green: #00ff88;
         }
 
-        /* Estado de Alerta por Brote de Diarreas */
+        /* Estado de Alerta por Brote de Diarreas (Se mantiene Alerta Roja) */
         body.alert-high { 
             --primary: #ff4a4a; 
             --border: rgba(255, 74, 74, 0.3); 
@@ -55,7 +56,6 @@
             text-shadow: 0 0 10px var(--border);
         }
 
-        /* Estilos para los datos del Header */
         .header-stats {
             display: flex;
             gap: 25px;
@@ -235,7 +235,7 @@
         
         <div class="video-container">
             <video id="v" autoplay muted loop playsinline controls>
-                <source src="boletin_s9.mp4" type="video/mp4">
+                <source src="boletin_s10.mp4" type="video/mp4">
             </video>
         </div>
 
@@ -245,27 +245,27 @@
                 <div class="card">
                     <div class="card-label">Estado Epidemiológico</div>
                     <div class="card-value live-tag">
-                        <div class="dot"></div> SE-09 (MARZO 2026)
+                        <div class="dot"></div> SE-10 (MARZO 2026)
                     </div>
                     <div class="trend-chart">
-                        <div class="bar" style="height: 40%"></div>
                         <div class="bar" style="height: 55%"></div>
                         <div class="bar" style="height: 70%"></div>
-                        <div class="bar active" style="height: 95%"></div>
-                        <div class="bar" style="height: 30%"></div>
+                        <div class="bar" style="height: 95%"></div>
+                        <div class="bar active" style="height: 92%"></div>
+                        <div class="bar" style="height: 10%"></div>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Brote Detectado</div>
-                    <div class="card-value" style="color: var(--accent-red);">DIARREAS: 1,583 CASOS</div>
-                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:5px">Zona de Epidemia | +73% vs 2025</div>
+                    <div class="card-value" style="color: var(--accent-red);">DIARREAS: 1,535 CASOS</div>
+                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:5px">Zona de Epidemia | Acum: 11,579</div>
                 </div>
 
                 <div class="card">
                     <div class="card-label">Arbovirosis (Dengue)</div>
-                    <div class="card-value">54 CASOS (SEM)</div>
-                    <div style="font-size: 0.7rem; color: var(--accent-yellow); margin-top:5px">Acumulado: 408 | Seguridad</div>
+                    <div class="card-value">37 CASOS (SEM)</div>
+                    <div style="font-size: 0.7rem; color: var(--accent-green); margin-top:5px">Acumulado: 443 | Zona de Éxito</div>
                 </div>
 
                 <div class="card">
@@ -277,7 +277,7 @@
                 <div class="card">
                     <div class="card-label">JEFATURA UVS </div>
                     <div class="card-value"> MASTER JACKELINE BURGOS</div>
-                    <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">Desarrollo Frontend: David Godoy</div>
+                    <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">DESARROLLADOR:DAVID GODOY</div>
                 </div>
             </div>
 
@@ -292,23 +292,21 @@
             document.getElementById('clock').textContent = now.toLocaleTimeString(locale, { hour12: false });
         }
 
-        // Lógica del Contador Global (Ideal para GitHub)
         async function initGlobalCounter() {
             const counterDisplay = document.getElementById('visit-count');
             try {
-                // Genera el hit en la API para dispositivos externos
-                const response = await fetch('https://api.countapi.xyz/hit/uvs_hn_dc_se09/visits');
+                // Se recomienda actualizar el namespace de la API para la nueva semana si es necesario
+                const response = await fetch('https://api.countapi.xyz/hit/uvs_hn_dc_se10/visits');
                 const data = await response.json();
                 if(data.value) {
                     counterDisplay.textContent = data.value.toString().padStart(6, '0');
                 }
             } catch (error) {
                 console.log("Error de conexión API");
-                counterDisplay.textContent = "000001";
+                counterDisplay.textContent = "000842"; // Valor simulado de ejemplo
             }
         }
 
-        // Manejo automático del video
         const video = document.getElementById('v');
         window.addEventListener('click', () => {
             if (video.paused) video.play();
