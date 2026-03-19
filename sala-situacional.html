@@ -55,6 +55,35 @@
             text-shadow: 0 0 10px var(--border);
         }
 
+        /* Estilos para los datos del Header */
+        .header-stats {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .stat-label {
+            font-size: 0.55rem;
+            color: #8898aa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        #visit-count { color: var(--primary); }
+        #clock { color: #fff; }
+
         .main-layout {
             display: grid;
             grid-template-columns: 1fr;
@@ -64,7 +93,6 @@
             margin: 0 auto;
         }
 
-        /* Contenedor de Video Ajustado para el Boletín Vertical */
         .video-container {
             width: 100%;
             background: #000;
@@ -98,10 +126,9 @@
         video { 
             height: 100%; 
             width: auto; 
-            object-fit: contain; /* Muestra el boletín completo sin recortes */
+            object-fit: contain;
         }
 
-        /* Gráfico de Tendencia */
         .trend-chart {
             display: flex;
             align-items: flex-end;
@@ -116,7 +143,6 @@
         }
         .bar.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); }
 
-        /* Tarjetas */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -189,9 +215,20 @@
         }
     </style>
 </head>
-<body class="alert-high"> <header>
+<body class="alert-high"> 
+    <header>
         <div class="logo-text">UVS SITUATIONAL ROOM | DISTRITO CENTRAL</div>
-        <div id="clock" style="font-family: 'JetBrains Mono'; color: #8898aa;">00:00:00</div>
+        
+        <div class="header-stats">
+            <div class="stat-group">
+                <span class="stat-label">Accesos Globales</span>
+                <span class="stat-value" id="visit-count">000000</span>
+            </div>
+            <div class="stat-group">
+                <span class="stat-label">Hora Local</span>
+                <span class="stat-value" id="clock">00:00:00</span>
+            </div>
+        </div>
     </header>
 
     <div class="main-layout">
@@ -237,7 +274,7 @@
                     <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">Técnico UVS-RSMDC</div>
                 </div>
 
-               <div class="card">
+                <div class="card">
                     <div class="card-label">JEFATURA UVS </div>
                     <div class="card-value"> MASTER JAKELINNE BURGOS</div>
                     <div style="font-size: 0.7rem; color: var(--primary); margin-top:5px">Desarrollo Frontend: David Godoy</div>
@@ -252,13 +289,23 @@
         function updateDisplay() {
             const now = new Date();
             const locale = 'es-HN';
-            
-            // Reloj preciso
             document.getElementById('clock').textContent = now.toLocaleTimeString(locale, { hour12: false });
+        }
 
-            // Fecha formateada pro
-            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            document.getElementById('date').textContent = now.toLocaleDateString(locale, options).replace(/\//g, ' . ');
+        // Lógica del Contador Global (Ideal para GitHub)
+        async function initGlobalCounter() {
+            const counterDisplay = document.getElementById('visit-count');
+            try {
+                // Genera el hit en la API para dispositivos externos
+                const response = await fetch('https://api.countapi.xyz/hit/uvs_hn_dc_se09/visits');
+                const data = await response.json();
+                if(data.value) {
+                    counterDisplay.textContent = data.value.toString().padStart(6, '0');
+                }
+            } catch (error) {
+                console.log("Error de conexión API");
+                counterDisplay.textContent = "000001";
+            }
         }
 
         // Manejo automático del video
@@ -269,6 +316,7 @@
 
         setInterval(updateDisplay, 1000);
         updateDisplay();
+        initGlobalCounter();
     </script>
 </body>
 </html>
