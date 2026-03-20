@@ -2,288 +2,290 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>UVS - Dashboard Epidemiológico SE-10</title>
+    <title>UVS - Sala Situacional SE-10 | RSMDC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
 
         :root {
-            --primary: #ff4a4a; 
-            --bg-deep: #0a0e14;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 74, 74, 0.3);
+            --primary-med: #007bff;
+            --bg-deep: #05080a;
+            --panel-bg: #0d1218;
+            --border: rgba(0, 123, 255, 0.25);
             --accent-blue: #00f2ff;
-            --accent-red: #ff4a4a;
-            --accent-yellow: #facc15;
-            --accent-green: #00ff88;
+            --accent-red: #ff3b3b;
+            --accent-yellow: #f1c40f;
+            --accent-green: #2ecc71;
+            --text: #e1e8ed;
         }
 
-        * { box-sizing: border-box; transition: all 0.3s ease; }
+        * { box-sizing: border-box; transition: all 0.2s ease; }
 
         body {
             margin: 0;
             background-color: var(--bg-deep);
-            color: #fff;
+            color: var(--text);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 2px 2px, rgba(0, 123, 255, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
         }
 
+        /* ===== HEADER PRINCIPAL ===== */
         header {
-            padding: 15px 25px;
-            background: rgba(10, 14, 20, 0.9);
-            border-bottom: 2px solid var(--border);
+            padding: 10px 25px;
+            background: rgba(13, 18, 24, 0.95);
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         .logo-text {
-            font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 0.9rem;
-            color: var(--primary);
-            text-shadow: 0 0 10px rgba(255, 74, 74, 0.5);
-        }
-
-        .header-stats {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .stat-group {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .stat-label {
-            font-size: 0.55rem;
-            color: #8898aa;
-            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .stat-value {
-            font-size: 0.9rem;
-            font-weight: 700;
+        /* ===== FRANJA DE SEMANA (NUEVA SECCIÓN SUPERIOR) ===== */
+        .top-info-bar {
+            background: linear-gradient(90deg, #0d1218 0%, #16212e 50%, #0d1218 100%);
+            border-bottom: 2px solid var(--primary-med);
+            padding: 10px 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
-        #clock { color: #fff; }
+        .info-item { display: flex; align-items: center; gap: 10px; }
+        .info-label { font-size: 0.65rem; color: #627d98; text-transform: uppercase; font-weight: 700; }
+        .info-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: #fff; }
 
+        /* ===== LAYOUT PRINCIPAL ===== */
         .main-layout {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
-            padding: 15px;
-            max-width: 1400px;
+            padding: 20px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
-        .video-container {
-            width: 100%;
+        @media (min-width: 1100px) {
+            .main-layout { grid-template-columns: 1fr 380px; gap: 30px; }
+        }
+
+        /* ===== MONITOR DE VIDEO ===== */
+        .monitor-main {
             background: #000;
-            border-radius: 16px;
+            border-radius: 8px;
             overflow: hidden;
             border: 1px solid var(--border);
             position: relative;
-            aspect-ratio: 16 / 9;
-            max-height: 65vh;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            box-shadow: 0 0 30px rgba(0, 123, 255, 0.1);
         }
 
-        video { 
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background-color: #000;
-        }
+        .video-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; }
+        video { width: 100%; height: 100%; object-fit: contain; }
 
-        .video-container::after {
-            content: "";
+        .video-overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--primary);
-            opacity: 0.3;
-            animation: scan 4s linear infinite;
-            pointer-events: none;
+            top: 15px; left: 15px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.7);
+            border-left: 3px solid var(--accent-blue);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            z-index: 10;
         }
 
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-        }
+        /* ===== SIDEBAR ===== */
+        .data-sidebar { display: flex; flex-direction: column; gap: 15px; }
 
         .card {
-            background: var(--card-bg);
+            background: var(--panel-bg);
             border: 1px solid var(--border);
             padding: 18px;
-            border-radius: 12px;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: var(--primary-med); }
+        .card-label { font-size: 0.65rem; color: #627d98; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+        .card-value { font-size: 1.3rem; font-weight: 700; display: block; }
+
+        /* Tarjeta Crítica Mejorada */
+        .card-critical {
+            border: 1px solid var(--accent-red);
+            background: linear-gradient(135deg, #1a0a0a 0%, #0d1218 100%);
+            animation: alert-pulse 3s infinite;
+        }
+        .card-critical::before { background: var(--accent-red); }
+
+        @keyframes alert-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.1); }
+            50% { box-shadow: 0 0 20px 0 rgba(255, 59, 59, 0.3); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.1); }
+        }
+
+        .alert-tag {
+            background: var(--accent-red);
+            color: white;
+            font-size: 0.55rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .alert-epidemia::before { background: var(--accent-red); }
+        .alert-exito::before { background: var(--accent-green); }
+
+        .btn-nav {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card-label {
-            font-size: 0.6rem;
-            color: #8898aa;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: 6px;
-        }
-
-        .card-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .live-tag {
-            color: var(--accent-blue);
-            display: inline-flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-red);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 74, 74, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 74, 74, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 74, 74, 0); }
-        }
-
-        .btn-action {
-            display: block;
+            justify-content: center;
             width: 100%;
-            padding: 18px;
-            background: var(--accent-red);
-            color: #fff;
-            text-align: center;
+            padding: 14px;
+            background: var(--primary-med);
+            color: white;
             text-decoration: none;
-            border-radius: 12px;
-            font-weight: 800;
-            margin-top: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            margin-top: 5px;
         }
 
-        .btn-action:hover { filter: brightness(1.2); transform: translateY(-2px); }
-
-        @media (min-width: 992px) {
-            .main-layout { 
-                grid-template-columns: 1fr 400px; 
-                padding: 30px; 
-                gap: 30px;
-            }
-            .info-side { display: flex; flex-direction: column; gap: 15px; }
-            .logo-text { font-size: 1.1rem; }
+        .footer {
+            grid-column: 1 / -1;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.65rem;
+            color: #486581;
+            border-top: 1px solid var(--border);
+            margin-top: 10px;
         }
     </style>
 </head>
-<body> 
+<body>
+
     <header>
-        <div class="logo-text">UVS SITUATIONAL ROOM | DISTRITO CENTRAL</div>
-        
-        <div class="header-stats">
-            <div class="stat-group">
-                <span class="stat-label">Notificación</span>
-                <span class="stat-value" style="color: var(--accent-green);">99% OPORTUNA</span>
-            </div>
-            <div class="stat-group">
-                <span class="stat-label">Hora Local</span>
-                <span class="stat-value" id="clock">00:00:00</span>
-            </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 1.3rem;">🏥</span>
+            <div class="logo-text">UVS SITUATIONAL ROOM | RSMDC</div>
+        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent-green);">
+            HORA SISTEMA • <span id="clock">00:00:00</span>
         </div>
     </header>
 
+    <div class="top-info-bar">
+        <div class="info-item">
+            <span class="info-label">Semana Epidemiológica:</span>
+            <span class="info-value" style="color: var(--accent-blue);">SE-10</span>
+        </div>
+        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1);"></div>
+        <div class="info-item">
+            <span class="info-label">Periodo:</span>
+            <span class="info-value">08 AL 14 MARZO, 2026</span>
+        </div>
+        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1);"></div>
+        <div class="info-item">
+            <span class="info-label">Vigilancia Activa:</span>
+            <span class="info-value" style="color: var(--accent-yellow);">42 EVENTOS ENO</span>
+        </div>
+    </div>
+
     <div class="main-layout">
         
-        <div class="video-container">
-            <video id="v" autoplay muted loop playsinline controls preload="auto">
-                <source src="boletin_s10.mp4" type="video/mp4">
-                Tu navegador no soporta video.
-            </video>
+        <div class="monitor-main">
+            <div class="video-wrapper">
+                <div class="video-overlay">
+                    FEED_SOURCE: BOLETÍN_SE10_DISTRITO_CENTRAL<br>
+                    NOTIFICACIÓN: 99% OPORTUNA
+                </div>
+                <video id="v" autoplay muted loop playsinline controls>
+                    <source src="boletin_s10.mp4" type="video/mp4">
+                    Tu navegador no soporta video.
+                </video>
+            </div>
         </div>
 
-        <div class="info-side">
-            <div class="info-grid">
-                
-                <div class="card" style="border-color: var(--accent-blue);">
-                    <div class="card-label">Semana Epidemiológica</div>
-                    <div class="card-value live-tag">
-                        <div class="dot"></div> SE-10 (MARZO 2026)
-                    </div>
-                    <div style="font-size: 0.65rem; color: #8898aa; margin-top:5px">Vigilancia: 42 Eventos ENO </div>
+        <div class="data-sidebar">
+            
+            <div class="card card-critical">
+                <div class="alert-tag"></div>
+                <div class="card-label" style="color: var(--accent-red);">Mortalidad Materna</div>
+                <div class="card-value" style="color: #fff; font-size: 1.6rem;">1 FALLECIDOS</div>
+                <div style="font-size: 0.7rem; color: #ff8e8e; margin-top: 5px; font-weight: 600;">
+                    PRIMER CASO ACUMULADO DEL AÑO
                 </div>
-
-                <div class="card" style="border-left: 4px solid var(--accent-red);">
-                    <div class="card-label">Alerta Epidemiológica</div>
-                    <div class="card-value" style="color: var(--accent-red);">DIARREAS: 1,535 CASOS</div>
-                    <div style="font-size: 0.7rem; color: #8898aa; margin-top:4px">ZONA DE EPIDEMIA | Acum: 11,579 </div>
+                <div style="font-size: 0.6rem; color: #627d98; margin-top: 12px; border-top: 1px solid rgba(255,59,59,0.2); padding-top: 8px;">
+                    INVESTIGACIÓN: EN CURSO <br>
+                    TASA ACTUAL: 100% INCREMENTO VS SE-09
                 </div>
+            </div>
 
-                <div class="card">
-                    <div class="card-label">Arbovirosis (Dengue)</div>
-                    <div class="card-value">37 CASOS (SEM) </div>
-                    <div style="font-size: 0.7rem; color: var(--accent-green); margin-top:4px">ZONA DE ÉXITO | Acumulado: 443 </div>
+            <div class="card alert-epidemia">
+                <div class="card-label">Diarreas (Zona Roja)</div>
+                <div class="card-value" style="color: var(--accent-red);">1,535 CASOS</div>
+                <div style="font-size: 0.7rem; color: #829ab1; margin-top: 5px;">
+                    Acumulado: <b>11,579</b> | 89% Hosp.
                 </div>
+            </div>
 
-                <div class="card">
-                    <div class="card-label">Infecciones Respiratorias</div>
-                    <div class="card-value">NEUMONÍAS: 83 </div>
-                    <div style="font-size: 0.7rem; color: var(--accent-yellow); margin-top:4px">ZONA DE SEGURIDAD | Acum: 632 </div>
+            <div class="card alert-exito">
+                <div class="card-label">Dengue (Zona de Éxito)</div>
+                <div class="card-value" style="color: var(--accent-green);">37 CASOS</div>
+                <div style="font-size: 0.7rem; color: #829ab1; margin-top: 5px;">
+                    Controlado | Acumulado: 443
                 </div>
-
-                <div class="card" style="background: rgba(0, 242, 255, 0.05);">
+            </div>
+            <div class="card" style="background: rgba(0, 242, 255, 0.05);">
                     <div class="card-label">Responsable Técnico</div>
                     <div class="card-value" style="font-size: 0.9rem;">LIC. ANA VALLE </div>
                     <div class="card-label" style="margin-top:10px">Jefatura UVS</div>
                     <div class="card-value" style="font-size: 0.9rem;">MSc. JACKELINE BURGOS</div>
                      <div class="card-label" style="margin-top:10px">Desarrolador: David Godoy</div>
                 </div>
-            </div>
 
-            <a href="inicio.html" class="btn-action">Cerrar Sesión / Volver</a>
+            <a href="index.html" class="btn-nav" style="background: transparent; border: 1px solid #334e68; color: #627d98;">
+                ← VOLVER AL MENÚ PRINCIPAL
+            </a>
+        </div>
+
+        <div class="footer">
+            REGIÓN METROPOLITANA DE SALUD | UNIDAD DE VIGILANCIA DE LA SALUD (UVS)<br>
+            <span style="color: #243b53;">ESTACIÓN DE TRABAJO: UVS-DC-01 | LIC. ANA VALLE</span>
         </div>
     </div>
 
     <script>
-        function updateDisplay() {
+        function updateClock() {
             const now = new Date();
             document.getElementById('clock').textContent = now.toLocaleTimeString('es-HN', { hour12: false });
         }
+        setInterval(updateClock, 1000);
+        updateClock();
 
         const video = document.getElementById('v');
-        window.addEventListener('click', () => {
-            if (video.paused) video.play();
-        }, { once: true });
-
-        setInterval(updateDisplay, 1000);
-        updateDisplay();
+        window.addEventListener('click', () => { if (video.paused) video.play(); }, { once: true });
     </script>
 </body>
 </html>
