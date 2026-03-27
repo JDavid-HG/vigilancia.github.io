@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sala de Situación Arbovirosis | SE-09 2026</title>
+    <title>Sala de Situación Arbovirosis | SE-11 2026</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -23,6 +23,7 @@
             line-height: 1.6;
         }
 
+        /* --- NAVEGACIÓN --- */
         nav {
             background: rgba(0,0,0,0.5);
             padding: 15px;
@@ -40,6 +41,13 @@
             font-weight: bold;
             font-size: 0.9rem;
             text-transform: uppercase;
+            display: inline-block;
+            transition: all 0.3s ease; /* Transición suave */
+        }
+
+        nav a:hover {
+            color: var(--accent);
+            transform: scale(1.1); /* Crece un poco al pasar el mouse */
         }
 
         .container {
@@ -59,6 +67,7 @@
 
         .hero-arbo h1 { margin: 0; font-size: 2.5rem; color: var(--accent); }
 
+        /* --- TARJETAS DE ESTADÍSTICAS --- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -72,6 +81,13 @@
             border-radius: 15px;
             text-align: center;
             border-left: 5px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-10px); /* Se eleva */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         .stat-card h3 { margin: 0; font-size: 0.85rem; opacity: 0.8; text-transform: uppercase; }
@@ -86,6 +102,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
+        /* --- SECCIÓN PREVENCIÓN --- */
         .prevencion {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -100,6 +117,11 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .prev-item:hover {
+            transform: scale(1.03); /* Efecto de aumento sutil */
         }
 
         .prev-icon { font-size: 2.5rem; }
@@ -113,25 +135,31 @@
             border: 2px solid var(--accent);
         }
 
+        /* --- BOTÓN DE DESCARGA --- */
         .btn-download {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: #d32f2f;
+            background: var(--primary);
             color: white;
             text-decoration: none;
             padding: 15px 30px;
             border-radius: 10px;
             font-weight: bold;
             font-size: 1.1rem;
-            transition: transform 0.2s, background 0.2s;
             cursor: pointer;
             border: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto elástico */
         }
 
         .btn-download:hover {
-            background: #b71c1c;
-            transform: translateY(-2px);
+            background: var(--primary-dark);
+            transform: translateY(-5px) scale(1.05); /* Sube y crece */
+            box-shadow: 0 8px 15px rgba(211, 47, 47, 0.4);
+        }
+
+        .btn-download:active {
+            transform: translateY(0) scale(0.95); /* Efecto de pulsación al clickear */
         }
 
         footer { text-align: center; padding: 40px; opacity: 0.7; font-size: 0.8rem; }
@@ -148,58 +176,58 @@
 <div class="container">
     <section class="hero-arbo">
         <h1>Sala de Situación Arbovirosis</h1>
-        <p>Región Sanitaria Metropolitana del Distrito Central | <strong>Semana Epidemiológica 9 - 2026</strong></p>
+        <p>Región Sanitaria Metropolitana del Distrito Central | <strong>Semana Epidemiológica 11 - 2026</strong></p>
     </section>
 
     <div class="stats-grid">
         <div class="stat-card">
             <h3>Acumulado Dengue 2026</h3>
-            <span class="number">407</span>
-            <span class="subtitle">Casos Sospechosos</span>
+            <span class="number">481</span>
+            <span class="subtitle">Casos Sospechosos (SE 1-11)</span>
         </div>
         <div class="stat-card" style="border-left-color: #ff4444;">
-            <h3>Dengue Grave (SE-09)</h3>
+            <h3>Dengue Grave (SE-11)</h3>
             <span class="number">0</span>
             <span class="subtitle">Acumulado anual: 1 caso</span>
         </div>
         <div class="stat-card">
             <h3>Índice Positividad</h3>
             <span class="number">15%</span>
-            <span class="subtitle">Vigilancia Entomológica</span>
+            <span class="subtitle">Vigilancia en Ovitrampas</span>
         </div>
         <div class="stat-card" style="border-left-color: #44ff44;">
             <h3>Viviendas Inspeccionadas</h3>
-            <span class="number">7,474</span>
-            <span class="subtitle">Durante la SE-09</span>
+            <span class="number">5,068</span>
+            <span class="subtitle">Durante la SE-11</span>
         </div>
     </div>
 
     <div id="graficos" class="chart-container">
-        <h2 style="color: #333; margin-top: 0; text-align: center;">Curva Epidemiológica Semanal</h2>
+        <h2 style="color: #333; margin-top: 0; text-align: center;">Curva Epidemiológica Semanal (Telegrama Oficial)</h2>
         <canvas id="arboChart"></canvas>
     </div>
 
-    <h2 style="text-align: center; color: var(--accent);">Intervenciones SE-09</h2>
+    <h2 style="text-align: center; color: var(--accent);">Intervenciones SE-11</h2>
     <div class="prevencion">
         <div class="prev-item">
             <span class="prev-icon">📍</span>
             <div>
                 <strong>Zonas Priorizadas</strong>
-                <p style="margin: 0; font-size: 0.9rem;">Villa Nueva Norte, Kennedy, Los Pinos y Nueva Suyapa.</p>
+                <p style="margin: 0; font-size: 0.9rem;">Col. Los Pinos, Villa Nueva Norte, La Era No.1 y Nueva Suyapa.</p>
             </div>
         </div>
         <div class="prev-item">
             <span class="prev-icon">🛡️</span>
             <div>
                 <strong>Control de Vector</strong>
-                <p style="margin: 0; font-size: 0.9rem;">Programación: 12,585 viviendas. Aplicación de BTI y nebulización.</p>
+                <p style="margin: 0; font-size: 0.9rem;">Viviendas programadas: 8,999. Uso de BTI (4,744 viviendas tratadas) y máquinas LECO.</p>
             </div>
         </div>
         <div class="prev-item">
             <span class="prev-icon">📈</span>
             <div>
                 <strong>Estado de Alerta</strong>
-                <p style="margin: 0; font-size: 0.9rem;">Situación: <strong>Zona de Éxito</strong>. Reducción del 27% respecto a 2025.</p>
+                <p style="margin: 0; font-size: 0.9rem;">Situación: <strong>Zona de Éxito</strong>. Reducción del 36% en la tasa de incidencia respecto a 2025.</p>
             </div>
         </div>
     </div>
@@ -208,19 +236,19 @@
         <h2 style="margin-top: 0; color: var(--accent);">Repositorio de Documentos</h2>
         <p>Descargue el boletín epidemiológico original utilizado para generar esta sala.</p>
         
-        <a href="BOLETIN_EPIDEMILÓGICO_ARBOVIROSIS_SE_9_RSM_DC.pdf" download class="btn-download">
-            <span>📥</span> Descargar Boletín Oficial SE-09 (PDF)
+        <a href="ARBOVIROSISSE11pdf" download class="btn-download">
+            <span>📥</span> Descargar Boletín Oficial SE-11 (PDF)
         </a>
         
         <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">
-           DRA. GLENDA CERRATO
+            ELABORADO POR: MSC. DRA. GLENDA CERRATO
         </p>
     </div>
 </div>
 
 <footer>
     Secretaría de Salud | Unidad de Vigilancia de la Salud - RSMDC 2026<br>
-    Distrito Central, Honduras.
+    Distrito Central, Honduras. ESTACIÓN DE TRABAJO: UVS-DC-01 |MSc. JACKELINE BURGOS
 </footer>
 
 <script>
@@ -228,10 +256,10 @@
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['SE-01', 'SE-02', 'SE-03', 'SE-04', 'SE-05', 'SE-06', 'SE-07', 'SE-08', 'SE-09'],
+            labels: ['SE-01', 'SE-02', 'SE-03', 'SE-04', 'SE-05', 'SE-06', 'SE-07', 'SE-08', 'SE-09', 'SE-10', 'SE-11'],
             datasets: [{
-                label: 'Casos 2026',
-                data: [62, 49, 30, 31, 42, 40, 55, 45, 54],
+                label: 'Casos 2026 (Telegrama Oficial)',
+                data: [62, 49, 30, 31, 41, 40, 55, 45, 54, 37, 37],
                 borderColor: '#d32f2f',
                 backgroundColor: 'rgba(211, 47, 47, 0.1)',
                 fill: true,
