@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>UVS - Sala Situacional SE-10 | RSMDC</title>
+    <title>UVS - Sala Situacional SE-11 | RSMDC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <style>
@@ -20,7 +20,7 @@
             --text: #e1e8ed;
         }
 
-        * { box-sizing: border-box; transition: all 0.2s ease; }
+        * { box-sizing: border-box; transition: all 0.25s ease; }
 
         body {
             margin: 0;
@@ -55,7 +55,7 @@
             text-transform: uppercase;
         }
 
-        /* ===== FRANJA DE SEMANA (NUEVA SECCIÓN SUPERIOR) ===== */
+        /* ===== FRANJA DE SEMANA ===== */
         .top-info-bar {
             background: linear-gradient(90deg, #0d1218 0%, #16212e 50%, #0d1218 100%);
             border-bottom: 2px solid var(--primary-med);
@@ -109,6 +109,43 @@
             z-index: 10;
         }
 
+        /* ===== BOTONES INTERACTIVOS (NUEVO) ===== */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-action {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .btn-action span.icon { font-size: 1.5rem; margin-bottom: 4px; }
+
+        .btn-action:hover {
+            background: rgba(0, 123, 255, 0.1);
+            border-color: var(--accent-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2);
+            color: var(--accent-blue);
+        }
+
         /* ===== SIDEBAR ===== */
         .data-sidebar { display: flex; flex-direction: column; gap: 15px; }
 
@@ -125,7 +162,6 @@
         .card-label { font-size: 0.65rem; color: #627d98; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
         .card-value { font-size: 1.3rem; font-weight: 700; display: block; }
 
-        /* Tarjeta Crítica Mejorada */
         .card-critical {
             border: 1px solid var(--accent-red);
             background: linear-gradient(135deg, #1a0a0a 0%, #0d1218 100%);
@@ -150,28 +186,6 @@
             display: inline-block;
         }
 
-        .alert-epidemia::before { background: var(--accent-red); }
-        .alert-exito::before { background: var(--accent-green); }
-
-        .btn-nav {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 14px;
-            background: var(--primary-med);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            cursor: pointer;
-            margin-top: 5px;
-        }
-
         .footer {
             grid-column: 1 / -1;
             padding: 20px;
@@ -179,7 +193,7 @@
             font-size: 0.65rem;
             color: #486581;
             border-top: 1px solid var(--border);
-            margin-top: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -198,81 +212,101 @@
     <div class="top-info-bar">
         <div class="info-item">
             <span class="info-label">Semana Epidemiológica:</span>
-            <span class="info-value" style="color: var(--accent-blue);">SE-10</span>
+            <span class="info-value" style="color: var(--accent-blue);">SE-11</span>
         </div>
-        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1);"></div>
         <div class="info-item">
             <span class="info-label">Periodo:</span>
-            <span class="info-value">08 AL 14 MARZO, 2026</span>
+            <span class="info-value">11 AL 21 MARZO, 2026</span>
         </div>
-        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1);"></div>
         <div class="info-item">
-            <span class="info-label">Vigilancia Activa:</span>
+            <span class="info-label">Vigilancia:</span>
             <span class="info-value" style="color: var(--accent-yellow);">42 EVENTOS ENO</span>
         </div>
     </div>
 
     <div class="main-layout">
         
-        <div class="monitor-main">
-            <div class="video-wrapper">
-                <div class="video-overlay">
-                    FEED_SOURCE: BOLETÍN_SE10_DISTRITO_CENTRAL<br>
-                    NOTIFICACIÓN: 99% OPORTUNA
+        <div class="content-left">
+            <div class="monitor-main">
+                <div class="video-wrapper">
+                    <div class="video-overlay">
+                        FEED_SOURCE: TELEGRAMA_SE11_DC<br>
+                        NOTIFICACIÓN: 99% OPORTUNA 
+                    </div>
+                    <video id="v" autoplay muted loop playsinline controls>
+                        <source src="TELEGRAMASEMANALSE11.mp4" type="video/mp4">
+                        Tu navegador no soporta video.
+                    </video>
                 </div>
-                <video id="v" autoplay muted loop playsinline controls>
-                    <source src="boletin_s10.mp4" type="video/mp4">
-                    Tu navegador no soporta video.
-                </video>
+            </div>
+
+            <div class="nav-grid">
+                <a href="boletin.html" class="btn-action">
+                    <span class="icon">📄</span>
+                    Descargar Boletín
+                </a>
+                <a href="graficos.html" class="btn-action">
+                    <span class="icon">📈</span>
+                    Ver Gráficos
+                </a>
+                <a href="mapas.html" class="btn-action">
+                    <span class="icon">🗺️</span>
+                    Mapa de Calor
+                </a>
+                <a href="mailto:uvs.rsmdc@salud.hn" class="btn-action">
+                    <span class="icon">📧</span>
+                    Notificar Evento
+                </a>
+                <a href="inicio.html" class="btn-action" style="border-color: #334e68; background: rgba(51, 78, 104, 0.1);">
+                    <span class="icon">🏠</span>
+                    Menú Principal
+                </a>
             </div>
         </div>
 
         <div class="data-sidebar">
             
             <div class="card card-critical">
-                <div class="alert-tag"></div>
-                <div class="card-label" style="color: var(--accent-red);">Mortalidad Materna</div>
-                <div class="card-value" style="color: #fff; font-size: 1.6rem;">1 FALLECIDOS</div>
-                <div style="font-size: 0.7rem; color: #ff8e8e; margin-top: 5px; font-weight: 600;">
-                    PRIMER CASO ACUMULADO DEL AÑO
-                </div>
+                <div class="alert-tag">ZONA DE ALERTA</div>
+                <div class="card-label" style="color: var(--accent-red);">Diarreas</div>
+                <div class="card-value" style="color: #fff; font-size: 1.6rem;">1,276 CASOS</div>
                 <div style="font-size: 0.6rem; color: #627d98; margin-top: 12px; border-top: 1px solid rgba(255,59,59,0.2); padding-top: 8px;">
-                    INVESTIGACIÓN: EN CURSO <br>
-                    TASA ACTUAL: 100% INCREMENTO VS SE-09
+                    ACUMULADO: 12,855 <br>
+                    HOSPITALIZADOS: 630
                 </div>
             </div>
 
-            <div class="card alert-epidemia">
-                <div class="card-label">Diarreas (Zona Roja)</div>
-                <div class="card-value" style="color: var(--accent-red);">1,535 CASOS</div>
+            <div class="card">
+                <div class="card-label">Mortalidad Materna</div>
+                <div class="card-value" style="color: var(--accent-red);">0 CASOS</div>
                 <div style="font-size: 0.7rem; color: #829ab1; margin-top: 5px;">
-                    Acumulado: <b>11,579</b> | 89% Hosp.
+                    Acumulado Año: 1 Fallecido 
                 </div>
             </div>
 
-            <div class="card alert-exito">
+            <div class="card" style="border-left-color: var(--accent-green);">
                 <div class="card-label">Dengue (Zona de Éxito)</div>
-                <div class="card-value" style="color: var(--accent-green);">37 CASOS</div>
+                <div class="card-value" style="color: var(--accent-green);">41 CASOS</div>
                 <div style="font-size: 0.7rem; color: #829ab1; margin-top: 5px;">
-                    Controlado | Acumulado: 443
+                    Controlado | Acumulado: 480 
                 </div>
             </div>
-            <div class="card" style="background: rgba(0, 242, 255, 0.05);">
-                    <div class="card-label">Responsable Técnico</div>
-                    <div class="card-value" style="font-size: 0.9rem;">LIC. ANA VALLE </div>
-                    <div class="card-label" style="margin-top:10px">Jefatura UVS</div>
-                    <div class="card-value" style="font-size: 0.9rem;">MSc. JACKELINE BURGOS</div>
-                     <div class="card-label" style="margin-top:10px">Desarrolador: David Godoy</div>
-                </div>
 
-            <a href="inicio.html" class="btn-nav" style="background: transparent; border: 1px solid #334e68; color: #627d98;">
-                ← VOLVER AL MENÚ PRINCIPAL
-            </a>
+            <div class="card" style="background: rgba(0, 242, 255, 0.05);">
+                    <div class="card-label">Responsables</div>
+                    <div class="card-value" style="font-size: 0.85rem;">LIC. ANA VALLE</div>
+                    <div class="card-value" style="font-size: 0.85rem;">MSc. JACKELINE BURGOS</div>
+                    <div class="card-label" style="margin-top:10px">Otros Eventos</div>
+                    <div class="card-value" style="font-size: 0.7rem; color: var(--accent-yellow);">
+                        Tosferina: 10 Casos <br>
+                        Vigilancia Activa ENO
+                    </div>
+            </div>
         </div>
 
         <div class="footer">
-            REGIÓN METROPOLITANA DE SALUD | UNIDAD DE VIGILANCIA DE LA SALUD (UVS)<br>
-            <span style="color: #243b53;">ESTACIÓN DE TRABAJO: UVS-DC-01 | LIC. ANA VALLE</span>
+            REGIÓN METROPOLITANA DE SALUD | UNIDAD DE VIGILANCIA DE LA SALUD (UVS) <br>
+            <span style="color: #243b53;">ESTACIÓN DE TRABAJO: UVS-DC-01 | DISTRITO CENTRAL, HONDURAS</span>
         </div>
     </div>
 
