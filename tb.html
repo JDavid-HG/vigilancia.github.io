@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sala de Situación Tuberculosis | SE-11 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #d32f2f;
+            --primary-dark: #b71c1c;
+            --accent: #ffb74d;
+            --bg-gradient: linear-gradient(135deg, #1a1a1a, #2c3e50, #4b1212);
+            --glass: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --danger: #ff5252;
+            --success: #66bb6a;
+        }
+
+        /* --- Animaciones --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-gradient);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent); }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Hero */
+        .hero-tb {
+            background: linear-gradient(rgba(211, 47, 47, 0.2), rgba(0,0,0,0.6));
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--primary);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-tb h1 { margin: 0; font-size: 2.5rem; color: var(--accent); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border-left: 5px solid var(--accent);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .stat-card.reveal { animation: fadeInUp 0.6s forwards; }
+
+        .stat-card .number { font-size: 2.2rem; font-weight: 800; display: block; color: var(--accent); }
+
+        /* Gráfico */
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            height: 450px;
+            opacity: 0;
+        }
+
+        .chart-container.reveal { animation: scaleIn 0.8s forwards; }
+
+        /* Análisis */
+        .analisis-seccion {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            background: var(--card-bg);
+            color: #333;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: transform 0.3s;
+        }
+
+        .info-item:hover { transform: translateX(10px); }
+        .info-item.reveal { animation: fadeInUp 0.6s forwards; }
+
+        .info-icon { font-size: 2.5rem; }
+
+        /* Alerta y Botón */
+        .alerta-box {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #a5d6a7;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.4);
+        }
+
+        .btn-download:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.6);
+        }
+
+        footer { text-align: center; padding: 40px; opacity: 0.7; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#">🏠 Inicio</a>
+    <a href="#graficos">📊 Tendencias</a>
+    <a href="#analisis">🔎 Análisis</a>
+    <a href="#descarga">📥 Reportes</a>
+</nav>
+
+<div class="container">
+    <section class="hero-tb">
+        <h1>Sala de Situación Tuberculosis (Todas las formas)</h1>
+        <p>Región Sanitaria Metropolitana del Distrito Central | <strong>Semana Epidemiológica 11 - 2026</strong></p>
+    </section>
+
+    <div class="stats-grid">
+        <div class="stat-card" style="transition-delay: 0.1s;">
+            <h3>Total Casos 2026</h3>
+            <span class="number">40</span>
+            <span class="subtitle">Acumulado SE 01-11</span>
+        </div>
+        <div class="stat-card" style="border-left-color: var(--success); transition-delay: 0.2s;">
+            <h3>Variación Interanual</h3>
+            <span class="number">-13%</span>
+            <span class="subtitle">6 casos menos que en 2025</span>
+        </div>
+        <div class="stat-card" style="transition-delay: 0.3s;">
+            <h3>Predominio Masculino</h3>
+            <span class="number">63%</span>
+            <span class="subtitle">25 hombres afectados</span>
+        </div>
+        <div class="stat-card" style="border-left-color: var(--danger); transition-delay: 0.4s;">
+            <h3>TB Pulmonar</h3>
+            <span class="number">33</span>
+            <span class="subtitle">Casos en 2026 (82.5%)</span>
+        </div>
+    </div>
+
+    <div id="graficos" class="chart-container">
+        <div class="alerta-box">
+            <strong>TENDENCIA ACTUAL: DISMINUCIÓN MODERADA</strong><br>
+            Comportamiento a la baja respecto al canal endémico de seguridad.
+        </div>
+        <h2 style="color: #333; margin: 0 0 20px 0; text-align: center;">Incidencia Semanal 2025 vs 2026</h2>
+        <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="tbChart"></canvas>
+        </div>
+    </div>
+
+    <h2 id="analisis" style="text-align: center; color: var(--accent);">Vigilancia Epidemiológica Detallada</h2>
+    <div class="analisis-seccion">
+        <div class="info-item">
+            <span class="info-icon">📍</span>
+            <div>
+                <strong>Red Las Crucitas</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Concentra el 25% (10 casos) de la carga regional.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <span class="info-icon">🩺</span>
+            <div>
+                <strong>Diabetes Mellitus</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Presente en el 15% de los casos como comorbilidad.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <span class="info-icon">👥</span>
+            <div>
+                <strong>Grupos de Riesgo</strong>
+                <p style="margin: 0; font-size: 0.9rem;">Alta incidencia en hombres >65 años y mujeres de 25-34.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="descarga" style="text-align: center; margin-top: 50px;" class="reveal">
+        <a href="boletintb.pdf" class="btn-download">
+            <span>📥</span> Descargar Boletín Oficial SE-11 (PDF)
+        </a>
+        <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">
+            ELABORADO POR: MSc. CAROLINA ÁLVAREZ / MSc. RUTH GUEVARA
+        </p>
+    </div>
+</div>
+
+<footer>
+    Secretaría de Salud | Región Sanitaria Metropolitana del DC<br>
+    Barrio Morazán, Tegucigalpa, Honduras.
+</footer>
+
+<script>
+    // --- Gráfico de Área Estilo Moderno ---
+    const ctx = document.getElementById('tbChart').getContext('2d');
+    
+    const grad2026 = ctx.createLinearGradient(0, 0, 0, 300);
+    grad2026.addColorStop(0, 'rgba(211, 47, 47, 0.5)');
+    grad2026.addColorStop(1, 'rgba(211, 47, 47, 0)');
+
+    const grad2025 = ctx.createLinearGradient(0, 0, 0, 300);
+    grad2025.addColorStop(0, 'rgba(160, 160, 160, 0.3)');
+    grad2025.addColorStop(1, 'rgba(160, 160, 160, 0)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['SE 1', 'SE 2', 'SE 3', 'SE 4', 'SE 5', 'SE 7', 'SE 8', 'SE 9', 'SE 10', 'SE 11'],
+            datasets: [{
+                label: 'Casos 2025',
+                data: [2, 5, 9, 6, 6, 5, 6, 2, 3, 4],
+                borderColor: '#999',
+                backgroundColor: grad2025,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0
+            },
+            {
+                label: 'Casos 2026',
+                data: [3, 2, 4, 10, 4, 4, 3, 4, 3, 3],
+                borderColor: '#d32f2f',
+                backgroundColor: grad2026,
+                fill: true,
+                tension: 0.4,
+                borderWidth: 4,
+                pointBackgroundColor: '#fff',
+                pointRadius: 4,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 2000, easing: 'easeOutQuart' },
+            plugins: { legend: { position: 'bottom' } },
+            scales: {
+                y: { beginAtZero: true, max: 12, grid: { color: '#f0f0f0' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // --- Lógica de Animación Scroll ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.stat-card, .chart-container, .info-item, .reveal').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+
+</body>
+</html>
