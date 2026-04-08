@@ -242,6 +242,95 @@
         }
 
         footer { background: #0b1418; text-align: center; padding: 40px; margin-top: 60px; }
+
+        /* ===== ESTILOS DEL CHAT GEMINI (IA) ===== */
+        #chat-window {
+            display: none; 
+            position: fixed; 
+            bottom: 90px; 
+            right: 25px; 
+            width: 350px; 
+            height: 500px;
+            background: #ffffff; 
+            border-radius: 20px; 
+            flex-direction: column; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+            z-index: 2000; 
+            overflow: hidden; 
+            color: #333;
+        }
+
+        .chat-header { 
+            background: var(--primary); 
+            color: white; 
+            padding: 15px; 
+            font-weight: bold; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+
+        .chat-messages { 
+            flex: 1; 
+            padding: 15px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            background: #f4f7f6; 
+        }
+
+        .msg { padding: 10px 14px; border-radius: 15px; max-width: 85%; font-size: 0.9rem; line-height: 1.4; }
+        .msg-bot { background: #e1f5fe; align-self: flex-start; border-bottom-left-radius: 2px; color: #01579b; }
+        .msg-user { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+        .typing-indicator { font-size: 0.75rem; color: #888; padding: 0 15px 5px; display: none; background: #f4f7f6; }
+
+        .chat-input-area { 
+            padding: 12px; 
+            border-top: 1px solid #eee; 
+            display: flex; 
+            gap: 8px; 
+            background: white; 
+        }
+
+        .chat-input-area input { 
+            flex: 1; 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            border-radius: 20px; 
+            outline: none; 
+        }
+
+        .chat-input-area button { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            width: 38px; 
+            height: 38px; 
+            border-radius: 50%; 
+            cursor: pointer; 
+        }
+
+        #chat-btn { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 25px; 
+            background: var(--primary); 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+            z-index: 2001; 
+            font-size: 1.8rem; 
+            transition: 0.3s;
+        }
+
+        #chat-btn:hover { transform: scale(1.1); background: var(--primary-dark); }
     </style>
 </head>
 <body>
@@ -289,7 +378,6 @@
         <p style="opacity: 0.9;">Región Metropolitana de Salud del Distrito Central| MSc. JACKELINE BURGOS | Honduras 2026</p>
     </section>
 
-   
     <section class="main-access">
         <a href="sala-situacional.html" class="card-access card-sala">
             <i>📡</i>
@@ -303,7 +391,7 @@
             <p>Seguimiento de Dengue, Zika y Chikungunya.</p>
         </a>
 
-         <a href="desatendidas.html" class="card-access card-arbo">
+        <a href="desatendidas.html" class="card-access card-arbo">
             <i>🪰🐛</i>
             <h3> Desatendidas</h3>
             <p>Seguimiento de Desatendidas.</p>
@@ -311,26 +399,26 @@
 
         <a href="tb.html" class="card-access card-arbo">
             <i>🫁</i>
-            <h3>Arbovirosis</h3>
-            <p>Seguimiento de Dengue, Zika y Chikungunya.</p>
+            <h3>Tuberculosis</h3>
+            <p>Seguimiento de Sintomáticos Respiratorios.</p>
         </a>
 
         <a href="hidricas.html" class="card-access card-arbo">
             <i>🤢</i>
             <h3>Hidricas</h3>
-            <p>Seguimiento de Hidricas.</p>
+            <p>Seguimiento de enfermedades de transmisión hídrica.</p>
         </a>
 
         <a href="vih.html" class="card-access card-arbo">
             <i>💊</i>
             <h3>VIH</h3>
-            <p>Seguimiento de VIH.</p>
+            <p>Seguimiento de VIH / ITS.</p>
         </a>
 
         <a href="mortalidadinfantil.html" class="card-access card-arbo">
             <i>🫀ﮩ٨ـﮩ</i>
             <h3>Mortalidad Infantil</h3>
-            <p>Seguimiento de Mortalidad Infantil.</p>
+            <p>Seguimiento de Mortalidad Infantil y Materna.</p>
         </a>
 
         <a href="#reportes" class="card-access card-boletin">
@@ -346,12 +434,32 @@
     </div>
 </div>
 
+<div id="chat-btn" onclick="toggleChat()">🤖</div>
+
+<div id="chat-window">
+    <div class="chat-header">
+        <span>Asistente Gemini | RSMDC</span>
+        <span onclick="toggleChat()" style="cursor: pointer; font-size: 1.2rem;">×</span>
+    </div>
+    <div id="chat-messages" class="chat-messages">
+        <div class="msg msg-bot">
+            ¡Hola Compañero! Soy el asistente inteligente de la Unidad de Vigilancia. Puedo apoyarte con análisis de datos o consultas técnicas. ¿En qué te ayudo hoy?
+        </div>
+    </div>
+    <div id="typing" class="typing-indicator">Gemini está analizando...</div>
+    <div class="chat-input-area">
+        <input type="text" id="user-input" placeholder="Pregunta sobre Dengue, VIH, etc..." onkeypress="if(event.key === 'Enter') askGemini()">
+        <button onclick="askGemini()">➤</button>
+    </div>
+</div>
+
 <footer>
     <p><strong>Región Metropolitana de Salud - Distrito Central</strong></p>
     <p>© 2026 Unidad de Vigilancia Epidemiológica - David Godoy Desarrollo</p>
 </footer>
 
 <script>
+    /* ===== LÓGICA DE BOLETINES ORIGINAL ===== */
     const boletines = [
         { sem: 13, mes: "Abril", estado: "En Curso", link: "boletin_13.pdf" },
         { sem: 12, mes: "Marzo", estado: "En Curso", link: "boletin_12.pdf" },
@@ -371,23 +479,17 @@
     function renderRepositorio() {
         const contenedor = document.getElementById('contenedorAcordeon');
         contenedor.innerHTML = "";
-
-        // Agrupar por mes
         const grupos = boletines.reduce((acc, b) => {
             if (!acc[b.mes]) acc[b.mes] = [];
             acc[b.mes].push(b);
             return acc;
         }, {});
-
-        // Crear acordeones (Orden:Abril, Marzo, Febrero, Enero)
         const ordenMeses = ["Abril","Marzo", "Febrero", "Enero"];
-
         ordenMeses.forEach(mes => {
             if (grupos[mes]) {
                 const divMes = document.createElement('div');
                 divMes.className = 'mes-acordeon';
                 divMes.id = `mes-${mes}`;
-                
                 divMes.innerHTML = `
                     <div class="mes-header" onclick="this.parentElement.classList.toggle('active')">
                         <span>Boletines de ${mes}</span>
@@ -395,7 +497,6 @@
                     </div>
                     <div class="mes-content"></div>
                 `;
-
                 const content = divMes.querySelector('.mes-content');
                 grupos[mes].forEach(b => {
                     const isCurrent = b.estado === "En Curso";
@@ -412,11 +513,9 @@
         });
     }
 
-    // Función para abrir desde el nav
     function abrirMes(mes) {
         const todos = document.querySelectorAll('.mes-acordeon');
         todos.forEach(a => a.classList.remove('active'));
-        
         const target = document.getElementById(`mes-${mes}`);
         if(target) {
             target.classList.add('active');
@@ -425,13 +524,68 @@
     }
 
     function cerrarModal() { document.getElementById("modalSala").style.display = "none"; }
-    function irASala() { window.location.href = "sala-situacional.html"; }
+
+    /* ===== LÓGICA DE GEMINI IA ===== */
+    const GEMINI_API_KEY = "AIzaSyCiqZyAZiRaHVhKqmtdyZY8xpkOX4KBvO4";
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+    function toggleChat() {
+        const chat = document.getElementById('chat-window');
+        chat.style.display = (chat.style.display === 'none' || chat.style.display === '') ? 'flex' : 'none';
+    }
+
+    async function askGemini() {
+        const input = document.getElementById('user-input');
+        const container = document.getElementById('chat-messages');
+        const typing = document.getElementById('typing');
+        const query = input.value.trim();
+
+        if (!query) return;
+
+        addMessage(query, 'user');
+        input.value = "";
+        typing.style.display = "block";
+        container.scrollTop = container.scrollHeight;
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ 
+                            text: `Actúa como experto en Salud Pública para la RSMDC Honduras. 
+                                   Responde sobre vigilancia epidemiológica y eventos de salud. 
+                                   Usuario: ${query}` 
+                        }]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            const aiText = data.candidates[0].content.parts[0].text;
+            addMessage(aiText, 'bot');
+        } catch (error) {
+            addMessage("Error de conexión con la IA. Verifica tu internet.", "bot");
+        } finally {
+            typing.style.display = "none";
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    function addMessage(text, sender) {
+        const container = document.getElementById('chat-messages');
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `msg msg-${sender}`;
+        msgDiv.innerText = text;
+        container.appendChild(msgDiv);
+    }
 
     window.onload = function() {
         renderRepositorio();
-        // Abrir el mes más reciente por defecto
-        document.querySelector('.mes-acordeon').classList.add('active');
-        
+        if(document.querySelector('.mes-acordeon')) {
+            document.querySelector('.mes-acordeon').classList.add('active');
+        }
         setTimeout(() => {
             document.getElementById("modalSala").style.display = "flex";
         }, 800);
