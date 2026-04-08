@@ -2,198 +2,305 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>UVS - Sala Situacional SE-11 | RSMDC</title>
+    <title>UVS · SALA SITUACIONAL SE-11 · RSMDC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap');
 
         :root {
-            --primary-med: #007bff;
-            --bg-deep: #05080a;
-            --panel-bg: #0d1218;
-            --border: rgba(0, 123, 255, 0.25);
+            --primary: #0066cc;
+            --primary-dark: #004b99;
+            --primary-glow: #0099ff;
+            --accent: #ffcc00;
+            --accent-dark: #e6b800;
+            --bg-deep: linear-gradient(145deg, #0a1a2a 0%, #0c2a3b 100%);
+            --glass-white: rgba(255, 255, 255, 0.08);
+            --glass-card: rgba(255, 255, 255, 0.12);
+            --danger: #e34d4d;
+            --success: #2ecc71;
+            --text-light: #f0f9ff;
+            --border-glow: rgba(0, 153, 255, 0.4);
+            
+            /* Variables heredadas del estilo anterior */
+            --panel-bg: rgba(13, 18, 24, 0.7);
+            --border: rgba(0, 123, 255, 0.3);
             --accent-blue: #00f2ff;
-            --accent-red: #ff3b3b;
+            --accent-red: #ff4d4d;
             --accent-yellow: #f1c40f;
             --accent-green: #2ecc71;
-            --text: #e1e8ed;
+            --text: #f0f9ff;
         }
 
-        * { box-sizing: border-box; transition: all 0.25s ease; }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.25s ease; }
 
         body {
-            margin: 0;
-            background-color: var(--bg-deep);
+            background: var(--bg-deep);
             color: var(--text);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 2px 2px, rgba(0, 123, 255, 0.05) 1px, transparent 0);
-            background-size: 32px 32px;
+            position: relative;
+        }
+
+        /* Fondo animado sutil */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 102, 204, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(46, 204, 113, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
 
         /* ===== HEADER PRINCIPAL ===== */
         header {
-            padding: 10px 25px;
-            background: rgba(13, 18, 24, 0.95);
-            border-bottom: 1px solid var(--border);
+            padding: 12px 25px;
+            background: rgba(13, 18, 24, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--accent);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
         .logo-text {
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--accent-blue);
+            font-weight: 800;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         /* ===== FRANJA DE SEMANA ===== */
         .top-info-bar {
-            background: linear-gradient(90deg, #0d1218 0%, #16212e 50%, #0d1218 100%);
-            border-bottom: 2px solid var(--primary-med);
-            padding: 10px 25px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--primary);
+            padding: 12px 25px;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 40px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            flex-wrap: wrap;
         }
 
         .info-item { display: flex; align-items: center; gap: 10px; }
-        .info-label { font-size: 0.65rem; color: #627d98; text-transform: uppercase; font-weight: 700; }
-        .info-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .info-label { font-size: 0.7rem; color: #88a5c2; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+        .info-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700; color: #fff; text-shadow: 0 0 10px rgba(0,153,255,0.5); }
 
         /* ===== LAYOUT PRINCIPAL ===== */
         .main-layout {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 20px;
+            gap: 25px;
+            padding: 25px;
             max-width: 1600px;
             margin: 0 auto;
         }
 
         @media (min-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr 380px; gap: 30px; }
+            .main-layout { grid-template-columns: 1fr 400px; gap: 30px; }
         }
 
         /* ===== MONITOR DE VIDEO ===== */
         .monitor-main {
             background: #000;
-            border-radius: 8px;
+            border-radius: 24px;
             overflow: hidden;
             border: 1px solid var(--border);
             position: relative;
-            box-shadow: 0 0 30px rgba(0, 123, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 30px rgba(0, 123, 255, 0.15);
+            backdrop-filter: blur(4px);
         }
 
         .video-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; }
-        video { width: 100%; height: 100%; object-fit: contain; }
+        video { width: 100%; height: 100%; object-fit: cover; }
 
         .video-overlay {
             position: absolute;
-            top: 15px; left: 15px;
-            padding: 8px 12px;
-            background: rgba(0, 0, 0, 0.7);
-            border-left: 3px solid var(--accent-blue);
+            top: 20px; left: 20px;
+            padding: 10px 18px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            border-left: 5px solid var(--accent-blue);
+            border-radius: 8px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            color: #e1e8ed;
         }
 
-        /* ===== BOTONES INTERACTIVOS (NUEVO) ===== */
+        /* ===== BOTONES INTERACTIVOS (ESTILO TARJETAS MEJORADO) ===== */
         .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-top: 25px;
         }
 
         .btn-action {
-            background: var(--panel-bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 15px;
-            border-radius: 8px;
+            background: var(--glass-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-light);
+            padding: 20px 12px;
+            border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
+            gap: 10px;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             text-align: center;
-        }
-
-        .btn-action span.icon { font-size: 1.5rem; margin-bottom: 4px; }
-
-        .btn-action:hover {
-            background: rgba(0, 123, 255, 0.1);
-            border-color: var(--accent-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2);
-            color: var(--accent-blue);
-        }
-
-        /* ===== SIDEBAR ===== */
-        .data-sidebar { display: flex; flex-direction: column; gap: 15px; }
-
-        .card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border);
-            padding: 18px;
-            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             position: relative;
             overflow: hidden;
         }
 
-        .card::before { content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 4px; background: var(--primary-med); }
-        .card-label { font-size: 0.65rem; color: #627d98; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
-        .card-value { font-size: 1.3rem; font-weight: 700; display: block; }
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-action:hover::before { left: 100%; }
+        
+        .btn-action::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            transform-origin: left;
+        }
+        
+        .btn-action:hover::after { transform: scaleX(1); }
+
+        .btn-action span.icon { font-size: 2rem; margin-bottom: 4px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
+
+        .btn-action:hover {
+            background: rgba(0, 102, 204, 0.3);
+            border-color: var(--accent);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(255,204,0,0.2);
+            color: var(--accent);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .data-sidebar { display: flex; flex-direction: column; gap: 18px; }
+
+        .card {
+            background: var(--glass-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 22px 20px;
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .card::before { 
+            content: ""; 
+            position: absolute; 
+            left: 0; top: 0; 
+            height: 100%; 
+            width: 5px; 
+            background: var(--primary); 
+        }
+
+        .card-label { 
+            font-size: 0.7rem; 
+            color: #a0bbd0; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            letter-spacing: 1.5px;
+            margin-bottom: 10px; 
+        }
+
+        .card-value { 
+            font-size: 1.6rem; 
+            font-weight: 800; 
+            display: block; 
+            line-height: 1.2;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
 
         .card-critical {
-            border: 1px solid var(--accent-red);
-            background: linear-gradient(135deg, #1a0a0a 0%, #0d1218 100%);
+            border: 1px solid var(--danger);
+            background: linear-gradient(135deg, rgba(227, 77, 77, 0.15) 0%, rgba(13, 18, 24, 0.7) 100%);
             animation: alert-pulse 3s infinite;
         }
-        .card-critical::before { background: var(--accent-red); }
+        .card-critical::before { background: var(--danger); }
 
         @keyframes alert-pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.1); }
-            50% { box-shadow: 0 0 20px 0 rgba(255, 59, 59, 0.3); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.1); }
+            0% { box-shadow: 0 0 15px 0 rgba(227, 77, 77, 0.1); border-color: rgba(227, 77, 77, 0.3); }
+            50% { box-shadow: 0 0 30px 0 rgba(227, 77, 77, 0.4); border-color: rgba(227, 77, 77, 0.8); }
+            100% { box-shadow: 0 0 15px 0 rgba(227, 77, 77, 0.1); border-color: rgba(227, 77, 77, 0.3); }
         }
 
         .alert-tag {
-            background: var(--accent-red);
+            background: var(--danger);
             color: white;
-            font-size: 0.55rem;
-            padding: 2px 6px;
-            border-radius: 3px;
+            font-size: 0.6rem;
+            padding: 4px 10px;
+            border-radius: 40px;
             font-weight: 900;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: inline-block;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(227, 77, 77, 0.4);
         }
 
         .footer {
             grid-column: 1 / -1;
             padding: 20px;
             text-align: center;
-            font-size: 0.65rem;
-            color: #486581;
+            font-size: 0.7rem;
+            color: #6b8da8;
             border-top: 1px solid var(--border);
             margin-top: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Ajustes móviles */
+        @media (max-width: 768px) {
+            .top-info-bar { gap: 20px; }
+            .info-value { font-size: 1rem; }
+            .main-layout { padding: 15px; }
+            .card-value { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -201,10 +308,10 @@
 
     <header>
         <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 1.3rem;">🏥</span>
-            <div class="logo-text">UVS SITUATIONAL ROOM | RSMDC</div>
+            <span style="font-size: 1.5rem; filter: drop-shadow(0 0 8px var(--accent-blue));">📡</span>
+            <div class="logo-text">UVS SITUATIONAL ROOM · RSMDC</div>
         </div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent-green);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-green); background: rgba(0,0,0,0.3); padding: 6px 15px; border-radius: 40px; border: 1px solid var(--border);">
             HORA SISTEMA • <span id="clock">00:00:00</span>
         </div>
     </header>
@@ -230,12 +337,12 @@
             <div class="monitor-main">
                 <div class="video-wrapper">
                     <div class="video-overlay">
-                        FEED_SOURCE: TELEGRAMA_SE11_DC<br>
-                        NOTIFICACIÓN: 99% OPORTUNA 
+                        <span style="color: var(--accent-blue);">◉ FEED ACTIVO</span> TELEGRAMA_SE11_DC<br>
+                        <span style="color: #2ecc71;">⬆ NOTIFICACIÓN: 99% OPORTUNA</span>
                     </div>
                     <video id="v" autoplay muted loop playsinline controls>
                         <source src="TELEGRAMASEMANALSE11.mp4" type="video/mp4">
-                        Tu navegador no soporta video.
+                        <div style="padding: 40px; color: white; text-align: center;">🎥 Vista previa del informe semanal · Video no disponible en este demo</div>
                     </video>
                 </div>
             </div>
@@ -257,7 +364,7 @@
                     <span class="icon">📧</span>
                     Notificar Evento
                 </a>
-                <a href="inicio.html" class="btn-action" style="border-color: #334e68; background: rgba(51, 78, 104, 0.1);">
+                <a href="inicio.html" class="btn-action" style="border-color: var(--accent); background: rgba(255,204,0,0.05);">
                     <span class="icon">🏠</span>
                     Menú Principal
                 </a>
@@ -267,46 +374,46 @@
         <div class="data-sidebar">
             
             <div class="card card-critical">
-                <div class="alert-tag">ZONA DE ALERTA</div>
-                <div class="card-label" style="color: var(--accent-red);">Diarreas</div>
-                <div class="card-value" style="color: #fff; font-size: 1.6rem;">1,276 CASOS</div>
-                <div style="font-size: 0.6rem; color: #627d98; margin-top: 12px; border-top: 1px solid rgba(255,59,59,0.2); padding-top: 8px;">
-                    ACUMULADO: 12,855 <br>
-                    HOSPITALIZADOS: 630
+                <div class="alert-tag">⚠️ ZONA DE ALERTA ACTIVA</div>
+                <div class="card-label" style="color: var(--danger); font-size: 0.8rem;">Diarreas Agudas</div>
+                <div class="card-value" style="color: #fff; font-size: 2rem;">1,276</div>
+                <div style="font-size: 0.7rem; color: #b0c7db; margin-top: 15px; border-top: 1px solid rgba(255,77,77,0.2); padding-top: 12px; display: flex; justify-content: space-between;">
+                    <span>ACUMULADO: <strong style="color:white;">12,855</strong></span>
+                    <span>HOSPITALIZADOS: <strong style="color:var(--danger);">630</strong></span>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-label">Mortalidad Materna</div>
-                <div class="card-value" style="color: var(--accent-red);">0 CASOS</div>
-                <div style="font-size: 0.7rem; color: #829ab1; margin-top: 5px;">
-                    Acumulado Año: 1 Fallecido 
+                <div class="card-value" style="color: var(--danger);">0</div>
+                <div style="font-size: 0.75rem; color: #a8c1d9; margin-top: 8px;">
+                    Acumulado Año: 1 Fallecido · <span style="color: var(--accent-green);">En vigilancia</span>
                 </div>
             </div>
 
-            <div class="card" style="border-left-color: var(--accent-green);">
-                <div class="card-label">Dengue (Zona de Éxito)</div>
-                <div class="card-value" style="color: var(--accent-green);">41 CASOS</div>
-                <div style="font-size: 0.7rem; color: #829ab1; margin-top: 5px;">
-                    Controlado | Acumulado: 480 
+            <div class="card" style="border-left-color: var(--success);">
+                <div class="card-label" style="color: var(--success);">Dengue (Zona de Éxito)</div>
+                <div class="card-value" style="color: var(--success);">41</div>
+                <div style="font-size: 0.75rem; color: #a8c1d9; margin-top: 8px;">
+                    Controlado · Acumulado: 480 · <span style="color: var(--accent);">Tendencia ▼</span>
                 </div>
             </div>
 
             <div class="card" style="background: rgba(0, 242, 255, 0.05);">
-                    <div class="card-label">Responsables</div>
-                    <div class="card-value" style="font-size: 0.85rem;">LIC. ANA VALLE</div>
-                    <div class="card-value" style="font-size: 0.85rem;">MSc. JACKELINE BURGOS</div>
-                    <div class="card-label" style="margin-top:10px">Otros Eventos</div>
-                    <div class="card-value" style="font-size: 0.7rem; color: var(--accent-yellow);">
+                    <div class="card-label">👤 Responsables UVS</div>
+                    <div class="card-value" style="font-size: 1rem;">LIC. ANA VALLE</div>
+                    <div class="card-value" style="font-size: 1rem;">MSc. JACKELINE BURGOS</div>
+                    <div class="card-label" style="margin-top:15px">🔬 Otros Eventos</div>
+                    <div class="card-value" style="font-size: 0.8rem; color: var(--accent-yellow);">
                         Tosferina: 10 Casos <br>
-                        Vigilancia Activa ENO
+                        <span style="font-size:0.7rem; color:#9bb7d4;">Vigilancia Activa ENO · Influenza</span>
                     </div>
             </div>
         </div>
 
         <div class="footer">
-            REGIÓN METROPOLITANA DE SALUD | UNIDAD DE VIGILANCIA DE LA SALUD (UVS) <br>
-            <span style="color: #243b53;">ESTACIÓN DE TRABAJO: UVS-DC-01 | DISTRITO CENTRAL, HONDURAS</span>
+            <strong>REGIÓN METROPOLITANA DE SALUD · DISTRITO CENTRAL</strong> | UNIDAD DE VIGILANCIA DE LA SALUD (UVS) <br>
+            <span style="color: #4a6f8f;">ESTACIÓN DE TRABAJO: UVS-DC-01 · DATOS OFICIALES SE-11 2026 · HONDURAS</span>
         </div>
     </div>
 
@@ -320,6 +427,13 @@
 
         const video = document.getElementById('v');
         window.addEventListener('click', () => { if (video.paused) video.play(); }, { once: true });
+        
+        // Ajuste visual si el video no carga (demo)
+        video.addEventListener('error', () => {
+            video.style.background = '#0a1a2a';
+            const overlay = document.querySelector('.video-overlay');
+            if(overlay) overlay.innerHTML += '<br><span style="color: #f1c40f;">[MODO DEMO] Video de Telegrama Semanal</span>';
+        });
     </script>
 </body>
 </html>
