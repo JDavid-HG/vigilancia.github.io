@@ -12,6 +12,7 @@
             --bg-page: #f0f2f5;
             --pdf-color: #d32f2f;
             --excel-color: #1b5e20;
+            --snvs-blue: #1565c0;
             --text: #2c3e50;
         }
 
@@ -60,7 +61,7 @@
             padding: 20px;
         }
 
-        /* Barra de Accesos Rápidos (Drive/Normalización) */
+        /* Barra de Accesos Rápidos */
         .quick-access {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -103,7 +104,34 @@
         }
 
         .section-label hr { flex-grow: 1; border: none; border-top: 2px solid #ddd; }
-        .section-label h2 { color: var(--primary-dark); font-size: 1.2rem; margin: 0; white-space: nowrap; letter-spacing: 1px; }
+        .section-label h2 { color: var(--primary-dark); font-size: 1.1rem; margin: 0; white-space: nowrap; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Estilos Especiales SNVS CON IMAGEN */
+        .snvs-highlight {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('OPSSNVS.jpg');
+            background-size: cover;
+            background-position: center;
+            border-left: 8px solid var(--snvs-blue);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .snvs-badge {
+            background: var(--snvs-blue);
+            color: white;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .snvs-content h3 { margin: 0 0 10px 0; color: #0d47a1; font-size: 1.6rem; font-weight: 800; }
+        .snvs-content p { margin: 0 0 25px 0; font-size: 1rem; color: #1a202c; max-width: 900px; font-weight: 500; }
 
         /* Grid de Recursos */
         .resource-grid {
@@ -113,9 +141,9 @@
         }
 
         .file-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 16px;
-            padding: 25px;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -123,6 +151,7 @@
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(4px);
         }
 
         .file-card::before {
@@ -133,35 +162,39 @@
 
         .card-pdf::before { background: var(--pdf-color); }
         .card-excel::before { background: var(--excel-color); }
+        .card-video::before { background: #333; }
 
         .file-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+            background: white;
         }
 
-        .file-content { display: flex; align-items: center; gap: 20px; }
+        .file-content { display: flex; align-items: center; gap: 15px; }
         
         .file-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 800;
         }
 
         .bg-pdf { background: #ffebee; color: var(--pdf-color); }
         .bg-excel { background: #e8f5e9; color: var(--excel-color); }
+        .bg-video { background: #f5f5f5; color: #333; }
 
-        .file-details h3 { margin: 0; font-size: 1.1rem; color: #1a202c; }
-        .file-details p { margin: 4px 0 0; font-size: 0.85rem; color: #718096; }
+        .file-details h3 { margin: 0; font-size: 0.95rem; color: #1a202c; }
+        .file-details p { margin: 2px 0 0; font-size: 0.8rem; color: #4a5568; }
 
         .download-action {
             background: #f8f9fa;
             color: var(--primary-dark);
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -169,6 +202,7 @@
             text-decoration: none;
             transition: 0.3s;
             border: 1px solid #edf2f7;
+            flex-shrink: 0;
         }
 
         .download-action:hover {
@@ -190,6 +224,8 @@
         @media (max-width: 768px) {
             header h1 { font-size: 1.8rem; }
             .quick-access { grid-template-columns: 1fr 1fr; }
+            .resource-grid { grid-template-columns: 1fr; }
+            .snvs-highlight { padding: 25px; }
         }
     </style>
 </head>
@@ -212,21 +248,113 @@
 
     <div class="quick-access">
         <a href="https://drive.google.com/drive/folders/19J_JO8-XKfcy_FuuTXfP6rnL7VcG5FbK" target="_blank" class="access-card">
-            <span>📂</span> Documentos 2025 <small>Histórico Google Drive</small>
+            <span role="img" aria-label="Drive">📂</span> Documentos 2025 <small>Histórico Google Drive</small>
         </a>
         <a href="https://sshome.salud.gob.hn/index.php/normalizacion#lineamientos" target="_blank" class="access-card">
-            <span>📜</span> Lineamientos <small>Normalización SESAL</small>
+            <span role="img" aria-label="Normas">📜</span> Lineamientos <small>Normalización SESAL</small>
         </a>
         <a href="https://drive.google.com/drive/u/1/folders/1tpE0i31_TeaZtcF8R1VbPOZ4z0F8ykOI" target="_blank" class="access-card">
-            <span>🛡️</span> Protocolos <small>Vigilancia Nacional</small>
+            <span role="img" aria-label="Protocolos">🛡️</span> Protocolos <small>Vigilancia Nacional</small>
         </a>
         <a href="https://sshome.salud.gob.hn/index.php/normalizacion#manual" target="_blank" class="access-card">
-            <span>📕</span> Manuales <small>Repositorio Central</small>
+            <span role="img" aria-label="Manuales">📕</span> Manuales <small>Repositorio Central</small>
         </a>
     </div>
 
     <div class="section-label">
-        <h2>Manuales y Guías Técnicas</h2>
+        <h2>SNVS: PROCEDIMIENTO DE VIGILANCIA DE LAS ARBOVIROSIS</h2>
+        <hr>
+    </div>
+
+    <div class="snvs-highlight">
+        <div class="snvs-content">
+            <div class="snvs-badge">OFICIAL 2026</div>
+            <h3>Protocolo Estandarizado de Respuesta</h3>
+            <p>Directrices nacionales para la captación, notificación y seguimiento de casos de Dengue, Zika y Chikungunya. Incluye criterios de laboratorio y flujos de información obligatorios para el Sistema Nacional de Vigilancia en Salud.</p>
+            
+            <div class="resource-grid">
+                <div class="file-card card-pdf">
+                    <div class="file-content">
+                        <div class="file-icon bg-pdf">PDF</div>
+                        <div class="file-details">
+                            <h3>Laboratorio RSMDC-FM</h3>
+                            <p>Unidad de Servicios Laboriales.</p>
+                        </div>
+                    </div>
+                    <a href="DENGUELABORATORIO.pdf" download class="download-action">📥</a>
+                </div>
+
+                <div class="file-card card-pdf">
+                    <div class="file-content">
+                        <div class="file-icon bg-pdf">PDF</div>
+                        <div class="file-details">
+                            <h3>Ficha Epidemiológica</h3>
+                            <p>Arbovirosis Nacional.</p>
+                        </div>
+                    </div>
+                    <a href="Ficha_Epidemiologica_ARBOVIROSIS.pdf" download class="download-action">📥</a>
+                </div>
+
+                <div class="file-card card-pdf">
+                    <div class="file-content">
+                        <div class="file-icon bg-pdf">PDF</div>
+                        <div class="file-details">
+                            <h3>ALERTA RESPUESTA</h3>
+                            <p>Presentacion Alerta Respuesta.</p>
+                        </div>
+                    </div>
+                    <a href="alertarespuesta.pdf" download class="download-action">📥</a>
+                </div>
+
+                <div class="file-card card-pdf">
+                    <div class="file-content">
+                        <div class="file-icon bg-pdf">PDF</div>
+                        <div class="file-details">
+                            <h3>Notificacion Arbovirosis</h3>
+                            <p>Presentacion Arbovirosis.</p>
+                        </div>
+                    </div>
+                    <a href="alertarespuesta.pdf" download class="download-action">📥</a>
+                </div>
+                
+                 <div class="file-card card-pdf">
+                    <div class="file-content">
+                        <div class="file-icon bg-pdf">PDF</div>
+                        <div class="file-details">
+                            <h3>Laboratorio Nacional</h3>
+                            <p>Presentacion Laboratorio nacional de vigilancia.</p>
+                        </div>
+                    </div>
+                    <a href="alertarespuesta.pdf" download class="download-action">📥</a>
+                </div>
+
+                <div class="file-card card-video">
+                    <div class="file-content">
+                        <div class="file-icon bg-video">VIDEO</div>
+                        <div class="file-details">
+                            <h3>Tablero ENO</h3>
+                            <p>Tutorial de notificación obligatoria.</p>
+                        </div>
+                    </div>
+                    <a href="https://youtu.be/M2giIvSMHaI" target="_blank" class="download-action">🎬</a>
+                </div>
+
+                <div class="file-card card-video">
+                    <div class="file-content">
+                        <div class="file-icon bg-video">VIDEO</div>
+                        <div class="file-details">
+                            <h3>Notificación Cero</h3>
+                            <p>Tutorial de cumplimiento.</p>
+                        </div>
+                    </div>
+                    <a href="https://youtu.be/WoePSILirdc" target="_blank" class="download-action">🎬</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-label">
+        <h2>Manuales y Guías Técnicas RSMDC</h2>
         <hr>
     </div>
 
@@ -247,21 +375,10 @@
                 <div class="file-icon bg-pdf">PDF</div>
                 <div class="file-details">
                     <h3>Guía Control Vectorial</h3>
-                    <p>Uso de BTI y nebulización técnica.</p>
+                    <p>Uso de BTI y nebulización.</p>
                 </div>
             </div>
             <a href="GUIA_CONTROL_VECTORIAL.pdf" download class="download-action">📥</a>
-        </div>
-
-        <div class="file-card card-pdf">
-            <div class="file-content">
-                <div class="file-icon bg-pdf">PDF</div>
-                <div class="file-details">
-                    <h3>Protocolo Vigilancia</h3>
-                    <p>Captación y flujo de casos febriles.</p>
-                </div>
-            </div>
-            <a href="PROTOCOLO_VIGILANCIA.pdf" download class="download-action">📥</a>
         </div>
     </div>
 
@@ -287,21 +404,10 @@
                 <div class="file-icon bg-excel">XLS</div>
                 <div class="file-details">
                     <h3>Control de Insumos</h3>
-                    <p>Inventario de insecticidas y equipos.</p>
+                    <p>Inventario de insecticidas.</p>
                 </div>
             </div>
             <a href="CONTROL_INSUMOS.xlsx" download class="download-action">📥</a>
-        </div>
-
-        <div class="file-card card-excel">
-            <div class="file-content">
-                <div class="file-icon bg-excel">XLS</div>
-                <div class="file-details">
-                    <h3>Programación Sectorial</h3>
-                    <p>Cronograma de intervenciones locales.</p>
-                </div>
-            </div>
-            <a href="PROGRAMACION_CAMPANA.xlsx" download class="download-btn" class="download-action" style="text-decoration: none; color: inherit; background: #f8f9fa; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid #edf2f7;">📥</a>
         </div>
     </div>
 
