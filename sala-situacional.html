@@ -3,107 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <title>UVS · SALA SITUACIONAL SE-11 · RSMDC</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap');
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #0066cc;
             --primary-dark: #004b99;
-            --primary-glow: #0099ff;
             --accent: #ffcc00;
-            --accent-dark: #e6b800;
             --bg-deep: linear-gradient(145deg, #0a1a2a 0%, #0c2a3b 100%);
-            --glass-white: rgba(255, 255, 255, 0.08);
             --glass-card: rgba(255, 255, 255, 0.12);
             --danger: #e34d4d;
             --success: #2ecc71;
             --text-light: #f0f9ff;
             --border-glow: rgba(0, 153, 255, 0.4);
-            
-            /* Variables heredadas del estilo anterior */
-            --panel-bg: rgba(13, 18, 24, 0.7);
-            --border: rgba(0, 123, 255, 0.3);
-            --accent-blue: #00f2ff;
-            --accent-red: #ff4d4d;
-            --accent-yellow: #f1c40f;
-            --accent-green: #2ecc71;
-            --text: #f0f9ff;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.25s ease; }
-
         body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--bg-deep);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
+            color: var(--text-light);
+            line-height: 1.5;
         }
-
-        /* Fondo animado sutil */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 102, 204, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(46, 204, 113, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        /* ===== HEADER PRINCIPAL ===== */
-        header {
-            padding: 12px 25px;
-            background: rgba(13, 18, 24, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--accent);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .navbar {
+            background: rgba(10, 26, 42, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 3px solid var(--accent);
+            padding: 0.8rem 2rem;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1100;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.4s ease;
         }
-
-        .logo-text {
-            font-weight: 800;
-            font-size: 0.9rem;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent));
+        .navbar.nav-hidden .nav-links,
+        .navbar.nav-hidden .dropdown { display: none; }
+        .navbar.nav-hidden { justify-content: center; }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .toggle-nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            font-size: 1.3rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .toggle-nav-btn:hover {
+            background: var(--accent);
+            color: #0a1f2e;
+            transform: rotate(180deg);
+        }
+        .logo h1 {
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #fff, var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 1px;
+        }
+        .logo p { font-size: 0.65rem; opacity: 0.8; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s;
             text-transform: uppercase;
         }
-
-        /* ===== FRANJA DE SEMANA ===== */
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--accent);
+            color: #0a1f2e;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-btn {
+            background: transparent;
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+            font-family: inherit;
+            text-transform: uppercase;
+        }
+        .dropdown-btn:hover {
+            background: var(--accent);
+            color: #0a1f2e;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: #0f2c3b;
+            min-width: 180px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            z-index: 1;
+            top: 100%;
+            left: 0;
+            border: 1px solid var(--border-glow);
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            display: block;
+            padding: 0.75rem 1.2rem;
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .dropdown-content a:hover {
+            background: var(--primary);
+            color: var(--accent);
+        }
         .top-info-bar {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.4);
             backdrop-filter: blur(12px);
-            border-bottom: 2px solid var(--primary);
             padding: 12px 25px;
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: 40px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-glow);
         }
-
         .info-item { display: flex; align-items: center; gap: 10px; }
-        .info-label { font-size: 0.7rem; color: #88a5c2; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
-        .info-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700; color: #fff; text-shadow: 0 0 10px rgba(0,153,255,0.5); }
-
-        /* ===== LAYOUT PRINCIPAL ===== */
+        .info-label { font-size: 0.7rem; color: #88a5c2; text-transform: uppercase; }
+        .info-value { font-family: monospace; font-size: 1.2rem; font-weight: 700; }
         .main-layout {
             display: grid;
             grid-template-columns: 1fr;
@@ -112,113 +158,54 @@
             max-width: 1600px;
             margin: 0 auto;
         }
-
         @media (min-width: 1100px) {
-            .main-layout { grid-template-columns: 1fr 400px; gap: 30px; }
+            .main-layout { grid-template-columns: 1fr 380px; }
         }
-
-        /* ===== MONITOR DE VIDEO ===== */
         .monitor-main {
             background: #000;
             border-radius: 24px;
             overflow: hidden;
-            border: 1px solid var(--border);
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 30px rgba(0, 123, 255, 0.15);
-            backdrop-filter: blur(4px);
+            border: 1px solid var(--border-glow);
         }
-
-        .video-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; }
-        video { width: 100%; height: 100%; object-fit: cover; }
-
+        .video-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0a1a2a; display: flex; align-items: center; justify-content: center; }
+        .video-placeholder { text-align: center; padding: 40px; }
         .video-overlay {
             position: absolute;
             top: 20px; left: 20px;
             padding: 10px 18px;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(0,0,0,0.75);
             backdrop-filter: blur(8px);
-            border-left: 5px solid var(--accent-blue);
+            border-left: 5px solid #00f2ff;
             border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            color: #e1e8ed;
+            font-family: monospace;
         }
-
-        /* ===== BOTONES INTERACTIVOS (ESTILO TARJETAS MEJORADO) ===== */
         .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
             margin-top: 25px;
         }
-
         .btn-action {
             background: var(--glass-card);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.15);
             color: var(--text-light);
-            padding: 20px 12px;
+            padding: 18px 10px;
             border-radius: 20px;
-            cursor: pointer;
             text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            text-align: center;
             font-size: 0.8rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s;
+            display: block;
         }
-
-        .btn-action::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-action:hover::before { left: 100%; }
-        
-        .btn-action::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-            transform-origin: left;
-        }
-        
-        .btn-action:hover::after { transform: scaleX(1); }
-
-        .btn-action span.icon { font-size: 2rem; margin-bottom: 4px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
-
         .btn-action:hover {
-            background: rgba(0, 102, 204, 0.3);
+            background: rgba(0,102,204,0.3);
             border-color: var(--accent);
-            transform: translateY(-6px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(255,204,0,0.2);
-            color: var(--accent);
+            transform: translateY(-5px);
         }
-
-        /* ===== SIDEBAR ===== */
         .data-sidebar { display: flex; flex-direction: column; gap: 18px; }
-
         .card {
             background: var(--glass-card);
             backdrop-filter: blur(16px);
@@ -226,214 +213,162 @@
             padding: 22px 20px;
             border-radius: 24px;
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
-
-        .card::before { 
-            content: ""; 
-            position: absolute; 
-            left: 0; top: 0; 
-            height: 100%; 
-            width: 5px; 
-            background: var(--primary); 
+        .card::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0;
+            height: 100%;
+            width: 5px;
+            background: var(--primary);
         }
-
-        .card-label { 
-            font-size: 0.7rem; 
-            color: #a0bbd0; 
-            text-transform: uppercase; 
-            font-weight: 700; 
-            letter-spacing: 1.5px;
-            margin-bottom: 10px; 
+        .card-critical { border: 1px solid var(--danger); animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(227,77,77,0.2); }
+            70% { box-shadow: 0 0 0 10px rgba(227,77,77,0); }
+            100% { box-shadow: 0 0 0 0 rgba(227,77,77,0); }
         }
-
-        .card-value { 
-            font-size: 1.6rem; 
-            font-weight: 800; 
-            display: block; 
-            line-height: 1.2;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        .card-critical {
-            border: 1px solid var(--danger);
-            background: linear-gradient(135deg, rgba(227, 77, 77, 0.15) 0%, rgba(13, 18, 24, 0.7) 100%);
-            animation: alert-pulse 3s infinite;
-        }
-        .card-critical::before { background: var(--danger); }
-
-        @keyframes alert-pulse {
-            0% { box-shadow: 0 0 15px 0 rgba(227, 77, 77, 0.1); border-color: rgba(227, 77, 77, 0.3); }
-            50% { box-shadow: 0 0 30px 0 rgba(227, 77, 77, 0.4); border-color: rgba(227, 77, 77, 0.8); }
-            100% { box-shadow: 0 0 15px 0 rgba(227, 77, 77, 0.1); border-color: rgba(227, 77, 77, 0.3); }
-        }
-
         .alert-tag {
             background: var(--danger);
             color: white;
             font-size: 0.6rem;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 40px;
-            font-weight: 900;
-            margin-bottom: 15px;
             display: inline-block;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 8px rgba(227, 77, 77, 0.4);
+            margin-bottom: 12px;
         }
-
+        .card-value { font-size: 1.8rem; font-weight: 800; margin-top: 8px; }
+        .card-label { font-size: 0.7rem; color: #a0bbd0; text-transform: uppercase; }
         .footer {
             grid-column: 1 / -1;
-            padding: 20px;
             text-align: center;
+            padding: 20px;
             font-size: 0.7rem;
             color: #6b8da8;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border-glow);
             margin-top: 20px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 16px;
-            backdrop-filter: blur(8px);
         }
-
-        /* Ajustes móviles */
+        .toggle-nav-btn::after {
+            content: "Ocultar menú";
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: white;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .toggle-nav-btn:hover::after { opacity: 1; }
+        .navbar.nav-hidden .toggle-nav-btn::after { content: "Mostrar menú"; }
         @media (max-width: 768px) {
-            .top-info-bar { gap: 20px; }
-            .info-value { font-size: 1rem; }
+            .navbar { flex-direction: column; padding: 0.8rem 1rem; }
+            .logo-container { width: 100%; justify-content: space-between; }
+            .nav-links { justify-content: center; width: 100%; }
             .main-layout { padding: 15px; }
-            .card-value { font-size: 1.4rem; }
+            .toggle-nav-btn::after { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 1.5rem; filter: drop-shadow(0 0 8px var(--accent-blue));">📡</span>
-            <div class="logo-text">UVS SITUATIONAL ROOM · RSMDC</div>
-        </div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-green); background: rgba(0,0,0,0.3); padding: 6px 15px; border-radius: 40px; border: 1px solid var(--border);">
-            HORA SISTEMA • <span id="clock">00:00:00</span>
-        </div>
-    </header>
-
-    <div class="top-info-bar">
-        <div class="info-item">
-            <span class="info-label">Semana Epidemiológica:</span>
-            <span class="info-value" style="color: var(--accent-blue);">SE-11</span>
-        </div>
-        <div class="info-item">
-            <span class="info-label">Periodo:</span>
-            <span class="info-value">11 AL 21 MARZO, 2026</span>
-        </div>
-        <div class="info-item">
-            <span class="info-label">Vigilancia:</span>
-            <span class="info-value" style="color: var(--accent-yellow);">42 EVENTOS ENO</span>
+<nav class="navbar">
+    <div class="logo-container">
+        <div class="toggle-nav-btn" id="toggleNavBtn">☰</div>
+        <div class="logo">
+            <h1>⚕️ UVS · RSMDC</h1>
+            <p>Unidad de Vigilancia de la Salud</p>
         </div>
     </div>
-
-    <div class="main-layout">
-        
-        <div class="content-left">
-            <div class="monitor-main">
-                <div class="video-wrapper">
-                    <div class="video-overlay">
-                        <span style="color: var(--accent-blue);">◉ FEED ACTIVO</span> TELEGRAMA_SE11_DC<br>
-                        <span style="color: #2ecc71;">⬆ NOTIFICACIÓN: 99% OPORTUNA</span>
-                    </div>
-                    <video id="v" autoplay muted loop playsinline controls>
-                        <source src="TELEGRAMASEMANALSE11.mp4" type="video/mp4">
-                        <div style="padding: 40px; color: white; text-align: center;">🎥 Vista previa del informe semanal · Video no disponible en este demo</div>
-                    </video>
-                </div>
-            </div>
-
-            <div class="nav-grid">
-                <a href="boletin.html" class="btn-action">
-                    <span class="icon">📄</span>
-                    Descargar Boletín
-                </a>
-                <a href="graficos.html" class="btn-action">
-                    <span class="icon">📈</span>
-                    Ver Gráficos
-                </a>
-                <a href="mapas.html" class="btn-action">
-                    <span class="icon">🗺️</span>
-                    Mapa de Calor
-                </a>
-                <a href="mailto:uvs.rsmdc@salud.hn" class="btn-action">
-                    <span class="icon">📧</span>
-                    Notificar Evento
-                </a>
-                <a href="inicio.html" class="btn-action" style="border-color: var(--accent); background: rgba(255,204,0,0.05);">
-                    <span class="icon">🏠</span>
-                    Menú Principal
-                </a>
+    <div class="nav-links">
+        <a href="inicio.html">📊 Dashboard</a>
+        <a href="sala-situacional.html" class="active">📡 Sala Situacional</a>
+        <div class="dropdown">
+            <button class="dropdown-btn">📅 Boletines ▼</button>
+            <div class="dropdown-content">
+                <a href="#" onclick="alert('Boletín SE-13')">📘 Abril 2026</a>
+                <a href="#" onclick="alert('Boletín SE-11')">📙 Marzo 2026</a>
+                <a href="#" onclick="alert('Boletín SE-8')">📕 Febrero 2026</a>
+                <a href="#" onclick="alert('Boletín SE-4')">📗 Enero 2026</a>
             </div>
         </div>
+        <a href="arbovirosis.html">🦟 Arbovirosis</a>
+        <a href="hidricas.html">💧 Hídricas</a>
+        <a href="desatendidas.html">🐛 Desatendidas</a>
+        <a href="vih.html">💊 VIH</a>
+        <a href="tb.html">🫁 TB</a>
+        <a href="mortalidadinfantil.html">👶 Mortalidad</a>
+        <a href="biblioteca.html">📚 Biblioteca</a>
+    </div>
+</nav>
 
-        <div class="data-sidebar">
-            
-            <div class="card card-critical">
-                <div class="alert-tag">⚠️ ZONA DE ALERTA ACTIVA</div>
-                <div class="card-label" style="color: var(--danger); font-size: 0.8rem;">Diarreas Agudas</div>
-                <div class="card-value" style="color: #fff; font-size: 2rem;">1,276</div>
-                <div style="font-size: 0.7rem; color: #b0c7db; margin-top: 15px; border-top: 1px solid rgba(255,77,77,0.2); padding-top: 12px; display: flex; justify-content: space-between;">
-                    <span>ACUMULADO: <strong style="color:white;">12,855</strong></span>
-                    <span>HOSPITALIZADOS: <strong style="color:var(--danger);">630</strong></span>
+<div class="top-info-bar">
+    <div class="info-item"><span class="info-label">Semana Epidemiológica:</span><span class="info-value" style="color:#00f2ff">SE-11</span></div>
+    <div class="info-item"><span class="info-label">Periodo:</span><span class="info-value">11 AL 21 MARZO, 2026</span></div>
+    <div class="info-item"><span class="info-label">Vigilancia:</span><span class="info-value" style="color:var(--accent)">42 EVENTOS ENO</span></div>
+</div>
+
+<div class="main-layout">
+    <div class="content-left">
+        <div class="monitor-main">
+            <div class="video-wrapper">
+                <div class="video-overlay">◉ FEED ACTIVO · TELEGRAMA_SE11_DC<br><span style="color:#2ecc71;">⬆ NOTIFICACIÓN: 99% OPORTUNA</span></div>
+                <div class="video-placeholder">
+                    <span style="font-size: 3rem;">📺</span>
+                    <p>Video del Telegrama Semanal SE-11</p>
+                    <small>Disponible en servidor institucional</small>
                 </div>
-            </div>
-
-            <div class="card">
-                <div class="card-label">Mortalidad Materna</div>
-                <div class="card-value" style="color: var(--danger);">0</div>
-                <div style="font-size: 0.75rem; color: #a8c1d9; margin-top: 8px;">
-                    Acumulado Año: 1 Fallecido · <span style="color: var(--accent-green);">En vigilancia</span>
-                </div>
-            </div>
-
-            <div class="card" style="border-left-color: var(--success);">
-                <div class="card-label" style="color: var(--success);">Dengue (Zona de Éxito)</div>
-                <div class="card-value" style="color: var(--success);">41</div>
-                <div style="font-size: 0.75rem; color: #a8c1d9; margin-top: 8px;">
-                    Controlado · Acumulado: 480 · <span style="color: var(--accent);">Tendencia ▼</span>
-                </div>
-            </div>
-
-            <div class="card" style="background: rgba(0, 242, 255, 0.05);">
-                    <div class="card-label">👤 Responsables UVS</div>
-                    <div class="card-value" style="font-size: 1rem;">LIC. ANA VALLE</div>
-                    <div class="card-value" style="font-size: 1rem;">MSc. JACKELINE BURGOS</div>
-                    <div class="card-label" style="margin-top:15px">🔬 Otros Eventos</div>
-                    <div class="card-value" style="font-size: 0.8rem; color: var(--accent-yellow);">
-                        Tosferina: 10 Casos <br>
-                        <span style="font-size:0.7rem; color:#9bb7d4;">Vigilancia Activa ENO · Influenza</span>
-                    </div>
             </div>
         </div>
-
-        <div class="footer">
-            <strong>REGIÓN METROPOLITANA DE SALUD · DISTRITO CENTRAL</strong> | UNIDAD DE VIGILANCIA DE LA SALUD (UVS) <br>
-            <span style="color: #4a6f8f;">ESTACIÓN DE TRABAJO: UVS-DC-01 · DATOS OFICIALES SE-11 2026 · HONDURAS</span>
+    
+    </div>
+    <div class="data-sidebar">
+        <div class="card card-critical">
+            <div class="alert-tag">⚠️ ZONA DE ALERTA ACTIVA</div>
+            <div class="card-label" style="color:var(--danger);">Diarreas Agudas</div>
+            <div class="card-value">1,276</div>
+            <div style="font-size:0.7rem;">ACUMULADO: 12,855 · HOSPITALIZADOS: 630</div>
+        </div>
+        <div class="card">
+            <div class="card-label">Mortalidad Materna</div>
+            <div class="card-value" style="color:var(--danger);">0</div>
+            <div>Acumulado 2026: 1 fallecido</div>
+        </div>
+        <div class="card" style="border-left-color:var(--success);">
+            <div class="card-label" style="color:var(--success);">Dengue</div>
+            <div class="card-value" style="color:var(--success);">41</div>
+            <div>Acumulado: 480 · Tendencia ▼</div>
+        </div>
+        <div class="card">
+            <div class="card-label">👤 Responsables UVS</div>
+            <div class="card-value" style="font-size:1rem;">LIC. ANA VALLE · MSc. JACKELINE BURGOS</div>
         </div>
     </div>
+    <div class="footer">
+        <strong>REGIÓN METROPOLITANA DE SALUD · DISTRITO CENTRAL</strong> | UNIDAD DE VIGILANCIA DE LA SALUD (UVS)<br>
+        ESTACIÓN UVS-DC-01 · DATOS OFICIALES SE-11 2026 · HONDURAS
+    </div>
+</div>
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString('es-HN', { hour12: false });
+<script>
+    const navbar = document.querySelector('.navbar');
+    const toggleBtn = document.getElementById('toggleNavBtn');
+    if (navbar && toggleBtn) {
+        if (localStorage.getItem('navHidden') === 'true') {
+            navbar.classList.add('nav-hidden');
+            toggleBtn.style.transform = 'rotate(180deg)';
         }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        const video = document.getElementById('v');
-        window.addEventListener('click', () => { if (video.paused) video.play(); }, { once: true });
-        
-        // Ajuste visual si el video no carga (demo)
-        video.addEventListener('error', () => {
-            video.style.background = '#0a1a2a';
-            const overlay = document.querySelector('.video-overlay');
-            if(overlay) overlay.innerHTML += '<br><span style="color: #f1c40f;">[MODO DEMO] Video de Telegrama Semanal</span>';
+        toggleBtn.addEventListener('click', function() {
+            navbar.classList.toggle('nav-hidden');
+            localStorage.setItem('navHidden', navbar.classList.contains('nav-hidden'));
+            toggleBtn.style.transform = navbar.classList.contains('nav-hidden') ? 'rotate(180deg)' : 'rotate(0deg)';
         });
-    </script>
+    }
+</script>
 </body>
 </html>
